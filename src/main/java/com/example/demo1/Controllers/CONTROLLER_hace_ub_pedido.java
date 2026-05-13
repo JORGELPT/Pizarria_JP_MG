@@ -6,11 +6,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javax.swing.JOptionPane;
+import javafx.scene.layout.*;
 import java.math.BigDecimal;
 import java.sql.*;
 import java.time.LocalDate;
@@ -144,12 +142,79 @@ public class CONTROLLER_hace_ub_pedido {
         if (flowProductos == null) return;
         flowProductos.getChildren().clear();
         for (Producto p : lista) {
-            Button btn = new Button(p.nombre + "\n$" + p.precio.toPlainString());
-            btn.setPrefSize(130, 80);
-            btn.setWrapText(true);
-            btn.setOnAction(e -> agregarAlCarrito(p));
-            flowProductos.getChildren().add(btn);
+            flowProductos.getChildren().add(crearTarjetaProducto(p));
         }
+    }
+
+    private VBox crearTarjetaProducto(Producto p) {
+        VBox card = new VBox(8);
+        card.setPrefSize(160, 210);
+        card.setMaxSize(160, 210);
+        card.setAlignment(Pos.TOP_LEFT);
+        String estiloNormal =
+            "-fx-background-color: white;" +
+            "-fx-background-radius: 16;" +
+            "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 10, 0, 0, 2);" +
+            "-fx-cursor: hand; -fx-padding: 10 10 12 10;";
+        String estiloHover =
+            "-fx-background-color: #f0f4ff;" +
+            "-fx-background-radius: 16;" +
+            "-fx-effect: dropshadow(gaussian, rgba(0,74,173,0.18), 14, 0, 0, 4);" +
+            "-fx-cursor: hand; -fx-padding: 10 10 12 10;";
+        card.setStyle(estiloNormal);
+        card.setOnMouseEntered(e -> card.setStyle(estiloHover));
+        card.setOnMouseExited(e  -> card.setStyle(estiloNormal));
+
+        // Imagen del producto (carga desde imagenes/productos/{id}.png o placeholder gris)
+        StackPane imgBox = new StackPane();
+        imgBox.setPrefSize(140, 95);
+        imgBox.setMaxWidth(Double.MAX_VALUE);
+
+        java.io.InputStream is = getClass().getResourceAsStream(
+            "/com/example/demo1/imagenes/productos/" + p.idProducto + ".png");
+        if (is == null) is = getClass().getResourceAsStream(
+            "/com/example/demo1/imagenes/productos/" + p.idProducto + ".jpg");
+
+        if (is != null) {
+            javafx.scene.image.ImageView iv = new javafx.scene.image.ImageView(
+                new javafx.scene.image.Image(is));
+            iv.setFitWidth(140);
+            iv.setFitHeight(95);
+            iv.setPreserveRatio(true);
+            imgBox.setStyle("-fx-background-color: #f4f6fb; -fx-background-radius: 10;");
+            imgBox.getChildren().add(iv);
+        } else {
+            imgBox.setStyle(
+                "-fx-background-color: #dce6f5;" +
+                "-fx-background-radius: 10;");
+        }
+
+        Label badge = new Label(p.tipo != null ? p.tipo.toUpperCase() : "PRODUCTO");
+        badge.setStyle("-fx-font-size: 9px; -fx-font-weight: bold; -fx-text-fill: #be1e1e;");
+
+        Label nombre = new Label(p.nombre);
+        nombre.setWrapText(true);
+        nombre.setMaxWidth(Double.MAX_VALUE);
+        nombre.setStyle(
+            "-fx-font-size: 12px; -fx-font-weight: bold;" +
+            "-fx-text-fill: #1a1a2e; -fx-font-family: 'Segoe UI';");
+
+        Region spacer = new Region();
+        VBox.setVgrow(spacer, Priority.ALWAYS);
+
+        Label precio = new Label("$" + p.precio.toPlainString());
+        precio.setStyle("-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #004aad;");
+
+        Button btnAdd = new Button("+ Agregar");
+        btnAdd.setMaxWidth(Double.MAX_VALUE);
+        btnAdd.setStyle(
+            "-fx-background-color: #004aad; -fx-text-fill: white;" +
+            "-fx-background-radius: 8; -fx-cursor: hand;" +
+            "-fx-font-size: 11px; -fx-padding: 6 0;");
+        btnAdd.setOnAction(e -> agregarAlCarrito(p));
+
+        card.getChildren().addAll(imgBox, badge, nombre, spacer, precio, btnAdd);
+        return card;
     }
 
     // -----------------------------------------------------------------------
@@ -176,12 +241,28 @@ public class CONTROLLER_hace_ub_pedido {
             BigDecimal lineaTotal = item.precioUnitario.multiply(new BigDecimal(item.cantidad));
             subtotal = subtotal.add(lineaTotal);
 
-            HBox fila = new HBox(10);
-            Label lNombre = new Label(item.nombre);
-            lNombre.setMaxWidth(Double.MAX_VALUE);
-            HBox.setHgrow(lNombre, javafx.scene.layout.Priority.ALWAYS);
+            HBox fila = new HBox(8);
+            fila.setAlignment(Pos.CENTER_LEFT);
+            fila.setStyle("-fx-background-color: #f8f9ff; -fx-background-radius: 10; -fx-padding: 10 12 10 12;");
 
-            Button btnMenos = new Button("-");
+            VBox infoBox = new VBox(2);
+            HBox.setHgrow(infoBox, Priority.ALWAYS);
+            infoBox.setMaxWidth(Double.MAX_VALUE);
+            Label lNombre = new Label(item.nombre);
+            lNombre.setStyle("-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #1a1a2e;");
+            lNombre.setWrapText(true);
+            Label lPrecioUnit = new Label("$" + item.precioUnitario.toPlainString() + " c/u");
+            lPrecioUnit.setStyle("-fx-font-size: 10px; -fx-text-fill: #999;");
+            infoBox.getChildren().addAll(lNombre, lPrecioUnit);
+
+            HBox controls = new HBox(6);
+            controls.setAlignment(Pos.CENTER);
+
+            Button btnMenos = new Button("−");
+            btnMenos.setStyle(
+                "-fx-background-color: #e8eef8; -fx-text-fill: #004aad;" +
+                "-fx-min-width: 26; -fx-min-height: 26; -fx-max-width: 26; -fx-max-height: 26;" +
+                "-fx-background-radius: 13; -fx-cursor: hand; -fx-font-weight: bold;");
             btnMenos.setOnAction(e -> {
                 item.cantidad--;
                 if (item.cantidad <= 0) carrito.remove(item);
@@ -189,18 +270,30 @@ public class CONTROLLER_hace_ub_pedido {
             });
 
             Label lCant = new Label(String.valueOf(item.cantidad));
-            Button btnMas  = new Button("+");
+            lCant.setStyle("-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #1a1a2e; -fx-min-width: 20;");
+            lCant.setAlignment(Pos.CENTER);
+
+            Button btnMas = new Button("+");
+            btnMas.setStyle(
+                "-fx-background-color: #004aad; -fx-text-fill: white;" +
+                "-fx-min-width: 26; -fx-min-height: 26; -fx-max-width: 26; -fx-max-height: 26;" +
+                "-fx-background-radius: 13; -fx-cursor: hand; -fx-font-weight: bold;");
             btnMas.setOnAction(e -> { item.cantidad++; refrescarPanel(); });
 
-            Label lPrecio = new Label("$" + lineaTotal.toPlainString());
-            fila.getChildren().addAll(lNombre, btnMenos, lCant, btnMas, lPrecio);
+            controls.getChildren().addAll(btnMenos, lCant, btnMas);
+
+            Label lTotal = new Label("$" + lineaTotal.setScale(2, java.math.RoundingMode.HALF_UP).toPlainString());
+            lTotal.setStyle("-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #004aad; -fx-min-width: 55;");
+            lTotal.setAlignment(Pos.CENTER_RIGHT);
+
+            fila.getChildren().addAll(infoBox, controls, lTotal);
             vboxItems.getChildren().add(fila);
         }
 
         BigDecimal itbis = subtotal.multiply(TASA_ITBIS).setScale(2, java.math.RoundingMode.HALF_UP);
         BigDecimal total = subtotal.add(itbis).setScale(2, java.math.RoundingMode.HALF_UP);
 
-        if (lblSubtotal  != null) lblSubtotal.setText("$" + subtotal.toPlainString());
+        if (lblSubtotal  != null) lblSubtotal.setText("$" + subtotal.setScale(2, java.math.RoundingMode.HALF_UP).toPlainString());
         if (lblDescuento != null) lblDescuento.setText("-$0.00");
         if (lblItbs      != null) lblItbs.setText("$" + itbis.toPlainString());
         if (lblTotal     != null) lblTotal.setText("$" + total.toPlainString());
@@ -213,7 +306,9 @@ public class CONTROLLER_hace_ub_pedido {
 
     @FXML
     private void FnFiltrarCategoria(ActionEvent event) {
-        String categoria = ((Button) event.getSource()).getText().toLowerCase();
+        // Quitar el emoji y espacios del texto del botón (ej. "🍕 Pizza" → "pizza")
+        String raw = ((Button) event.getSource()).getText();
+        String categoria = raw.replaceAll("[^\\p{L}\\p{N} ]", "").trim().toLowerCase();
         cargarProductosBD(categoria);
     }
 

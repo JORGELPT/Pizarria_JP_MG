@@ -5,171 +5,260 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<StackPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo1.Controllers.CONTROLLER_hace_ub_pedido">
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.demo1.Controllers.CONTROLLER_hace_ub_pedido"
+            maxWidth="Infinity" maxHeight="Infinity"
+            style="-fx-background-color: #f4f6fb;">
 
-    <Region maxWidth="Infinity" maxHeight="Infinity" style="-fx-background-image: url('/com/example/demo1/imagenes/fondop.png'); -fx-background-size: cover; -fx-background-position: center;"/>
-    <BorderPane>
-
-    <!-- TOP BAR -->
+    <!-- ================= TOP BAR ================= -->
     <top>
-        <HBox styleClass="ped-topbar" alignment="CENTER_LEFT" spacing="14">
-            <padding><Insets top="10" right="18" bottom="10" left="18"/></padding>
-            <VBox spacing="1">
-                <Label fx:id="lblFecha" text="" styleClass="ped-fecha"/>
-                <Label text="🍕  Nuevo Pedido" styleClass="ped-titulo-top"/>
+        <HBox alignment="CENTER_LEFT" spacing="14"
+              style="-fx-background-color: white; -fx-padding: 12 22 12 22;
+                     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 3);">
+            <VBox spacing="2">
+                <Label fx:id="lblFecha" text=""
+                       style="-fx-text-fill: #aaa; -fx-font-size: 11px; -fx-font-family: 'Segoe UI';"/>
+                <Label text="🍕  Hacer un Pedido"
+                       style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #1a1a2e; -fx-font-family: 'Segoe UI';"/>
             </VBox>
             <Region HBox.hgrow="ALWAYS"/>
             <TextField fx:id="txtBuscar" promptText="🔍  Buscar producto..."
-                       prefWidth="270" styleClass="ped-search"
-                       onKeyReleased="#FnBuscar"/>
+                       prefWidth="300" prefHeight="38" onKeyReleased="#FnBuscar"
+                       style="-fx-background-color: #f0f4ff; -fx-background-radius: 20;
+                              -fx-border-color: transparent; -fx-font-size: 13px;
+                              -fx-padding: 0 16 0 16; -fx-font-family: 'Segoe UI';"/>
         </HBox>
     </top>
 
+    <!-- ================= CENTER ================= -->
     <center>
         <HBox spacing="0">
 
-            <!-- ═══════════════════ CATÁLOGO ═══════════════════ -->
-            <VBox HBox.hgrow="ALWAYS" styleClass="ped-catalogo">
+            <!-- ══════════════ CATÁLOGO ══════════════ -->
+            <VBox HBox.hgrow="ALWAYS" style="-fx-background-color: #f4f6fb;">
 
-                <!-- Encabezado -->
-                <HBox alignment="CENTER_LEFT" spacing="10">
-                    <padding><Insets top="16" right="18" bottom="4" left="18"/></padding>
-                    <Label text="Encuentra el Mejor Producto" styleClass="ped-catalogo-titulo"
+                <!-- Encabezado del catálogo -->
+                <HBox alignment="CENTER_LEFT" spacing="10"
+                      style="-fx-padding: 18 20 8 20;">
+                    <Label text="Encuentra el Mejor Producto"
+                           style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #1a1a2e; -fx-font-family: 'Segoe UI';"
                            HBox.hgrow="ALWAYS"/>
-                    <Button text="Ver Todo" styleClass="ped-btn-ver-todo" onAction="#FnFiltrarTodos"/>
+                    <Button text="Ver Todo" onAction="#FnFiltrarTodos"
+                            style="-fx-background-color: transparent; -fx-text-fill: #004aad;
+                                   -fx-font-size: 12px; -fx-cursor: hand; -fx-border-color: transparent;
+                                   -fx-font-weight: bold;"/>
                 </HBox>
 
-                <!-- Tabs de categoría -->
-                <HBox fx:id="hboxTabs" spacing="8" alignment="CENTER_LEFT">
-                    <padding><Insets top="8" right="18" bottom="8" left="18"/></padding>
-                    <Button fx:id="btnTodos"   text="Todos"      styleClass="ped-tab-active" onAction="#FnFiltrarTodos"/>
-                    <Button fx:id="btnPizza"   text="Pizza"      styleClass="ped-tab"        onAction="#FnFiltrarCategoria"/>
-                    <Button fx:id="btnBebida"  text="Bebida"     styleClass="ped-tab"        onAction="#FnFiltrarCategoria"/>
-                    <Button fx:id="btnPasta"   text="Pasta"      styleClass="ped-tab"        onAction="#FnFiltrarCategoria"/>
-                    <Button fx:id="btnPostre"  text="Postre"     styleClass="ped-tab"        onAction="#FnFiltrarCategoria"/>
-                    <Button fx:id="btnOfertas" text="⭐ Ofertas" styleClass="ped-tab-oferta" onAction="#FnFiltrarOfertas"/>
+                <!-- Tabs de categoría (pills) -->
+                <HBox fx:id="hboxTabs" spacing="8" alignment="CENTER_LEFT"
+                      style="-fx-padding: 4 20 12 20;">
+                    <Button fx:id="btnTodos"   text="Todos"      onAction="#FnFiltrarTodos"
+                            style="-fx-background-color: #004aad; -fx-text-fill: white;
+                                   -fx-background-radius: 20; -fx-padding: 7 20 7 20;
+                                   -fx-cursor: hand; -fx-font-size: 12px; -fx-font-weight: bold;"/>
+                    <Button fx:id="btnPizza"   text="🍕 Pizza"   onAction="#FnFiltrarCategoria"
+                            style="-fx-background-color: #e8eef8; -fx-text-fill: #555;
+                                   -fx-background-radius: 20; -fx-padding: 7 18 7 18;
+                                   -fx-cursor: hand; -fx-font-size: 12px;"/>
+                    <Button fx:id="btnBebida"  text="🥤 Bebida"  onAction="#FnFiltrarCategoria"
+                            style="-fx-background-color: #e8eef8; -fx-text-fill: #555;
+                                   -fx-background-radius: 20; -fx-padding: 7 18 7 18;
+                                   -fx-cursor: hand; -fx-font-size: 12px;"/>
+                    <Button fx:id="btnPasta"   text="🍝 Pasta"   onAction="#FnFiltrarCategoria"
+                            style="-fx-background-color: #e8eef8; -fx-text-fill: #555;
+                                   -fx-background-radius: 20; -fx-padding: 7 18 7 18;
+                                   -fx-cursor: hand; -fx-font-size: 12px;"/>
+                    <Button fx:id="btnPostre"  text="🍰 Postre"  onAction="#FnFiltrarCategoria"
+                            style="-fx-background-color: #e8eef8; -fx-text-fill: #555;
+                                   -fx-background-radius: 20; -fx-padding: 7 18 7 18;
+                                   -fx-cursor: hand; -fx-font-size: 12px;"/>
+                    <Button fx:id="btnOfertas" text="⭐ Ofertas" onAction="#FnFiltrarOfertas"
+                            style="-fx-background-color: #fff3cd; -fx-text-fill: #856404;
+                                   -fx-background-radius: 20; -fx-padding: 7 18 7 18;
+                                   -fx-cursor: hand; -fx-font-size: 12px; -fx-font-weight: bold;"/>
                 </HBox>
 
-                <!-- Grid de productos (FlowPane dinámico) -->
-                <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" styleClass="ped-grid-scroll">
-                    <FlowPane fx:id="flowProductos" hgap="14" vgap="14">
-                        <padding><Insets top="10" right="18" bottom="18" left="18"/></padding>
+                <!-- Grid de productos -->
+                <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
+                            style="-fx-background-color: transparent; -fx-background: transparent;
+                                   -fx-border-color: transparent;">
+                    <FlowPane fx:id="flowProductos" hgap="16" vgap="16"
+                              style="-fx-background-color: transparent;">
+                        <padding><Insets top="8" right="20" bottom="20" left="20"/></padding>
                     </FlowPane>
                 </ScrollPane>
 
             </VBox>
 
-            <!-- ═══════════════════ PANEL PEDIDO ═══════════════════ -->
-            <VBox minWidth="320" styleClass="ped-panel">
+            <!-- ══════════════ PANEL PEDIDO ══════════════ -->
+            <VBox minWidth="340" maxWidth="380"
+                  style="-fx-background-color: white;
+                         -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 20, 0, -3, 0);">
 
-                <!-- Header -->
-                <HBox alignment="CENTER_LEFT" styleClass="ped-panel-header">
-                    <padding><Insets top="14" right="14" bottom="14" left="16"/></padding>
-                    <Label text="Mi Pedido" styleClass="ped-panel-titulo" HBox.hgrow="ALWAYS"/>
-                    <Button text="✕" styleClass="ped-btn-clear" onAction="#FnLimpiar"/>
+                <!-- Header azul -->
+                <HBox alignment="CENTER_LEFT"
+                      style="-fx-background-color: #004aad; -fx-padding: 16 16 16 18;">
+                    <Label text="🛒  Mi Pedido"
+                           style="-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;
+                                  -fx-font-family: 'Segoe UI';"
+                           HBox.hgrow="ALWAYS"/>
+                    <Button text="✕" onAction="#FnLimpiar"
+                            style="-fx-background-color: rgba(255,255,255,0.2); -fx-text-fill: white;
+                                   -fx-background-radius: 50; -fx-min-width: 30; -fx-min-height: 30;
+                                   -fx-max-width: 30; -fx-max-height: 30; -fx-cursor: hand; -fx-padding: 0;"/>
                 </HBox>
 
                 <!-- Tipo de entrega -->
-                <HBox spacing="6" styleClass="ped-entrega-box">
-                    <padding><Insets top="10" right="12" bottom="10" left="12"/></padding>
-                    <ToggleButton fx:id="tglEnLocal"  text="En Local" styleClass="ped-toggle-active"
-                                  HBox.hgrow="ALWAYS" maxWidth="Infinity" onAction="#FnEntregaEnLocal"/>
-                    <ToggleButton fx:id="tglRecoger"  text="Recoger"  styleClass="ped-toggle"
-                                  HBox.hgrow="ALWAYS" maxWidth="Infinity" onAction="#FnEntregaRecoger"/>
-                    <ToggleButton fx:id="tglDelivery" text="Delivery" styleClass="ped-toggle"
-                                  HBox.hgrow="ALWAYS" maxWidth="Infinity" onAction="#FnEntregaDelivery"/>
+                <HBox spacing="6"
+                      style="-fx-background-color: #f4f6fb; -fx-padding: 10 14 10 14;">
+                    <ToggleButton fx:id="tglEnLocal"  text="En Local"
+                                  HBox.hgrow="ALWAYS" maxWidth="Infinity" onAction="#FnEntregaEnLocal"
+                                  style="-fx-background-color: #004aad; -fx-text-fill: white;
+                                         -fx-background-radius: 20; -fx-cursor: hand;
+                                         -fx-font-size: 11px; -fx-font-weight: bold; -fx-padding: 7 5;"/>
+                    <ToggleButton fx:id="tglRecoger"  text="Recoger"
+                                  HBox.hgrow="ALWAYS" maxWidth="Infinity" onAction="#FnEntregaRecoger"
+                                  style="-fx-background-color: #e8eef8; -fx-text-fill: #555;
+                                         -fx-background-radius: 20; -fx-cursor: hand;
+                                         -fx-font-size: 11px; -fx-padding: 7 5;"/>
+                    <ToggleButton fx:id="tglDelivery" text="Delivery"
+                                  HBox.hgrow="ALWAYS" maxWidth="Infinity" onAction="#FnEntregaDelivery"
+                                  style="-fx-background-color: #e8eef8; -fx-text-fill: #555;
+                                         -fx-background-radius: 20; -fx-cursor: hand;
+                                         -fx-font-size: 11px; -fx-padding: 7 5;"/>
                 </HBox>
 
                 <!-- Cliente -->
-                <VBox spacing="5" styleClass="ped-seccion">
-                    <padding><Insets top="8" right="12" bottom="8" left="12"/></padding>
-                    <Label text="Cliente" styleClass="ped-seccion-titulo"/>
+                <VBox spacing="6"
+                      style="-fx-padding: 12 14 10 14;
+                             -fx-border-color: transparent transparent #f0f0f0 transparent;
+                             -fx-border-width: 0 0 1 0;">
+                    <Label text="👤  Cliente"
+                           style="-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #888;"/>
                     <HBox spacing="6" alignment="CENTER_LEFT">
                         <TextField fx:id="txtCedula" promptText="Cédula del cliente"
-                                   HBox.hgrow="ALWAYS" styleClass="ped-input"
-                                   onAction="#FnBuscarCliente"/>
-                        <Button text="Buscar" styleClass="ped-btn-buscar" onAction="#FnBuscarCliente"/>
+                                   HBox.hgrow="ALWAYS" onAction="#FnBuscarCliente"
+                                   style="-fx-background-color: #f4f6fb; -fx-background-radius: 10;
+                                          -fx-border-color: transparent; -fx-padding: 8 12; -fx-font-size: 12px;"/>
+                        <Button text="Buscar" onAction="#FnBuscarCliente"
+                                style="-fx-background-color: #004aad; -fx-text-fill: white;
+                                       -fx-background-radius: 10; -fx-padding: 8 14;
+                                       -fx-cursor: hand; -fx-font-size: 12px;"/>
                     </HBox>
-                    <Label fx:id="lblCliente" text="" styleClass="ped-cliente-label"/>
+                    <Label fx:id="lblCliente" text=""
+                           style="-fx-text-fill: #004aad; -fx-font-weight: bold; -fx-font-size: 12px;"/>
                 </VBox>
 
-                <Separator styleClass="ped-sep"/>
-
-                <!-- Lista de ítems del pedido -->
-                <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" styleClass="ped-items-scroll">
-                    <VBox fx:id="vboxItems" spacing="8" styleClass="ped-items-list">
+                <!-- Lista de ítems -->
+                <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
+                            style="-fx-background-color: transparent; -fx-background: transparent;
+                                   -fx-border-color: transparent;">
+                    <VBox fx:id="vboxItems" spacing="8"
+                          style="-fx-background-color: transparent;">
                         <padding><Insets top="10" right="12" bottom="10" left="12"/></padding>
                     </VBox>
                 </ScrollPane>
 
-                <!-- Extra / ingrediente adicional -->
-                <VBox spacing="4" styleClass="ped-seccion">
-                    <padding><Insets top="6" right="12" bottom="6" left="12"/></padding>
-                    <Label text="Extra / Ingrediente adicional" styleClass="ped-seccion-titulo"/>
-                    <ComboBox fx:id="cmbExtra" promptText="Sin extra"
-                              maxWidth="Infinity" styleClass="ped-combo"/>
+                <!-- Extra -->
+                <VBox spacing="5"
+                      style="-fx-padding: 6 14 8 14;
+                             -fx-border-color: #f0f0f0 transparent transparent transparent;
+                             -fx-border-width: 1 0 0 0;">
+                    <Label text="Extra / Ingrediente adicional"
+                           style="-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #888;"/>
+                    <ComboBox fx:id="cmbExtra" promptText="Sin extra" maxWidth="Infinity"
+                              style="-fx-background-color: #f4f6fb; -fx-background-radius: 10;
+                                     -fx-border-color: transparent;"/>
                 </VBox>
 
-                <!-- Sección Delivery (oculta por defecto) -->
-                <VBox fx:id="vboxDelivery" spacing="4" styleClass="ped-seccion-delivery"
-                      visible="false" managed="false">
-                    <padding><Insets top="6" right="12" bottom="8" left="12"/></padding>
-                    <Label text="Método de Envío" styleClass="ped-seccion-titulo"/>
+                <!-- Delivery (oculta por defecto) -->
+                <VBox fx:id="vboxDelivery" spacing="5" visible="false" managed="false"
+                      style="-fx-padding: 6 14 8 14; -fx-background-color: #f8f9ff;">
+                    <Label text="Método de Envío"
+                           style="-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #888;"/>
                     <ComboBox fx:id="cmbMetodoEnvio" promptText="Seleccionar..."
-                              maxWidth="Infinity" styleClass="ped-combo"/>
-                    <Label text="Dirección de entrega" styleClass="ped-seccion-titulo"/>
+                              maxWidth="Infinity"
+                              style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-color: transparent;"/>
+                    <Label text="Dirección de entrega"
+                           style="-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #888;"/>
                     <TextField fx:id="txtDireccion" promptText="Ej: Calle 5, No. 10…"
-                               styleClass="ped-input"/>
-                    <Label text="Observaciones" styleClass="ped-seccion-titulo"/>
+                               style="-fx-background-color: white; -fx-background-radius: 10;
+                                      -fx-border-color: transparent; -fx-padding: 8 12; -fx-font-size: 12px;"/>
+                    <Label text="Observaciones"
+                           style="-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #888;"/>
                     <TextField fx:id="txtObservacion" promptText="Indicaciones adicionales…"
-                               styleClass="ped-input"/>
+                               style="-fx-background-color: white; -fx-background-radius: 10;
+                                      -fx-border-color: transparent; -fx-padding: 8 12; -fx-font-size: 12px;"/>
                 </VBox>
-
-                <Separator styleClass="ped-sep"/>
 
                 <!-- Totales -->
-                <VBox spacing="7" styleClass="ped-totales">
-                    <padding><Insets top="10" right="14" bottom="10" left="14"/></padding>
+                <VBox spacing="6"
+                      style="-fx-background-color: #f8f9ff; -fx-padding: 12 16 12 16;
+                             -fx-border-color: #e8eef8 transparent #e8eef8 transparent;
+                             -fx-border-width: 1 0 1 0;">
                     <HBox>
-                        <Label text="Items"      styleClass="ped-total-lbl"     HBox.hgrow="ALWAYS"/>
-                        <Label fx:id="lblSubtotal" text="$0.00" styleClass="ped-total-val"/>
+                        <Label text="Subtotal"
+                               style="-fx-font-size: 12px; -fx-text-fill: #666;"
+                               HBox.hgrow="ALWAYS"/>
+                        <Label fx:id="lblSubtotal" text="$0.00"
+                               style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #1a1a2e;"/>
                     </HBox>
                     <HBox>
-                        <Label text="Descuento"  styleClass="ped-descuento-lbl" HBox.hgrow="ALWAYS"/>
-                        <Label fx:id="lblDescuento" text="-$0.00" styleClass="ped-descuento-val"/>
+                        <Label text="Descuento"
+                               style="-fx-font-size: 12px; -fx-text-fill: #666;"
+                               HBox.hgrow="ALWAYS"/>
+                        <Label fx:id="lblDescuento" text="-$0.00"
+                               style="-fx-font-size: 12px; -fx-text-fill: #28a745;"/>
                     </HBox>
                     <HBox>
-                        <Label fx:id="lblItbsNombre" text="ITBS"
-                               styleClass="ped-total-lbl" HBox.hgrow="ALWAYS"/>
-                        <Label fx:id="lblItbs" text="$0.00" styleClass="ped-total-val"/>
+                        <Label fx:id="lblItbsNombre" text="ITBIS (18%)"
+                               style="-fx-font-size: 12px; -fx-text-fill: #666;"
+                               HBox.hgrow="ALWAYS"/>
+                        <Label fx:id="lblItbs" text="$0.00"
+                               style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #1a1a2e;"/>
                     </HBox>
-                    <Separator/>
+                    <Separator style="-fx-background-color: #dde3f0;"/>
                     <HBox alignment="CENTER_LEFT">
-                        <Label text="Total Monto" styleClass="ped-gran-total-lbl" HBox.hgrow="ALWAYS"/>
-                        <Label fx:id="lblTotal" text="$0.00" styleClass="ped-gran-total-val"/>
+                        <Label text="Total"
+                               style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #1a1a2e;"
+                               HBox.hgrow="ALWAYS"/>
+                        <Label fx:id="lblTotal" text="$0.00"
+                               style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #004aad;"/>
                     </HBox>
                 </VBox>
 
                 <!-- Método de pago -->
-                <VBox spacing="6" styleClass="ped-seccion">
-                    <padding><Insets top="8" right="12" bottom="8" left="12"/></padding>
-                    <Label text="Pagos" styleClass="ped-seccion-titulo"/>
+                <VBox spacing="6" style="-fx-padding: 10 14 8 14;">
+                    <Label text="💳  Método de Pago"
+                           style="-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #888;"/>
                     <HBox spacing="6">
-                        <ToggleButton fx:id="tglEfectivo" text="Efectivo"  styleClass="ped-pago-active"
-                                      HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
-                        <ToggleButton fx:id="tglTarjeta"  text="Tarjeta"   styleClass="ped-pago"
-                                      HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
-                        <ToggleButton fx:id="tglEWallet"  text="E-Wallet"  styleClass="ped-pago"
-                                      HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                        <ToggleButton fx:id="tglEfectivo" text="Efectivo"
+                                      HBox.hgrow="ALWAYS" maxWidth="Infinity"
+                                      style="-fx-background-color: #004aad; -fx-text-fill: white;
+                                             -fx-background-radius: 10; -fx-cursor: hand;
+                                             -fx-font-size: 11px; -fx-font-weight: bold; -fx-padding: 8 0;"/>
+                        <ToggleButton fx:id="tglTarjeta"  text="Tarjeta"
+                                      HBox.hgrow="ALWAYS" maxWidth="Infinity"
+                                      style="-fx-background-color: #e8eef8; -fx-text-fill: #555;
+                                             -fx-background-radius: 10; -fx-cursor: hand;
+                                             -fx-font-size: 11px; -fx-padding: 8 0;"/>
+                        <ToggleButton fx:id="tglEWallet"  text="E-Wallet"
+                                      HBox.hgrow="ALWAYS" maxWidth="Infinity"
+                                      style="-fx-background-color: #e8eef8; -fx-text-fill: #555;
+                                             -fx-background-radius: 10; -fx-cursor: hand;
+                                             -fx-font-size: 11px; -fx-padding: 8 0;"/>
                     </HBox>
                 </VBox>
 
                 <!-- Checkout -->
-                <VBox styleClass="ped-checkout">
-                    <padding><Insets top="8" right="14" bottom="16" left="14"/></padding>
-                    <Label fx:id="lblMensaje" text="" styleClass="ped-mensaje"/>
-                    <Button text="Registrar Pedido" styleClass="ped-btn-checkout"
-                            maxWidth="Infinity" onAction="#FnGuardar"/>
+                <VBox style="-fx-padding: 8 14 20 14;">
+                    <Label fx:id="lblMensaje" text=""
+                           style="-fx-text-fill: #be1e1e; -fx-font-size: 11px; -fx-padding: 0 0 6 0; -fx-wrap-text: true;"/>
+                    <Button text="Registrar Pedido  →" maxWidth="Infinity" onAction="#FnGuardar"
+                            style="-fx-background-color: #be1e1e; -fx-text-fill: white;
+                                   -fx-background-radius: 12; -fx-padding: 14 0;
+                                   -fx-cursor: hand; -fx-font-size: 14px; -fx-font-weight: bold;"/>
                 </VBox>
 
             </VBox>
@@ -178,4 +267,3 @@
     </center>
 
 </BorderPane>
-</StackPane>

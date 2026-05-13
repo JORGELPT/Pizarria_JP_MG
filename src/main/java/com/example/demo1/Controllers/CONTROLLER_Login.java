@@ -196,7 +196,10 @@ public class CONTROLLER_Login {
             Stage stageActual = (Stage) ((javafx.scene.Node) event.getSource())
                     .getScene().getWindow();
 
-            Scene scene = new Scene(root);
+            javafx.geometry.Rectangle2D pantalla =
+                    javafx.stage.Screen.getPrimary().getVisualBounds();
+            Scene scene = new Scene(root,
+                    pantalla.getWidth(), pantalla.getHeight());
             stageActual.setScene(scene);
             stageActual.setTitle("Domino's Pizza - Sistema de Gestión");
             stageActual.setMaximized(true);

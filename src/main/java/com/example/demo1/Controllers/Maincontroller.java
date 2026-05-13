@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -333,7 +334,8 @@ public class Maincontroller {
     //  Utilidades
     // -----------------------------------------------------------------------
     private void aplicarFondo(Node node) {
-        if (!(node instanceof Pane)) return;
+        // BorderPane ya tiene su propio fondo definido en el FXML — no aplicar imagen
+        if (!(node instanceof Pane) || node instanceof BorderPane) return;
         Pane pane = (Pane) node;
 
         URL imgUrl = getClass().getResource("/com/example/demo1/imagenes/fondop.png");

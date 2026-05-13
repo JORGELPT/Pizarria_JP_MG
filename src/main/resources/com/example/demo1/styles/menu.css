@@ -1,0 +1,157 @@
+/* ===== SIDE MENU ===== */
+.side-menu-scroll {
+    -fx-background-color: #1e2d4a;
+    -fx-background: #1e2d4a;
+    -fx-border-color: transparent;
+}
+
+.side-menu-scroll > .viewport {
+    -fx-background-color: #1e2d4a;
+}
+
+.side-menu-scroll .scroll-bar:vertical {
+    -fx-background-color: #1e2d4a;
+    -fx-pref-width: 6px;
+}
+
+.side-menu-scroll .scroll-bar:vertical .thumb {
+    -fx-background-color: #3a5070;
+    -fx-background-radius: 3px;
+}
+
+/* Botones de nivel superior (Inicio, Inventario) */
+.menu-btn {
+    -fx-background-color: transparent;
+    -fx-text-fill: #c8d8e8;
+    -fx-alignment: CENTER-LEFT;
+    -fx-padding: 10 15 10 18;
+    -fx-font-size: 13px;
+    -fx-cursor: hand;
+    -fx-border-width: 0 0 0 3;
+    -fx-border-color: transparent;
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+    -fx-font-family: "Segoe UI";
+}
+
+.menu-btn:hover {
+    -fx-background-color: rgba(227, 24, 55, 0.18);
+    -fx-text-fill: white;
+    -fx-border-color: #E31837;
+}
+
+/* Botones de sub-menú dentro de TitledPane */
+.menu-sub-btn {
+    -fx-background-color: transparent;
+    -fx-text-fill: #8fa8c0;
+    -fx-alignment: CENTER-LEFT;
+    -fx-padding: 8 15 8 32;
+    -fx-font-size: 12px;
+    -fx-cursor: hand;
+    -fx-background-radius: 0;
+    -fx-border-color: transparent;
+    -fx-font-family: "Segoe UI";
+}
+
+.menu-sub-btn:hover {
+    -fx-background-color: rgba(227, 24, 55, 0.22);
+    -fx-text-fill: white;
+}
+
+/* TitledPane del sidebar */
+.menu-pane {
+    -fx-text-fill: white;
+    -fx-font-family: "Segoe UI";
+}
+
+.menu-pane > .title {
+    -fx-background-color: #253564;
+    -fx-padding: 10 15 10 12;
+    -fx-cursor: hand;
+}
+
+.menu-pane > .title:hover {
+    -fx-background-color: #2e4080;
+}
+
+.menu-pane > .title > .text {
+    -fx-fill: #dce8f5;
+    -fx-font-size: 13px;
+    -fx-font-family: "Segoe UI";
+}
+
+.menu-pane:expanded > .title {
+    -fx-background-color: #1a6fa8;
+}
+
+.menu-pane:expanded > .title > .text {
+    -fx-fill: white;
+}
+
+.menu-pane > .title > .arrow-button {
+    -fx-background-color: transparent;
+}
+
+.menu-pane > .title > .arrow-button > .arrow {
+    -fx-background-color: #7a98b8;
+}
+
+.menu-pane > .content {
+    -fx-background-color: #17223a;
+    -fx-padding: 2 0 2 0;
+    -fx-border-color: transparent;
+}
+
+/* Botón Salir */
+.btn-salir {
+    -fx-background-color: rgba(227, 24, 55, 0.12);
+    -fx-text-fill: #ff7a87;
+    -fx-alignment: CENTER-LEFT;
+    -fx-padding: 10 15 10 18;
+    -fx-font-size: 13px;
+    -fx-cursor: hand;
+    -fx-border-width: 0 0 0 3;
+    -fx-border-color: #E31837;
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+    -fx-font-family: "Segoe UI";
+}
+
+.btn-salir:hover {
+    -fx-background-color: #E31837;
+    -fx-text-fill: white;
+    -fx-border-color: #E31837;
+}
+
+/* Separadores del sidebar */
+.menu-separator {
+    -fx-background-color: #2e4466;
+    -fx-border-color: #2e4466;
+    -fx-padding: 0 8 0 8;
+}
+
+/* Barra superior */
+.top-bar {
+    -fx-background-color: #0d1b36;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 8, 0, 0, 2);
+}
+
+.top-bar-title {
+    -fx-text-fill: white;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.top-bar-label {
+    -fx-text-fill: #9ab0c8;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 12px;
+}
+
+/* Barra inferior */
+.bottom-bar {
+    -fx-background-color: #0d1b36;
+    -fx-border-color: #1e2d4a;
+    -fx-border-width: 1 0 0 0;
+}
