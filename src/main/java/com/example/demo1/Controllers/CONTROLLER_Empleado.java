@@ -103,15 +103,18 @@ public class CONTROLLER_Empleado {
             }
             cmbSucursal.setItems(datos);
 
-        } catch (Exception ignore) {}
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al cargar sucursales: " + e.getMessage());
+        }
     }
 
     private int obtenerIdCargo(Connection con, String nombreCargo) throws SQLException {
         try (PreparedStatement ps = con.prepareStatement(
                 "SELECT id_cargo FROM tbl_cargo WHERE nombre = ?")) {
             ps.setString(1, nombreCargo);
-            ResultSet rs = ps.executeQuery();
-            return rs.next() ? rs.getInt("id_cargo") : -1;
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next() ? rs.getInt("id_cargo") : -1;
+            }
         }
     }
 
@@ -120,8 +123,9 @@ public class CONTROLLER_Empleado {
         try (PreparedStatement ps = con.prepareStatement(
                 "SELECT id_sucursal FROM tbl_sucursal WHERE nombre_sucursal = ?")) {
             ps.setString(1, nombreSucursal);
-            ResultSet rs = ps.executeQuery();
-            return rs.next() ? rs.getInt("id_sucursal") : 1;
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next() ? rs.getInt("id_sucursal") : 1;
+            }
         }
     }
 
@@ -171,8 +175,9 @@ public class CONTROLLER_Empleado {
                 ps.setString(5, cargo.toLowerCase()); // rol_bd = cajero / cocinero / gerente...
                 ps.setString(6, contrasena);
                 ps.executeUpdate();
-                ResultSet keys = ps.getGeneratedKeys();
-                idPersona = keys.next() ? keys.getInt(1) : 0;
+                try (ResultSet keys = ps.getGeneratedKeys()) {
+                    idPersona = keys.next() ? keys.getInt(1) : 0;
+                }
             }
 
             int idCargo    = obtenerIdCargo(con, cargo);
@@ -240,16 +245,17 @@ public class CONTROLLER_Empleado {
              PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setString(1, cedula);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                TXTnombre.setText(rs.getString("nombre"));
-                TXTtelefono.setText(rs.getString("tel"));
-                TXTcedula.setText(rs.getString("cedula"));
-                TXTdireccion.setText(rs.getString("direccion"));
-                TXTsalario.setText(String.valueOf(rs.getBigDecimal("salario")));
-                TXTemail.setText(rs.getString("email"));
-            } else {
-                JOptionPane.showMessageDialog(null, "No se encontró el empleado.");
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    TXTnombre.setText(rs.getString("nombre"));
+                    TXTtelefono.setText(rs.getString("tel"));
+                    TXTcedula.setText(rs.getString("cedula"));
+                    TXTdireccion.setText(rs.getString("direccion"));
+                    TXTsalario.setText(String.valueOf(rs.getBigDecimal("salario")));
+                    TXTemail.setText(rs.getString("email"));
+                } else {
+                    JOptionPane.showMessageDialog(null, "No se encontró el empleado.");
+                }
             }
 
         } catch (Exception e) {
