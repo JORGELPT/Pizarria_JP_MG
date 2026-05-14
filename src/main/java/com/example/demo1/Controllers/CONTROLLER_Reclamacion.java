@@ -71,15 +71,16 @@ public class CONTROLLER_Reclamacion {
              PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setString(1, "%" + nombre + "%");
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                idClienteSeleccionado = rs.getInt("id_cliente");
-                TXTclienteNombre.setText(rs.getString("nombre"));
-                lblIdCliente.setText("ID cliente: " + idClienteSeleccionado);
-            } else {
-                idClienteSeleccionado = -1;
-                lblIdCliente.setText("ID cliente: — (no encontrado)");
-                JOptionPane.showMessageDialog(null, "No se encontró el cliente.");
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    idClienteSeleccionado = rs.getInt("id_cliente");
+                    TXTclienteNombre.setText(rs.getString("nombre"));
+                    lblIdCliente.setText("ID cliente: " + idClienteSeleccionado);
+                } else {
+                    idClienteSeleccionado = -1;
+                    lblIdCliente.setText("ID cliente: — (no encontrado)");
+                    JOptionPane.showMessageDialog(null, "No se encontró el cliente.");
+                }
             }
 
         } catch (Exception e) {
@@ -119,9 +120,11 @@ public class CONTROLLER_Reclamacion {
             ps.setString(1, descripcion);
             ps.setInt(2, idClienteSeleccionado);
             ps.setString(3, estado);
-            ps.setInt(4, asiste.isEmpty()
+            int idEmpleado = asiste.isEmpty()
                     ? CONTROLLER_Seccion.getInstancia().getIdEmpleado()
-                    : Integer.parseInt(asiste));
+                    : Integer.parseInt(asiste);
+            if (idEmpleado == -1) ps.setNull(4, Types.INTEGER);
+            else                  ps.setInt(4, idEmpleado);
             ps.setInt(5, Integer.parseInt(idPedido));
             ps.executeUpdate();
             JOptionPane.showMessageDialog(null, "Reclamación registrada correctamente.");
@@ -150,15 +153,16 @@ public class CONTROLLER_Reclamacion {
              PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setInt(1, Integer.parseInt(idPedido));
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                TXTasiste.setText(String.valueOf(rs.getInt("id_empleado")));
-                idClienteSeleccionado = rs.getInt("id_cliente");
-                lblIdCliente.setText("ID cliente: " + idClienteSeleccionado);
-                cmbEstado.setValue(rs.getString("estado"));
-                TXTdescripcion.setText(rs.getString("desc_reclamacion"));
-            } else {
-                JOptionPane.showMessageDialog(null, "No se encontró la reclamación.");
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    TXTasiste.setText(String.valueOf(rs.getInt("id_empleado")));
+                    idClienteSeleccionado = rs.getInt("id_cliente");
+                    lblIdCliente.setText("ID cliente: " + idClienteSeleccionado);
+                    cmbEstado.setValue(rs.getString("estado"));
+                    TXTdescripcion.setText(rs.getString("desc_reclamacion"));
+                } else {
+                    JOptionPane.showMessageDialog(null, "No se encontró la reclamación.");
+                }
             }
 
         } catch (Exception e) {
