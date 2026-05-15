@@ -76,12 +76,12 @@ public class CONTROLLER_Reporte1 {
     public void FnVerGrafico() {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         String sql = """
-            SELECT d.nombre_departamento, COUNT(e.id_empleado) AS total
+            SELECT d.nombre AS nombre_departamento, COUNT(e.id_empleado) AS total
             FROM tbl_empleado e
             LEFT JOIN tbl_cargo c ON e.id_cargo = c.id_cargo
             LEFT JOIN tbl_departamento d ON c.id_departamento = d.id_departamento
-            WHERE d.nombre_departamento IS NOT NULL
-            GROUP BY d.nombre_departamento
+            WHERE d.nombre IS NOT NULL
+            GROUP BY d.nombre
             ORDER BY total DESC
             """;
         try (Connection con = conexion.establecerConexion();
@@ -183,10 +183,10 @@ public class CONTROLLER_Reporte1 {
 
         String sql = """
             SELECT p.cedula, p.nombre, p.tel,
-                   c.nombre_cargo     AS cargo,
+                   c.nombre     AS cargo,
                    e.horario,
                    e.salario,
-                   d.nombre_departamento AS departamento
+                   d.nombre     AS departamento
             FROM tbl_empleado e
             JOIN tbl_persona       p ON p.id_persona      = e.id_persona
             LEFT JOIN tbl_cargo      c ON c.id_cargo        = e.id_cargo
@@ -202,18 +202,19 @@ public class CONTROLLER_Reporte1 {
             ps.setString(1, like);
             ps.setString(2, like);
 
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                datos.add(new String[]{
-                    nvl(rs.getString("cedula")),
-                    nvl(rs.getString("nombre")),
-                    nvl(rs.getString("tel")),
-                    nvl(rs.getString("cargo")),
-                    nvl(rs.getString("horario")),
-                    rs.getObject("salario") != null
-                        ? String.format("%.2f", rs.getDouble("salario")) : "0.00",
-                    nvl(rs.getString("departamento"))
-                });
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    datos.add(new String[]{
+                        nvl(rs.getString("cedula")),
+                        nvl(rs.getString("nombre")),
+                        nvl(rs.getString("tel")),
+                        nvl(rs.getString("cargo")),
+                        nvl(rs.getString("horario")),
+                        rs.getObject("salario") != null
+                            ? String.format("%.2f", rs.getDouble("salario")) : "0.00",
+                        nvl(rs.getString("departamento"))
+                    });
+                }
             }
 
         } catch (Exception e) {
