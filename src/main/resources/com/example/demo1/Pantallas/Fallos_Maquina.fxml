@@ -1,75 +1,56 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 
-<AnchorPane maxWidth="Infinity" maxHeight="Infinity" prefWidth="900.0" prefHeight="580.0"
-            xmlns="http://javafx.com/javafx/17.0.12"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.example.demo1.Controllers.CONTROLLER_Fallosmaquina">
+<AnchorPane maxHeight="Infinity" maxWidth="Infinity" style="-fx-background-color: #f4f6fb;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo1.Controllers.CONTROLLER_Fallosmaquina">
 
-    <Region AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0" style="-fx-background-image: url('/com/example/demo1/imagenes/fondop.png'); -fx-background-size: cover; -fx-background-position: center;"/>
+    <VBox spacing="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
 
-    <VBox spacing="15.0"
-          AnchorPane.topAnchor="30.0" AnchorPane.leftAnchor="40.0"
-          AnchorPane.rightAnchor="40.0" AnchorPane.bottomAnchor="30.0" style="-fx-background-color: rgba(0,0,0,0.48); -fx-background-radius: 14; -fx-padding: 10;">
-        <padding><Insets top="25.0" left="25.0" right="25.0" bottom="25.0"/></padding>
-
-        <Label text="REGISTRAR FALLOS DE MÁQUINA" textFill="white">
-            <font><Font name="System Bold" size="24.0"/></font>
-        </Label>
-
-        <!-- Fila 1: Tipo | Serie de máquina -->
-        <HBox spacing="30.0">
-            <VBox HBox.hgrow="ALWAYS" spacing="3.0">
-                <Label text="Tipo" textFill="white"><font><Font name="System Bold" size="14.0"/></font></Label>
-                <ComboBox fx:id="cmbTipo" prefHeight="32.0" maxWidth="Infinity"
-                          style="-fx-background-color: rgba(255,255,255,0.88); -fx-background-radius: 8; -fx-text-fill: #1a1a1a; -fx-font-size: 13px;"/>
-            </VBox>
-            <VBox HBox.hgrow="ALWAYS" spacing="3.0">
-                <Label text="Serie de máquina" textFill="white"><font><Font name="System Bold" size="14.0"/></font></Label>
-                <HBox spacing="5.0">
-                    <TextField fx:id="TXTserieMaquina" prefHeight="32.0"
-                               HBox.hgrow="ALWAYS"
-                               style="-fx-background-color: rgba(255,255,255,0.88); -fx-background-radius: 8; -fx-text-fill: #1a1a1a; -fx-font-size: 13px;"/>
-                    <Button text="🔍" onAction="#FnBuscarMaquina"
-                            prefWidth="40.0" prefHeight="32.0" style="-fx-background-color: #c0392b; -fx-text-fill: white; -fx-background-radius: 50; -fx-cursor: hand;"/>
-                </HBox>
-                <Label fx:id="lblIdMaquina" text="ID máquina: —" textFill="#666"><font><Font size="11.0"/></font></Label>
-            </VBox>
+        <HBox alignment="CENTER_LEFT" style="-fx-background-color: #004aad; -fx-padding: 14 24 14 24;">
+            <Label style="-fx-text-fill: white; -fx-font-size: 17px;                           -fx-font-weight: bold; -fx-font-family: 'Segoe UI';" text="⚙️  Fallos de Máquina" />
         </HBox>
 
-        <!-- Fila 2: Descripción | Id de empleado -->
-        <HBox spacing="30.0">
-            <VBox HBox.hgrow="ALWAYS" spacing="3.0">
-                <Label text="Descripción" textFill="white"><font><Font name="System Bold" size="14.0"/></font></Label>
-                <TextField fx:id="TXTdescripcion" prefHeight="32.0"
-                           style="-fx-background-color: rgba(255,255,255,0.88); -fx-background-radius: 8; -fx-text-fill: #1a1a1a; -fx-font-size: 13px;"/>
-            </VBox>
-            <VBox HBox.hgrow="ALWAYS" spacing="3.0">
-                <Label text="Id de empleado" textFill="white"><font><Font name="System Bold" size="14.0"/></font></Label>
-                <TextField fx:id="TXTidEmpleado" prefHeight="32.0"
-                           style="-fx-background-color: rgba(255,255,255,0.88); -fx-background-radius: 8; -fx-text-fill: #1a1a1a; -fx-font-size: 13px;"/>
-            </VBox>
-        </HBox>
+        <VBox spacing="14" style="-fx-background-color: white;" VBox.vgrow="ALWAYS">
+            <padding><Insets bottom="20" left="26" right="26" top="20" /></padding>
 
-        <!-- Botones -->
-        <HBox spacing="10.0" alignment="CENTER_LEFT">
-            <padding><Insets top="5.0"/></padding>
-            <Button text="Guardar" onAction="#FnGuardar"
-                    prefWidth="80.0" prefHeight="32.0" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-cursor: hand;"/>
-            <Button text="Eliminar" onAction="#FnEliminar"
-                    prefWidth="80.0" prefHeight="32.0" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-cursor: hand;"/>
-            <Region HBox.hgrow="ALWAYS"/>
-            <Button text="Editar" onAction="#FnEditar"
-                    prefWidth="80.0" prefHeight="32.0" style="-fx-background-color: #f39c12; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-cursor: hand;"/>
-            <Button text="🔍" onAction="#FnBuscar"
-                    prefWidth="40.0" prefHeight="32.0" style="-fx-background-color: #c0392b; -fx-text-fill: white; -fx-background-radius: 50; -fx-cursor: hand;"/>
-        </HBox>
+            <!-- Tipo | Serie de máquina -->
+            <HBox spacing="20">
+                <VBox spacing="5" HBox.hgrow="ALWAYS">
+                    <Label style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #555;" text="Tipo" />
+                    <ComboBox fx:id="cmbTipo" maxWidth="Infinity" prefHeight="38" style="-fx-background-color: #f0f4ff; -fx-background-radius: 10;                                      -fx-border-color: #dde6f5; -fx-border-radius: 10; -fx-border-width: 1.5;                                      -fx-font-size: 13px;" />
+                </VBox>
+                <VBox spacing="5" HBox.hgrow="ALWAYS">
+                    <Label style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #555;" text="Serie de máquina" />
+                    <HBox spacing="8">
+                        <TextField fx:id="TXTserieMaquina" prefHeight="38" style="-fx-background-color: #f0f4ff; -fx-background-radius: 10;                                           -fx-border-color: #dde6f5; -fx-border-radius: 10; -fx-border-width: 1.5;                                           -fx-font-size: 13px; -fx-text-fill: #1a1a2e; -fx-padding: 0 12;" HBox.hgrow="ALWAYS" />
+                        <Button onAction="#FnBuscarMaquina" prefHeight="38" prefWidth="42" style="-fx-background-color: #004aad; -fx-text-fill: white;                                        -fx-background-radius: 10; -fx-cursor: hand; -fx-font-size: 14px;" text="🔍" />
+                    </HBox>
+                </VBox>
+            </HBox>
 
+            <!-- Descripción | Id empleado -->
+            <HBox spacing="20">
+                <VBox spacing="5" HBox.hgrow="ALWAYS">
+                    <Label style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #555;" text="Descripción" />
+                    <TextField fx:id="TXTdescripcion" prefHeight="38" style="-fx-background-color: #f0f4ff; -fx-background-radius: 10;                                       -fx-border-color: #dde6f5; -fx-border-radius: 10; -fx-border-width: 1.5;                                       -fx-font-size: 13px; -fx-text-fill: #1a1a2e; -fx-padding: 0 12;" />
+                </VBox>
+                <VBox spacing="5" HBox.hgrow="ALWAYS">
+                    <Label style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #555;" text="Id de empleado" />
+                    <TextField fx:id="TXTidEmpleado" prefHeight="38" style="-fx-background-color: #f0f4ff; -fx-background-radius: 10;                                       -fx-border-color: #dde6f5; -fx-border-radius: 10; -fx-border-width: 1.5;                                       -fx-font-size: 13px; -fx-text-fill: #1a1a2e; -fx-padding: 0 12;" />
+                </VBox>
+            </HBox>
+
+            <!-- Botones -->
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <Button onAction="#FnGuardar" style="-fx-background-color: #004aad; -fx-text-fill: white; -fx-font-weight: bold;                                -fx-background-radius: 10; -fx-cursor: hand; -fx-padding: 8 22; -fx-font-size: 13px;" text="Guardar" />
+                <Button onAction="#FnEliminar" style="-fx-background-color: #be1e1e; -fx-text-fill: white; -fx-font-weight: bold;                                -fx-background-radius: 10; -fx-cursor: hand; -fx-padding: 8 22; -fx-font-size: 13px;" text="Eliminar" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Button onAction="#FnEditar" style="-fx-background-color: #6c757d; -fx-text-fill: white; -fx-font-weight: bold;                                -fx-background-radius: 10; -fx-cursor: hand; -fx-padding: 8 22; -fx-font-size: 13px;" text="Editar" />
+                <Button onAction="#FnBuscar" style="-fx-background-color: #004aad; -fx-text-fill: white; -fx-font-weight: bold;                                -fx-background-radius: 10; -fx-cursor: hand; -fx-padding: 8 18; -fx-font-size: 13px;" text="🔍 Buscar" />
+            </HBox>
+
+        </VBox>
     </VBox>
 </AnchorPane>
-
-
