@@ -220,20 +220,20 @@ public class CONTROLLER_Ingrediente {
              PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setString(1, "%" + nombre + "%");
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-                idIngredienteActual = rs.getInt("id_ingrediente");
-                TXTnombre.setText(rs.getString("nombre"));
-                TXTcantidad.setText(String.valueOf(rs.getInt("cantidad_stock")));
-                TXTfecha.setText(rs.getString("fecha") != null ? rs.getString("fecha") : "");
-                cmbTipo.setValue(rs.getString("tipo_ingrediente"));
-                TXTcantMin.setText(String.valueOf(rs.getInt("cantidad_minima_stock")));
-                String provNombre = rs.getString("nombre_proveedor");
-                cmbProveedor.setValue(provNombre != null ? provNombre : null);
-            } else {
-                JOptionPane.showMessageDialog(null, "No se encontró ningún ingrediente con ese nombre.");
-                idIngredienteActual = -1;
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    idIngredienteActual = rs.getInt("id_ingrediente");
+                    TXTnombre.setText(rs.getString("nombre"));
+                    TXTcantidad.setText(String.valueOf(rs.getInt("cantidad_stock")));
+                    TXTfecha.setText(rs.getString("fecha") != null ? rs.getString("fecha") : "");
+                    cmbTipo.setValue(rs.getString("tipo_ingrediente"));
+                    TXTcantMin.setText(String.valueOf(rs.getInt("cantidad_minima_stock")));
+                    String provNombre = rs.getString("nombre_proveedor");
+                    cmbProveedor.setValue(provNombre != null ? provNombre : null);
+                } else {
+                    JOptionPane.showMessageDialog(null, "No se encontró ningún ingrediente con ese nombre.");
+                    idIngredienteActual = -1;
+                }
             }
 
         } catch (Exception e) {
