@@ -89,40 +89,40 @@ public class Maincontroller {
         if (s.esAdmin()) return;
 
         if (s.esGerente()) {
-            // Gerente: puede todo excepto "Otro" (creación de usuarios, etc.)
-            ocultarTitledPanesPorTexto(Arrays.asList("Otro"));
+            ocultarTitledPanesPorTexto(Arrays.asList("≡  Otro"));
             return;
         }
 
         if (s.esCajero()) {
-            // Cajero: Inicio + Inventario (solo ver) + Ventas (pedido/reclamación) + Cliente
             ocultarTitledPanesPorTexto(Arrays.asList(
-                    "Compras", "Equipos y Mantenimiento", "Otro", "Reportes"));
-            // Dentro de Ventas, ocultar botones que el cajero no debe ver
-            ocultarBotonesPorTexto(Arrays.asList("Envío"));
+                    "🛒  Compras", "🔧  Equipos y Mant.", "≡  Otro", "☰  Reportes"));
+            ocultarBotonesPorTexto(Arrays.asList("✿  Ingredientes", "🚚  Envío", "⭐  Ofertas"));
             return;
         }
 
         if (s.esDelivery()) {
-            // Delivery: Inicio + solo botón Envío dentro de Ventas
             ocultarTitledPanesPorTexto(Arrays.asList(
-                    "Compras", "Equipos y Mantenimiento", "Otro", "Reportes"));
+                    "🛒  Compras", "🔧  Equipos y Mant.", "≡  Otro", "☰  Reportes"));
             ocultarBotonesPorTexto(Arrays.asList(
-                    "Inventario", "Producto", "Registrar pedido", "Reclamación"));
+                    "☰  Inventario", "✿  Ingredientes", "🍕  Agregar Producto",
+                    "✎  Hacer un Pedido", "⚠  Reclamación", "⭐  Ofertas",
+                    "●  Registro de Cliente"));
+
             return;
         }
 
         if (s.esCliente()) {
-            // Cliente: Inicio + Registrar Pedido + Reclamación
             ocultarTitledPanesPorTexto(Arrays.asList(
-                    "Compras", "Equipos y Mantenimiento", "Otro", "Reportes"));
-            ocultarBotonesPorTexto(Arrays.asList("Inventario", "Producto", "Envío"));
+                    "🛒  Compras", "🔧  Equipos y Mant.", "≡  Otro", "☰  Reportes"));
+            ocultarBotonesPorTexto(Arrays.asList(
+                    "☰  Inventario", "✿  Ingredientes", "🍕  Agregar Producto",
+                    "🚚  Envío", "⭐  Ofertas"));
             return;
         }
 
-        // Rol desconocido → ocultar todo excepto Inicio (máxima restricción)
+        // Rol desconocido → ocultar todo excepto Inicio
         ocultarTitledPanesPorTexto(Arrays.asList(
-                "Ventas", "Compras", "Equipos y Mantenimiento", "Otro", "Reportes"));
+                "🍕  Ventas", "🛒  Compras", "🔧  Equipos y Mant.", "≡  Otro", "☰  Reportes"));
     }
 
     // -----------------------------------------------------------------------
@@ -175,6 +175,10 @@ public class Maincontroller {
         cargarVista("inventario.fxml", "Inventario");
     }
 
+    @FXML private void abrirAgregarIngrediente() {
+        cargarVista("Agregar_Ingrediente.fxml", "Ingredientes");
+    }
+
     // -----------------------------------------------------------------------
     //  COMPRAS
     // -----------------------------------------------------------------------
@@ -207,6 +211,10 @@ public class Maincontroller {
 
     @FXML private void abrirReclamacion() {
         cargarVista("Reclamacion.fxml", "Reclamación");
+    }
+
+    @FXML private void abrirOfertas() {
+        cargarVista("Ofertas.fxml", "Ofertas");
     }
 
     // -----------------------------------------------------------------------
@@ -281,13 +289,40 @@ public class Maincontroller {
     @FXML
     private void salir() {
         Alert alert = new Alert(AlertType.CONFIRMATION);
-        alert.setTitle("Cerrar Sesión");
-        alert.setHeaderText("¿Deseas cerrar sesión?");
-        alert.setContentText("Se cerrará la aplicación.");
+        alert.setTitle("Salir");
+        alert.setHeaderText("¿Deseas cerrar la aplicación?");
+        alert.setContentText("Se cerrará el programa por completo.");
         alert.showAndWait().ifPresent(r -> {
             if (r == ButtonType.OK) {
                 CONTROLLER_Seccion.getInstancia().cerrar();
                 System.exit(0);
+            }
+        });
+    }
+
+    @FXML
+    private void cerrarSesion() {
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Cerrar Sesión");
+        alert.setHeaderText("¿Deseas cerrar sesión?");
+        alert.setContentText("Volverás a la pantalla de inicio de sesión.");
+        alert.showAndWait().ifPresent(r -> {
+            if (r == ButtonType.OK) {
+                try {
+                    CONTROLLER_Seccion.getInstancia().cerrar();
+                    FXMLLoader loader = new FXMLLoader(
+                            getClass().getResource(RUTA_PANTALLAS + "Login.fxml"));
+                    javafx.scene.Parent root = loader.load();
+                    javafx.stage.Stage stage =
+                            (javafx.stage.Stage) contentArea.getScene().getWindow();
+                    stage.setScene(new javafx.scene.Scene(root));
+                    stage.setTitle("Domino's Pizza - Iniciar Sesión");
+                    stage.setMaximized(false);
+                    stage.setResizable(false);
+                    stage.show();
+                } catch (IOException e) {
+                    mostrarError("No se pudo volver al login.", e.getMessage());
+                }
             }
         });
     }
