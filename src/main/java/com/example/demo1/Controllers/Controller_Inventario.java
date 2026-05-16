@@ -1,6 +1,7 @@
 package com.example.demo1.Controllers;
 
 import com.example.demo1.Database.Conexion;
+import com.example.demo1.Utils.CONTROLLER_Seccion;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,6 +20,7 @@ public class Controller_Inventario {
 
     Conexion conexion = new Conexion();
 
+    @FXML private Button    btnAgregar;
     @FXML private TextField TXTbuscar;
     @FXML private TableView<IngredienteRow> tablaInventario;
     @FXML private TableColumn<IngredienteRow, String> colId;
@@ -40,6 +42,11 @@ public class Controller_Inventario {
         colCantMin.setCellValueFactory(c -> c.getValue().cantMin);
 
         cargarInventario(null);
+
+        if (CONTROLLER_Seccion.getInstancia().esCajero()) {
+            btnAgregar.setVisible(false);
+            btnAgregar.setManaged(false);
+        }
     }
 
     private void cargarInventario(String filtro) {
