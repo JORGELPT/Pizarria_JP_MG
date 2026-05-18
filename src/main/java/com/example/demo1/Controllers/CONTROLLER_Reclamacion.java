@@ -1,6 +1,7 @@
 package com.example.demo1.Controllers;
 
 import com.example.demo1.Database.Conexion;
+import com.example.demo1.Utils.JasperUtil;
 import com.example.demo1.Utils.Permisos_Util;
 import com.example.demo1.Utils.CONTROLLER_Seccion;
 import javafx.collections.FXCollections;
@@ -128,6 +129,12 @@ public class CONTROLLER_Reclamacion {
             ps.setInt(5, Integer.parseInt(idPedido));
             ps.executeUpdate();
             JOptionPane.showMessageDialog(null, "Reclamación registrada correctamente.");
+
+            // Notificar por correo
+            String nombreCliente = CONTROLLER_Seccion.getInstancia().getNombre();
+            String fechaHoy = java.time.LocalDate.now().toString();
+            com.example.demo1.Utils.CorreoUtil.notificarReclamacion(nombreCliente, descripcion, fechaHoy);
+
             limpiar();
 
         } catch (NumberFormatException e) {
@@ -226,6 +233,14 @@ public class CONTROLLER_Reclamacion {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
         }
+    }
+
+    @FXML
+    public void FnExportarPDF() {
+        JasperUtil.exportarPDF(
+                "/com/example/demo1/reportes/Reporte_Reclamaciones.jrxml",
+                "Reporte_Reclamaciones.pdf"
+        );
     }
 
     public void limpiar() {
