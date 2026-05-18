@@ -1,6 +1,7 @@
 package com.example.demo1.Controllers;
 
 import com.example.demo1.Database.Conexion;
+import com.example.demo1.Utils.JasperUtil;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -189,6 +190,17 @@ public class CONTROLLER_Ingrediente {
 
             ps.executeUpdate();
             JOptionPane.showMessageDialog(null, "Ingrediente guardado correctamente.");
+
+            // Alerta de stock bajo
+            try {
+                int stock = Integer.parseInt(TXTcantidad.getText().trim());
+                int min   = Integer.parseInt(TXTcantMin.getText().trim());
+                if (stock < 20 || stock < min) {
+                    com.example.demo1.Utils.CorreoUtil.notificarStockBajo(
+                            TXTnombre.getText().trim(), stock, min);
+                }
+            } catch (NumberFormatException ignored) {}
+
             limpiar();
             cargarTabla();
 
@@ -298,6 +310,17 @@ public class CONTROLLER_Ingrediente {
 
             if (ps.executeUpdate() > 0) {
                 JOptionPane.showMessageDialog(null, "Ingrediente actualizado correctamente.");
+
+                // Alerta de stock bajo
+                try {
+                    int stock = Integer.parseInt(TXTcantidad.getText().trim());
+                    int min   = Integer.parseInt(TXTcantMin.getText().trim());
+                    if (stock < 20 || stock < min) {
+                        com.example.demo1.Utils.CorreoUtil.notificarStockBajo(
+                                TXTnombre.getText().trim(), stock, min);
+                    }
+                } catch (NumberFormatException ignored) {}
+
                 cargarTabla();
             } else {
                 JOptionPane.showMessageDialog(null, "No se encontró el registro para actualizar.");
@@ -340,6 +363,17 @@ public class CONTROLLER_Ingrediente {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al eliminar: " + e.getMessage());
         }
+    }
+
+    // ================================================================
+    //                       EXPORTAR PDF
+    // ================================================================
+    @FXML
+    public void FnExportarPDF() {
+        JasperUtil.exportarPDF(
+                "/com/example/demo1/reportes/Reporte_Ingredientes.jrxml",
+                "Reporte_Ingredientes.pdf"
+        );
     }
 
     // ================================================================
