@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports
+              http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="Reporte_Clientes" language="java"
+              pageWidth="612" pageHeight="792"
+              columnWidth="572" leftMargin="20" rightMargin="20"
+              topMargin="20" bottomMargin="20">
+
+    <style name="Row" isDefault="false" mode="Transparent" fontName="Arial" fontSize="9">
+        <conditionalStyle>
+            <conditionExpression><![CDATA[$V{REPORT_COUNT} % 2 == 0]]></conditionExpression>
+            <style mode="Opaque" backcolor="#E8F0FB"/>
+        </conditionalStyle>
+    </style>
+
+    <queryString><![CDATA[
+        SELECT p.nombre, p.cedula, p.tel, p.direccion
+        FROM tbl_cliente c
+        INNER JOIN tbl_persona p ON c.id_persona = p.id_persona
+        ORDER BY p.nombre
+    ]]></queryString>
+
+    <field name="nombre"    class="java.lang.String"/>
+    <field name="cedula"    class="java.lang.String"/>
+    <field name="tel"       class="java.lang.String"/>
+    <field name="direccion" class="java.lang.String"/>
+
+    <variable name="totalClientes" class="java.lang.Integer" calculation="Count">
+        <variableExpression><![CDATA[$F{cedula}]]></variableExpression>
+    </variable>
+
+    <title>
+        <band height="100" splitType="Stretch">
+            <rectangle>
+                <reportElement x="0" y="0" width="572" height="65"
+                               forecolor="#004AAD" backcolor="#004AAD" mode="Opaque"/>
+                <graphicElement><pen lineWidth="0"/></graphicElement>
+            </rectangle>
+            <staticText>
+                <reportElement x="10" y="8" width="340" height="50" forecolor="#FFFFFF"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="Arial" fontSize="24" isBold="true"/>
+                </textElement>
+                <text><![CDATA[REPORTE DE CLIENTES]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="350" y="8" width="218" height="18" forecolor="#CCE0FF"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font fontName="Arial" fontSize="9"/>
+                </textElement>
+                <text><![CDATA[DOMINO'S PIZZA | Sistema de Gestión]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="350" y="30" width="218" height="14" forecolor="#CCE0FF"/>
+                <textElement textAlignment="Right">
+                    <font fontName="Arial" fontSize="8"/>
+                </textElement>
+                <text><![CDATA[República Dominicana]]></text>
+            </staticText>
+            <textField pattern="'Generado el' dd/MM/yyyy 'a las' HH:mm">
+                <reportElement x="0" y="74" width="572" height="14" forecolor="#666666"/>
+                <textElement textAlignment="Right">
+                    <font fontName="Arial" fontSize="8"/>
+                </textElement>
+                <textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+            </textField>
+            <line>
+                <reportElement x="0" y="97" width="572" height="1" forecolor="#004AAD"/>
+                <graphicElement><pen lineWidth="1.5"/></graphicElement>
+            </line>
+        </band>
+    </title>
+
+    <pageHeader><band height="5"/></pageHeader>
+
+    <columnHeader>
+        <band height="20" splitType="Stretch">
+            <rectangle>
+                <reportElement x="0" y="0" width="572" height="20"
+                               forecolor="#004AAD" backcolor="#004AAD" mode="Opaque"/>
+                <graphicElement><pen lineWidth="0"/></graphicElement>
+            </rectangle>
+            <staticText>
+                <reportElement x="4" y="3" width="181" height="14" forecolor="#FFFFFF"/>
+                <textElement><font fontName="Arial" fontSize="9" isBold="true"/></textElement>
+                <text><![CDATA[Nombre]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="187" y="3" width="111" height="14" forecolor="#FFFFFF"/>
+                <textElement><font fontName="Arial" fontSize="9" isBold="true"/></textElement>
+                <text><![CDATA[Cédula]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="300" y="3" width="96" height="14" forecolor="#FFFFFF"/>
+                <textElement><font fontName="Arial" fontSize="9" isBold="true"/></textElement>
+                <text><![CDATA[Teléfono]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="398" y="3" width="170" height="14" forecolor="#FFFFFF"/>
+                <textElement><font fontName="Arial" fontSize="9" isBold="true"/></textElement>
+                <text><![CDATA[Dirección]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+
+    <detail>
+        <band height="16" splitType="Stretch">
+            <frame>
+                <reportElement x="0" y="0" width="572" height="15" style="Row"/>
+                <textField isBlankWhenNull="true">
+                    <reportElement x="4" y="2" width="181" height="11"/>
+                    <textElement><font fontName="Arial" fontSize="9"/></textElement>
+                    <textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+                </textField>
+                <textField isBlankWhenNull="true">
+                    <reportElement x="187" y="2" width="111" height="11"/>
+                    <textElement><font fontName="Arial" fontSize="9"/></textElement>
+                    <textFieldExpression><![CDATA[$F{cedula}]]></textFieldExpression>
+                </textField>
+                <textField isBlankWhenNull="true">
+                    <reportElement x="300" y="2" width="96" height="11"/>
+                    <textElement><font fontName="Arial" fontSize="9"/></textElement>
+                    <textFieldExpression><![CDATA[$F{tel}]]></textFieldExpression>
+                </textField>
+                <textField isBlankWhenNull="true">
+                    <reportElement x="398" y="2" width="170" height="11"/>
+                    <textElement><font fontName="Arial" fontSize="9"/></textElement>
+                    <textFieldExpression><![CDATA[$F{direccion}]]></textFieldExpression>
+                </textField>
+            </frame>
+            <line>
+                <reportElement x="0" y="15" width="572" height="1"
+                               forecolor="#CCCCCC" positionType="FixRelativeToBottom"/>
+                <graphicElement><pen lineWidth="0.3"/></graphicElement>
+            </line>
+        </band>
+    </detail>
+
+    <columnFooter>
+        <band height="6" splitType="Stretch">
+            <line>
+                <reportElement x="0" y="4" width="572" height="1" forecolor="#004AAD"/>
+                <graphicElement><pen lineWidth="1.0"/></graphicElement>
+            </line>
+        </band>
+    </columnFooter>
+
+    <pageFooter>
+        <band height="22" splitType="Stretch">
+            <rectangle>
+                <reportElement x="0" y="0" width="572" height="20"
+                               forecolor="#004AAD" backcolor="#004AAD" mode="Opaque"/>
+                <graphicElement><pen lineWidth="0"/></graphicElement>
+            </rectangle>
+            <textField pattern="dd/MM/yyyy HH:mm">
+                <reportElement x="4" y="2" width="160" height="16" forecolor="#FFFFFF"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="Arial" fontSize="8"/>
+                </textElement>
+                <textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="166" y="2" width="240" height="16" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Arial" fontSize="8" isBold="true"/>
+                </textElement>
+                <text><![CDATA[DOMINO'S PIZZA — Sistema de Gestión]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="408" y="2" width="80" height="16" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font fontName="Arial" fontSize="8"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Pág. " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression>
+            </textField>
+            <textField evaluationTime="Report">
+                <reportElement x="490" y="2" width="78" height="16" forecolor="#FFFFFF"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="Arial" fontSize="8"/>
+                </textElement>
+                <textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+            </textField>
+        </band>
+    </pageFooter>
+
+    <summary>
+        <band height="24" splitType="Stretch">
+            <rectangle>
+                <reportElement x="0" y="4" width="572" height="16"
+                               forecolor="#E8F0FB" backcolor="#E8F0FB" mode="Opaque"/>
+                <graphicElement><pen lineWidth="0"/></graphicElement>
+            </rectangle>
+            <staticText>
+                <reportElement x="4" y="6" width="150" height="12" forecolor="#004AAD"/>
+                <textElement><font fontName="Arial" fontSize="9" isBold="true"/></textElement>
+                <text><![CDATA[Total de clientes registrados:]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="156" y="6" width="40" height="12" forecolor="#BE1E1E"/>
+                <textElement><font fontName="Arial" fontSize="9" isBold="true"/></textElement>
+                <textFieldExpression><![CDATA[$V{totalClientes}]]></textFieldExpression>
+            </textField>
+        </band>
+    </summary>
+
+</jasperReport>

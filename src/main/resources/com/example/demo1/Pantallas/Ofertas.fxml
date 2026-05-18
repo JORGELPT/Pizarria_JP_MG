@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxWidth="Infinity" maxHeight="Infinity"
+            xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.demo1.Controllers.CONTROLLER_Ofertas"
+            style="-fx-background-color: #f4f6fb;">
+
+    <VBox spacing="0"
+          AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0"
+          AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0">
+
+        <!-- ═══════════════════ HEADER ═══════════════════ -->
+        <HBox alignment="CENTER_LEFT" spacing="14"
+              style="-fx-background-color: #004aad; -fx-padding: 14 24 14 24;">
+            <VBox spacing="2">
+                <Label text="⭐  Gestión de Ofertas"
+                       style="-fx-text-fill: white; -fx-font-size: 17px;
+                              -fx-font-weight: bold; -fx-font-family: 'Segoe UI';"/>
+                <Label text="Crea, activa y gestiona las ofertas visibles en Hacer un Pedido"
+                       style="-fx-text-fill: rgba(255,255,255,0.70); -fx-font-size: 11px;
+                              -fx-font-family: 'Segoe UI';"/>
+            </VBox>
+            <Region HBox.hgrow="ALWAYS"/>
+            <StackPane>
+                <Region prefHeight="64" prefWidth="64"
+                        style="-fx-background-color: rgba(255,255,255,0.15);
+                               -fx-background-radius: 32;"/>
+                <ImageView fitHeight="48" fitWidth="48" preserveRatio="true" pickOnBounds="true">
+                    <image><Image url="@../imagenes/reporte1.png"/></image>
+                </ImageView>
+            </StackPane>
+        </HBox>
+
+        <!-- ═══════════════════ BODY ═══════════════════ -->
+        <HBox spacing="0" VBox.vgrow="ALWAYS">
+
+            <!-- ════ PANEL IZQUIERDO: Formulario ════ -->
+            <VBox spacing="14" prefWidth="340" minWidth="300"
+                  style="-fx-background-color: white;
+                         -fx-border-color: transparent #e8eef8 transparent transparent;
+                         -fx-border-width: 0 1 0 0;">
+                <padding><Insets top="22" right="20" bottom="20" left="24"/></padding>
+
+                <Label text="Nueva / Editar Oferta"
+                       style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #004aad;"/>
+
+                <!-- Nombre -->
+                <VBox spacing="5">
+                    <Label text="Nombre de la oferta *"
+                           style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #555;"/>
+                    <TextField fx:id="TXTnombre" promptText="Ej: 2x1 Pizzas Grandes" prefHeight="38"
+                               style="-fx-background-color: #f0f4ff; -fx-background-radius: 10;
+                                      -fx-border-color: #dde6f5; -fx-border-radius: 10; -fx-border-width: 1.5;
+                                      -fx-font-size: 13px; -fx-padding: 0 12;"/>
+                </VBox>
+
+                <!-- Descripción -->
+                <VBox spacing="5">
+                    <Label text="Descripción"
+                           style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #555;"/>
+                    <TextField fx:id="TXTdescripcion" promptText="Detalle visible al cliente..." prefHeight="38"
+                               style="-fx-background-color: #f0f4ff; -fx-background-radius: 10;
+                                      -fx-border-color: #dde6f5; -fx-border-radius: 10; -fx-border-width: 1.5;
+                                      -fx-font-size: 13px; -fx-padding: 0 12;"/>
+                </VBox>
+
+                <!-- Producto + Descuento -->
+                <HBox spacing="12">
+                    <VBox HBox.hgrow="ALWAYS" spacing="5">
+                        <Label text="Producto *"
+                               style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #555;"/>
+                        <ComboBox fx:id="cmbProducto" maxWidth="Infinity" prefHeight="38"
+                                  promptText="Seleccionar..."
+                                  style="-fx-background-color: #f0f4ff; -fx-background-radius: 10;
+                                         -fx-border-color: #dde6f5; -fx-border-radius: 10; -fx-border-width: 1.5;"/>
+                    </VBox>
+                    <VBox prefWidth="110" spacing="5">
+                        <Label text="Descuento % *"
+                               style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #555;"/>
+                        <TextField fx:id="TXTdescuento" promptText="0 – 100" prefHeight="38"
+                                   style="-fx-background-color: #f0f4ff; -fx-background-radius: 10;
+                                          -fx-border-color: #dde6f5; -fx-border-radius: 10; -fx-border-width: 1.5;
+                                          -fx-font-size: 13px; -fx-padding: 0 12;"/>
+                    </VBox>
+                </HBox>
+
+                <!-- Fechas -->
+                <HBox spacing="12">
+                    <VBox HBox.hgrow="ALWAYS" spacing="5">
+                        <Label text="Fecha inicio"
+                               style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #555;"/>
+                        <DatePicker fx:id="dpInicio" maxWidth="Infinity" prefHeight="38"
+                                    style="-fx-background-color: #f0f4ff; -fx-background-radius: 10;
+                                           -fx-border-color: #dde6f5; -fx-border-radius: 10; -fx-border-width: 1.5;"/>
+                    </VBox>
+                    <VBox HBox.hgrow="ALWAYS" spacing="5">
+                        <Label text="Fecha fin"
+                               style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #555;"/>
+                        <DatePicker fx:id="dpFin" maxWidth="Infinity" prefHeight="38"
+                                    style="-fx-background-color: #f0f4ff; -fx-background-radius: 10;
+                                           -fx-border-color: #dde6f5; -fx-border-radius: 10; -fx-border-width: 1.5;"/>
+                    </VBox>
+                </HBox>
+
+                <!-- Activa -->
+                <HBox alignment="CENTER_LEFT" spacing="10"
+                      style="-fx-background-color: #f0f4ff; -fx-background-radius: 10; -fx-padding: 10 14;">
+                    <CheckBox fx:id="chkActiva" selected="true"/>
+                    <VBox spacing="1">
+                        <Label text="Oferta activa"
+                               style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #1a1a2e;"/>
+                        <Label text="Visible en ⭐ Ofertas del menú de pedido"
+                               style="-fx-font-size: 10px; -fx-text-fill: #888;"/>
+                    </VBox>
+                </HBox>
+
+                <Region VBox.vgrow="ALWAYS"/>
+
+                <!-- Botones -->
+                <VBox spacing="8">
+                    <Button text="💾  Guardar Oferta" maxWidth="Infinity" onAction="#FnGuardar"
+                            prefHeight="40"
+                            style="-fx-background-color: #004aad; -fx-text-fill: white; -fx-font-weight: bold;
+                                   -fx-background-radius: 10; -fx-cursor: hand; -fx-font-size: 13px;"/>
+                    <HBox spacing="8">
+                        <Button text="⏸  Activar / Pausar" maxWidth="Infinity" HBox.hgrow="ALWAYS"
+                                onAction="#FnToggleActiva" prefHeight="36"
+                                style="-fx-background-color: #f0a500; -fx-text-fill: white; -fx-font-weight: bold;
+                                       -fx-background-radius: 10; -fx-cursor: hand; -fx-font-size: 12px;"/>
+                        <Button text="🗑  Eliminar" maxWidth="Infinity" HBox.hgrow="ALWAYS"
+                                onAction="#FnEliminar" prefHeight="36"
+                                style="-fx-background-color: #be1e1e; -fx-text-fill: white; -fx-font-weight: bold;
+                                       -fx-background-radius: 10; -fx-cursor: hand; -fx-font-size: 12px;"/>
+                    </HBox>
+                    <Button text="✕  Limpiar" maxWidth="Infinity" onAction="#FnLimpiar"
+                            prefHeight="34"
+                            style="-fx-background-color: #6c757d; -fx-text-fill: white; -fx-font-weight: bold;
+                                   -fx-background-radius: 10; -fx-cursor: hand; -fx-font-size: 12px;"/>
+                </VBox>
+            </VBox>
+
+            <!-- ════ PANEL DERECHO: Tabla ════ -->
+            <VBox spacing="12" VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS"
+                  style="-fx-background-color: #f4f6fb;">
+                <padding><Insets top="22" right="24" bottom="20" left="20"/></padding>
+
+                <Label text="Ofertas registradas"
+                       style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #004aad;"/>
+
+                <TableView fx:id="tablaOfertas" VBox.vgrow="ALWAYS"
+                           style="-fx-border-color: #e8eef8; -fx-border-width: 1; -fx-border-radius: 10;
+                                  -fx-background-color: white;">
+                    <columns>
+                        <TableColumn fx:id="colId"        prefWidth="50"  text="ID"/>
+                        <TableColumn fx:id="colNombre"    prefWidth="160" text="Nombre"/>
+                        <TableColumn fx:id="colProducto"  prefWidth="150" text="Producto"/>
+                        <TableColumn fx:id="colDescuento" prefWidth="95"  text="Descuento"/>
+                        <TableColumn fx:id="colInicio"    prefWidth="100" text="Inicio"/>
+                        <TableColumn fx:id="colFin"       prefWidth="100" text="Fin"/>
+                        <TableColumn fx:id="colActiva"    prefWidth="110" text="Estado"/>
+                    </columns>
+                    <placeholder>
+                        <Label text="No hay ofertas registradas."
+                               style="-fx-text-fill: #aaa;"/>
+                    </placeholder>
+                </TableView>
+
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <Label text="Total ofertas:"
+                           style="-fx-font-size: 12px; -fx-text-fill: #555; -fx-font-weight: bold;"/>
+                    <Label fx:id="lblTotal" text="0"
+                           style="-fx-font-size: 12px; -fx-text-fill: #004aad; -fx-font-weight: bold;"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Label text="💡 Haz clic en una fila para editarla"
+                           style="-fx-font-size: 11px; -fx-text-fill: #aaa;"/>
+                </HBox>
+            </VBox>
+
+        </HBox>
+    </VBox>
+</AnchorPane>
