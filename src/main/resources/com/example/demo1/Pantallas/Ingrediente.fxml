@@ -15,87 +15,54 @@
           AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0"
           AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0">
 
-        <HBox alignment="CENTER_LEFT"
-              style="-fx-background-color: #004aad; -fx-padding: 14 24 14 24;">
-            <Label text="🍅  Agregar Ingrediente"
-                   style="-fx-text-fill: white; -fx-font-size: 17px;
-                          -fx-font-weight: bold; -fx-font-family: 'Segoe UI';"/>
+        <HBox alignment="CENTER_LEFT" styleClass="content-header">
+            <Label text="✿  Agregar Ingrediente" styleClass="content-header-title"/>
         </HBox>
 
         <VBox spacing="14" VBox.vgrow="ALWAYS"
               style="-fx-background-color: white;">
             <padding><Insets top="20" right="26" bottom="20" left="26"/></padding>
 
-            <!-- Nombre | Cantidad stock | Cant. mín. -->
             <HBox spacing="20">
                 <VBox HBox.hgrow="ALWAYS" spacing="5">
-                    <Label text="Nombre" style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #555;"/>
-                    <TextField fx:id="TXTnombre" promptText="Masa, salsa, queso..." prefHeight="38"
-                               style="-fx-background-color: #f0f4ff; -fx-background-radius: 10;
-                                      -fx-border-color: #dde6f5; -fx-border-radius: 10; -fx-border-width: 1.5;
-                                      -fx-font-size: 13px; -fx-text-fill: #1a1a2e; -fx-padding: 0 12;"/>
+                    <Label text="Nombre" styleClass="field-label"/>
+                    <TextField fx:id="TXTnombre" promptText="Masa, salsa, queso..." prefHeight="38" styleClass="field-input"/>
                 </VBox>
                 <VBox HBox.hgrow="ALWAYS" spacing="5">
-                    <Label text="Cantidad en Stock" style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #555;"/>
-                    <TextField fx:id="TXTcantidad" promptText="Ej: 3000" prefHeight="38"
-                               style="-fx-background-color: #f0f4ff; -fx-background-radius: 10;
-                                      -fx-border-color: #dde6f5; -fx-border-radius: 10; -fx-border-width: 1.5;
-                                      -fx-font-size: 13px; -fx-text-fill: #1a1a2e; -fx-padding: 0 12;"/>
+                    <Label text="Cantidad en Stock" styleClass="field-label"/>
+                    <TextField fx:id="TXTcantidad" promptText="Ej: 3000" prefHeight="38" styleClass="field-input"/>
                 </VBox>
                 <VBox HBox.hgrow="ALWAYS" spacing="5">
-                    <Label text="Cant. Mín. del Stock" style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #555;"/>
-                    <TextField fx:id="TXTcantMin" prefHeight="38"
-                               style="-fx-background-color: #f0f4ff; -fx-background-radius: 10;
-                                      -fx-border-color: #dde6f5; -fx-border-radius: 10; -fx-border-width: 1.5;
-                                      -fx-font-size: 13px; -fx-text-fill: #1a1a2e; -fx-padding: 0 12;"/>
+                    <Label text="Cant. Mín. del Stock" styleClass="field-label"/>
+                    <TextField fx:id="TXTcantMin" prefHeight="38" styleClass="field-input"/>
                 </VBox>
             </HBox>
 
-            <!-- Fecha | Tipo | Proveedor -->
             <HBox spacing="20">
                 <VBox HBox.hgrow="ALWAYS" spacing="5">
-                    <Label text="Fecha de caducidad (yyyy-MM-dd)" style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #555;"/>
-                    <TextField fx:id="TXTfecha" promptText="2026-12-31" prefHeight="38"
-                               style="-fx-background-color: #f0f4ff; -fx-background-radius: 10;
-                                      -fx-border-color: #dde6f5; -fx-border-radius: 10; -fx-border-width: 1.5;
-                                      -fx-font-size: 13px; -fx-text-fill: #1a1a2e; -fx-padding: 0 12;"/>
+                    <Label text="Fecha de caducidad (yyyy-MM-dd)" styleClass="field-label"/>
+                    <TextField fx:id="TXTfecha" promptText="2026-12-31" prefHeight="38" styleClass="field-input"/>
                 </VBox>
                 <VBox HBox.hgrow="ALWAYS" spacing="5">
-                    <Label text="Tipo de Ingr." style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #555;"/>
-                    <ComboBox fx:id="cmbTipo" maxWidth="Infinity" prefHeight="38"
-                              style="-fx-background-color: #f0f4ff; -fx-background-radius: 10;
-                                     -fx-border-color: #dde6f5; -fx-border-radius: 10; -fx-border-width: 1.5;
-                                     -fx-font-size: 13px;"/>
+                    <Label text="Tipo de Ingr." styleClass="field-label"/>
+                    <ComboBox fx:id="cmbTipo" maxWidth="Infinity" prefHeight="38" styleClass="field-combo"/>
                 </VBox>
                 <VBox HBox.hgrow="ALWAYS" spacing="5">
-                    <Label text="Proveedor" style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #555;"/>
-                    <ComboBox fx:id="cmbProveedor" maxWidth="Infinity" prefHeight="38"
-                              style="-fx-background-color: #f0f4ff; -fx-background-radius: 10;
-                                     -fx-border-color: #dde6f5; -fx-border-radius: 10; -fx-border-width: 1.5;
-                                     -fx-font-size: 13px;"/>
+                    <Label text="Proveedor" styleClass="field-label"/>
+                    <ComboBox fx:id="cmbProveedor" maxWidth="Infinity" prefHeight="38" styleClass="field-combo"/>
                 </VBox>
             </HBox>
 
-            <!-- Botones -->
             <HBox spacing="10" alignment="CENTER_LEFT">
-                <Button text="Guardar" onAction="#FnGuardar"
-                        style="-fx-background-color: #004aad; -fx-text-fill: white; -fx-font-weight: bold;
-                               -fx-background-radius: 10; -fx-cursor: hand; -fx-padding: 8 22; -fx-font-size: 13px;"/>
-                <Button text="Eliminar" onAction="#FnEliminar"
-                        style="-fx-background-color: #be1e1e; -fx-text-fill: white; -fx-font-weight: bold;
-                               -fx-background-radius: 10; -fx-cursor: hand; -fx-padding: 8 22; -fx-font-size: 13px;"/>
+                <Button text="Guardar" onAction="#FnGuardar" styleClass="btn-primary"/>
+                <Button text="Eliminar" onAction="#FnEliminar" styleClass="btn-danger"/>
                 <Region HBox.hgrow="ALWAYS"/>
-                <Button text="Editar" onAction="#FnEditar"
-                        style="-fx-background-color: #6c757d; -fx-text-fill: white; -fx-font-weight: bold;
-                               -fx-background-radius: 10; -fx-cursor: hand; -fx-padding: 8 22; -fx-font-size: 13px;"/>
-                <Button text="🔍 Buscar" onAction="#FnBuscar"
-                        style="-fx-background-color: #004aad; -fx-text-fill: white; -fx-font-weight: bold;
-                               -fx-background-radius: 10; -fx-cursor: hand; -fx-padding: 8 18; -fx-font-size: 13px;"/>
+                <Button text="Editar" onAction="#FnEditar" styleClass="btn-secondary"/>
+                <Button text="🔍 Buscar" onAction="#FnBuscar" styleClass="btn-primary"/>
+                <Button text="📄 Exportar PDF" onAction="#FnExportarPDF" styleClass="btn-success"/>
             </HBox>
 
-            <!-- Tabla -->
-            <TableView fx:id="tablaIngredientes" VBox.vgrow="ALWAYS"
-                       style="-fx-border-color: #e8eef8; -fx-border-width: 1; -fx-border-radius: 10;">
+            <TableView fx:id="tablaIngredientes" VBox.vgrow="ALWAYS">
                 <columns>
                     <TableColumn fx:id="colNombre"    prefWidth="160" text="Nombre"/>
                     <TableColumn fx:id="colTipo"      prefWidth="100" text="Tipo"/>
@@ -104,7 +71,7 @@
                     <TableColumn fx:id="colFecha"     prefWidth="120" text="F. Caducidad"/>
                     <TableColumn fx:id="colProveedor" prefWidth="160" text="Proveedor"/>
                 </columns>
-                <placeholder><Label text="Sin registros." style="-fx-text-fill: #aaa;"/></placeholder>
+                <placeholder><Label text="Sin registros." styleClass="info-label"/></placeholder>
             </TableView>
 
         </VBox>
