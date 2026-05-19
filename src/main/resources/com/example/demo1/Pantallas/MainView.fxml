@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
@@ -12,33 +12,35 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 
 <BorderPane xmlns="http://javafx.com/javafx/17"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.example.demo1.Controllers.Maincontroller"
             prefHeight="720.0" prefWidth="1280.0"
             maxWidth="Infinity" maxHeight="Infinity"
+            stylesheets="@../styles/app.css"
             style="-fx-background-color: #f4f4f4;">
 
     <!-- ================= TOP BAR ================= -->
     <top>
         <HBox alignment="CENTER_LEFT" spacing="10.0"
-              style="-fx-background-color: #004aad; -fx-border-color: #8b5cf6; -fx-border-width: 0 0 3 0;">
+              style="-fx-background-color: linear-gradient(to right, #000d2e, #001a5c); -fx-border-color: #be1e1e; -fx-border-width: 0 0 3 0;">
             <padding>
                 <Insets bottom="10.0" left="16.0" right="16.0" top="10.0"/>
             </padding>
 
-            <!-- Ícono usuario -->
-            <Label text="👤" alignment="CENTER"
+            <Label fx:id="lblAvatar" text="U" alignment="CENTER"
+                   onMouseClicked="#mostrarPerfil"
                    style="-fx-font-size: 20px; -fx-background-color: white;
                           -fx-background-radius: 50;
                           -fx-min-width: 38; -fx-min-height: 38;
-                          -fx-max-width: 38; -fx-max-height: 38;"/>
+                          -fx-max-width: 38; -fx-max-height: 38;
+                          -fx-cursor: hand;"/>
 
-            <!-- Spacer -->
             <Region HBox.hgrow="ALWAYS"/>
 
-            <!-- Usuario — minWidth="0" para que pueda encogerse con ellipsis -->
             <Label fx:id="lblUsuario" text="Administrador"
                    minWidth="0" maxWidth="280"
                    style="-fx-text-fill: white; -fx-font-size: 12px; -fx-text-overrun: ellipsis;">
@@ -48,13 +50,14 @@
             <Separator orientation="VERTICAL"
                        style="-fx-background-color: rgba(255,255,255,0.3); -fx-pref-height: 20;"/>
 
-            <!-- Fecha -->
             <Label fx:id="lblFecha" text="--/--/----"
                    style="-fx-text-fill: white; -fx-font-size: 12px;">
                 <font><Font size="12.0"/></font>
             </Label>
 
-            <Label text="🍕" style="-fx-font-size: 24px;"/>
+            <ImageView fitHeight="28" fitWidth="28" preserveRatio="true">
+                <image><Image url="@../imagenes/p1-removebg-preview.png"/></image>
+            </ImageView>
         </HBox>
     </top>
 
@@ -63,191 +66,168 @@
         <ScrollPane fitToWidth="true"
                     hbarPolicy="NEVER"
                     vbarPolicy="AS_NEEDED"
-                    style="-fx-background: #d9e7ff; -fx-background-color: #d9e7ff;
+                    style="-fx-background: #000d2e; -fx-background-color: #000d2e;
                            -fx-border-color: transparent;">
             <VBox fx:id="sideMenu" prefWidth="255.0" spacing="2.0"
-                  style="-fx-background-color: #d9e7ff;">
+                  style="-fx-background-color: linear-gradient(to bottom, #001a5c, #000d2e);">
                 <padding>
-                    <Insets bottom="15.0" left="5.0" right="5.0" top="10.0"/>
+                    <Insets bottom="15.0" left="8.0" right="8.0" top="14.0"/>
                 </padding>
 
-                <!-- ====== INICIO ====== -->
+                <!-- ====== BRAND ====== -->
+                <HBox alignment="CENTER_LEFT" spacing="10"
+                      style="-fx-padding: 2 4 12 4;">
+                    <ImageView fitHeight="30" fitWidth="30" preserveRatio="true">
+                        <image><Image url="@../imagenes/p1-removebg-preview.png"/></image>
+                    </ImageView>
+                    <VBox spacing="2">
+                        <Label text="DOMINO'S PIZZA"
+                               style="-fx-text-fill: white; -fx-font-size: 12px;
+                                      -fx-font-weight: bold; -fx-font-family: 'Segoe UI';"/>
+                        <Label text="Sistema de Gestión"
+                               style="-fx-text-fill: rgba(255,255,255,0.45); -fx-font-size: 9px;
+                                      -fx-font-family: 'Segoe UI';"/>
+                    </VBox>
+                </HBox>
+
+                <Separator style="-fx-background-color: rgba(255,255,255,0.15); -fx-opacity: 1;"/>
+                <Region prefHeight="6"/>
+
+                <!-- ====== INICIO (original OK) ====== -->
                 <Button maxWidth="Infinity" onAction="#abrirInicio"
                         text="🏠  Inicio"
-                        style="-fx-background-color: #4a90e2; -fx-text-fill: white;
-                               -fx-alignment: CENTER_LEFT; -fx-padding: 9 12 9 12;
-                               -fx-cursor: hand; -fx-font-weight: bold; -fx-font-size: 13px;"/>
+                        styleClass="side-btn-active"/>
 
                 <!-- ====== INVENTARIO ====== -->
+                <!-- 📦 roto → ☰ (lista)   🧂 roto → ✿ (ingrediente) -->
                 <Button maxWidth="Infinity" onAction="#abrirInventario"
-                        text="📦  Inventario"
-                        style="-fx-background-color: transparent; -fx-text-fill: #000;
-                               -fx-alignment: CENTER_LEFT; -fx-padding: 9 12 9 12;
-                               -fx-cursor: hand; -fx-font-weight: bold; -fx-font-size: 13px;"/>
+                        text="☰  Inventario"
+                        styleClass="side-btn"/>
+                <Button maxWidth="Infinity" onAction="#abrirAgregarIngrediente"
+                        text="✿  Ingredientes"
+                        styleClass="side-btn"/>
 
-                <!-- ====== COMPRAS ====== -->
+                <Region prefHeight="4"/>
+                <Separator style="-fx-background-color: rgba(255,255,255,0.10); -fx-opacity: 1;"/>
+                <Region prefHeight="4"/>
+
+                <!-- ====== COMPRAS (sección original OK) ====== -->
                 <TitledPane text="🛒  Compras" expanded="false"
-                            style="-fx-font-weight: bold; -fx-font-size: 13px;">
+                            styleClass="dark-titled-pane">
                     <content>
-                        <VBox spacing="1.0" style="-fx-background-color: #d9e7ff;">
+                        <VBox spacing="1.0" style="-fx-background-color: transparent;">
+                            <!-- 🚚 original OK -->
                             <Button maxWidth="Infinity" onAction="#abrirAgregarProveedor"
                                     text="🚚  Agregar Proveedor"
-                                    style="-fx-background-color: transparent; -fx-text-fill: #333;
-                                           -fx-alignment: CENTER_LEFT; -fx-padding: 7 12 7 22;
-                                           -fx-cursor: hand; -fx-font-size: 12px;"/>
+                                    styleClass="side-sub-btn"/>
+                            <!-- 🧾 roto → ¤ (moneda genérica) -->
                             <Button maxWidth="Infinity" onAction="#abrirComprasPago"
-                                    text="🧾  Comprobante / Pago"
-                                    style="-fx-background-color: transparent; -fx-text-fill: #333;
-                                           -fx-alignment: CENTER_LEFT; -fx-padding: 7 12 7 22;
-                                           -fx-cursor: hand; -fx-font-size: 12px;"/>
+                                    text="¤  Comprobante / Pago"
+                                    styleClass="side-sub-btn"/>
+                            <!-- ↩️ roto → ↩ (sin selector de variante) -->
                             <Button maxWidth="Infinity" onAction="#abrirDevolucion"
-                                    text="↩️  Devolución"
-                                    style="-fx-background-color: transparent; -fx-text-fill: #333;
-                                           -fx-alignment: CENTER_LEFT; -fx-padding: 7 12 7 22;
-                                           -fx-cursor: hand; -fx-font-size: 12px;"/>
+                                    text="↩  Devolución"
+                                    styleClass="side-sub-btn"/>
                         </VBox>
                     </content>
                 </TitledPane>
 
-                <!-- ====== VENTAS ====== -->
+                <!-- ====== VENTAS (sección original OK) ====== -->
                 <TitledPane text="🍕  Ventas" expanded="false"
-                            style="-fx-font-weight: bold; -fx-font-size: 13px;">
+                            styleClass="dark-titled-pane">
                     <content>
-                        <VBox spacing="1.0" style="-fx-background-color: #d9e7ff;">
+                        <VBox spacing="1.0" style="-fx-background-color: transparent;">
+                            <!-- 📝 roto → ✎ (lápiz) -->
                             <Button maxWidth="Infinity" onAction="#abrirHacerPedido"
-                                    text="📝  Hacer un Pedido"
-                                    style="-fx-background-color: transparent; -fx-text-fill: #333;
-                                           -fx-alignment: CENTER_LEFT; -fx-padding: 7 12 7 22;
-                                           -fx-cursor: hand; -fx-font-size: 12px;"/>
+                                    text="✎  Hacer un Pedido"
+                                    styleClass="side-sub-btn"/>
+                            <!-- 👤 roto → @ (usuario) -->
                             <Button maxWidth="Infinity" onAction="#abrirRegistroCliente"
-                                    text="👤  Registro de Cliente"
-                                    style="-fx-background-color: transparent; -fx-text-fill: #333;
-                                           -fx-alignment: CENTER_LEFT; -fx-padding: 7 12 7 22;
-                                           -fx-cursor: hand; -fx-font-size: 12px;"/>
+                                    text="●  Registro de Cliente"
+                                    styleClass="side-sub-btn"/>
+                            <!-- 🍕 original OK -->
                             <Button maxWidth="Infinity" onAction="#abrirAgregarProducto"
                                     text="🍕  Agregar Producto"
-                                    style="-fx-background-color: transparent; -fx-text-fill: #333;
-                                           -fx-alignment: CENTER_LEFT; -fx-padding: 7 12 7 22;
-                                           -fx-cursor: hand; -fx-font-size: 12px;"/>
+                                    styleClass="side-sub-btn"/>
+                            <!-- 🚚 original OK -->
                             <Button maxWidth="Infinity" onAction="#abrirEnvio"
                                     text="🚚  Envío"
-                                    style="-fx-background-color: transparent; -fx-text-fill: #333;
-                                           -fx-alignment: CENTER_LEFT; -fx-padding: 7 12 7 22;
-                                           -fx-cursor: hand; -fx-font-size: 12px;"/>
+                                    styleClass="side-sub-btn"/>
+                            <!-- ⚠️ roto → ⚠ (sin selector de variante) -->
                             <Button maxWidth="Infinity" onAction="#abrirReclamacion"
-                                    text="⚠️  Reclamación"
-                                    style="-fx-background-color: transparent; -fx-text-fill: #333;
-                                           -fx-alignment: CENTER_LEFT; -fx-padding: 7 12 7 22;
-                                           -fx-cursor: hand; -fx-font-size: 12px;"/>
+                                    text="⚠  Reclamación"
+                                    styleClass="side-sub-btn"/>
+                            <!-- ⭐ original OK -->
+                            <Button maxWidth="Infinity" onAction="#abrirOfertas"
+                                    text="⭐  Ofertas"
+                                    styleClass="side-sub-btn"/>
                         </VBox>
                     </content>
                 </TitledPane>
 
-                <!-- ====== EQUIPOS Y MANTENIMIENTO ====== -->
+                <!-- ====== EQUIPOS Y MANT. (sección original OK) ====== -->
                 <TitledPane text="🔧  Equipos y Mant." expanded="false"
-                            style="-fx-font-weight: bold; -fx-font-size: 13px;">
+                            styleClass="dark-titled-pane">
                     <content>
-                        <VBox spacing="1.0" style="-fx-background-color: #d9e7ff;">
+                        <VBox spacing="1.0" style="-fx-background-color: transparent;">
+                            <!-- 🛠️ roto → ⚙ (engranaje sin selector variante) -->
                             <Button maxWidth="Infinity" onAction="#abrirAgregarMaquina"
-                                    text="🛠️  Agregar Máquina"
-                                    style="-fx-background-color: transparent; -fx-text-fill: #333;
-                                           -fx-alignment: CENTER_LEFT; -fx-padding: 7 12 7 22;
-                                           -fx-cursor: hand; -fx-font-size: 12px;"/>
+                                    text="⚙  Agregar Máquina"
+                                    styleClass="side-sub-btn"/>
+                            <!-- 🔧 original OK -->
                             <Button maxWidth="Infinity" onAction="#abrirAgregarTecnico"
                                     text="🔧  Agregar Técnico"
-                                    style="-fx-background-color: transparent; -fx-text-fill: #333;
-                                           -fx-alignment: CENTER_LEFT; -fx-padding: 7 12 7 22;
-                                           -fx-cursor: hand; -fx-font-size: 12px;"/>
+                                    styleClass="side-sub-btn"/>
+                            <!-- 🔩 roto → ⚙ (engranaje) -->
                             <Button maxWidth="Infinity" onAction="#abrirMantenimiento"
-                                    text="🔩  Mantenimiento"
-                                    style="-fx-background-color: transparent; -fx-text-fill: #333;
-                                           -fx-alignment: CENTER_LEFT; -fx-padding: 7 12 7 22;
-                                           -fx-cursor: hand; -fx-font-size: 12px;"/>
+                                    text="⚙  Mantenimiento"
+                                    styleClass="side-sub-btn"/>
+                            <!-- 💰 roto → ¤ (moneda) -->
                             <Button maxWidth="Infinity" onAction="#abrirAperturaCaja"
-                                    text="💰  Apertura de Caja"
-                                    style="-fx-background-color: transparent; -fx-text-fill: #333;
-                                           -fx-alignment: CENTER_LEFT; -fx-padding: 7 12 7 22;
-                                           -fx-cursor: hand; -fx-font-size: 12px;"/>
+                                    text="¤  Apertura de Caja"
+                                    styleClass="side-sub-btn"/>
+                            <!-- ⚠️ roto → ⚠ (sin selector de variante) -->
                             <Button maxWidth="Infinity" onAction="#abrirFallosMaquina"
-                                    text="⚠️  Fallos de Máquina"
-                                    style="-fx-background-color: transparent; -fx-text-fill: #333;
-                                           -fx-alignment: CENTER_LEFT; -fx-padding: 7 12 7 22;
-                                           -fx-cursor: hand; -fx-font-size: 12px;"/>
+                                    text="⚠  Fallos de Máquina"
+                                    styleClass="side-sub-btn"/>
                         </VBox>
                     </content>
                 </TitledPane>
 
-                <!-- ====== OTRO ====== -->
-                <TitledPane text="👥  Otro" expanded="false"
-                            style="-fx-font-weight: bold; -fx-font-size: 13px;">
+                <!-- ====== OTRO (👥 roto → ≡) ====== -->
+                <TitledPane text="≡  Otro" expanded="false"
+                            styleClass="dark-titled-pane">
                     <content>
-                        <VBox spacing="1.0" style="-fx-background-color: #d9e7ff;">
+                        <VBox spacing="1.0" style="-fx-background-color: transparent;">
+                            <!-- 👨‍🍳 roto → @ -->
                             <Button maxWidth="Infinity" onAction="#abrirAgregarEmpleado"
-                                    text="👨‍🍳  Agregar Empleado"
-                                    style="-fx-background-color: transparent; -fx-text-fill: #333;
-                                           -fx-alignment: CENTER_LEFT; -fx-padding: 7 12 7 22;
-                                           -fx-cursor: hand; -fx-font-size: 12px;"/>
+                                    text="●  Agregar Empleado"
+                                    styleClass="side-sub-btn"/>
+                            <!-- 💼 roto → ◆ -->
                             <Button maxWidth="Infinity" onAction="#abrirAgregarCargo"
-                                    text="💼  Agregar Cargo"
-                                    style="-fx-background-color: transparent; -fx-text-fill: #333;
-                                           -fx-alignment: CENTER_LEFT; -fx-padding: 7 12 7 22;
-                                           -fx-cursor: hand; -fx-font-size: 12px;"/>
+                                    text="◆  Agregar Cargo"
+                                    styleClass="side-sub-btn"/>
+                            <!-- 🏢 roto → ■ -->
                             <Button maxWidth="Infinity" onAction="#abrirAgregarDepartamento"
-                                    text="🏢  Agregar Departamento"
-                                    style="-fx-background-color: transparent; -fx-text-fill: #333;
-                                           -fx-alignment: CENTER_LEFT; -fx-padding: 7 12 7 22;
-                                           -fx-cursor: hand; -fx-font-size: 12px;"/>
+                                    text="■  Agregar Departamento"
+                                    styleClass="side-sub-btn"/>
+                            <!-- 🏪 roto → ■ -->
                             <Button maxWidth="Infinity" onAction="#abrirAgregarSucursal"
-                                    text="🏪  Agregar Sucursal"
-                                    style="-fx-background-color: transparent; -fx-text-fill: #333;
-                                           -fx-alignment: CENTER_LEFT; -fx-padding: 7 12 7 22;
-                                           -fx-cursor: hand; -fx-font-size: 12px;"/>
+                                    text="■  Agregar Sucursal"
+                                    styleClass="side-sub-btn"/>
                         </VBox>
                     </content>
                 </TitledPane>
 
-                <!-- ====== REPORTES ====== -->
-                <TitledPane text="📊  Reportes" expanded="false"
-                            style="-fx-font-weight: bold; -fx-font-size: 13px;">
-                    <content>
-                        <VBox spacing="1.0" style="-fx-background-color: #d9e7ff;">
-                            <Button maxWidth="Infinity" onAction="#abrirReporte1"
-                                    text="🔍  Consulta de Empleados"
-                                    style="-fx-background-color: transparent; -fx-text-fill: #333;
-                                           -fx-alignment: CENTER_LEFT; -fx-padding: 7 12 7 22;
-                                           -fx-cursor: hand; -fx-font-size: 12px;"/>
-                            <Button maxWidth="Infinity" onAction="#abrirReporte2"
-                                    text="📊  Reporte 2"
-                                    style="-fx-background-color: transparent; -fx-text-fill: #333;
-                                           -fx-alignment: CENTER_LEFT; -fx-padding: 7 12 7 22;
-                                           -fx-cursor: hand; -fx-font-size: 12px;"/>
-                            <Button maxWidth="Infinity" onAction="#abrirReporte3"
-                                    text="📊  Reporte 3"
-                                    style="-fx-background-color: transparent; -fx-text-fill: #333;
-                                           -fx-alignment: CENTER_LEFT; -fx-padding: 7 12 7 22;
-                                           -fx-cursor: hand; -fx-font-size: 12px;"/>
-                            <Button maxWidth="Infinity" onAction="#abrirReporte4"
-                                    text="📊  Reporte 4"
-                                    style="-fx-background-color: transparent; -fx-text-fill: #333;
-                                           -fx-alignment: CENTER_LEFT; -fx-padding: 7 12 7 22;
-                                           -fx-cursor: hand; -fx-font-size: 12px;"/>
-                            <Button maxWidth="Infinity" onAction="#abrirReporte5"
-                                    text="📊  Reporte 5"
-                                    style="-fx-background-color: transparent; -fx-text-fill: #333;
-                                           -fx-alignment: CENTER_LEFT; -fx-padding: 7 12 7 22;
-                                           -fx-cursor: hand; -fx-font-size: 12px;"/>
-                        </VBox>
-                    </content>
-                </TitledPane>
 
                 <Region VBox.vgrow="ALWAYS" minHeight="30"/>
 
-                <!-- ====== SALIR ====== -->
+                <Separator style="-fx-background-color: rgba(255,255,255,0.10); -fx-opacity: 1;"/>
+                <Region prefHeight="4"/>
+
                 <Button maxWidth="Infinity" onAction="#salir"
-                        text="🚪  Salir"
-                        style="-fx-background-color: transparent; -fx-text-fill: #be1e1e;
-                               -fx-alignment: CENTER_LEFT; -fx-padding: 9 12 9 12;
-                               -fx-cursor: hand; -fx-font-weight: bold; -fx-font-size: 13px;"/>
+                        text="✕  Salir"
+                        styleClass="side-exit-btn"/>
 
             </VBox>
         </ScrollPane>
@@ -263,13 +243,14 @@
     <!-- ================= BOTTOM BAR ================= -->
     <bottom>
         <HBox alignment="CENTER_LEFT" spacing="10.0"
-              style="-fx-background-color: #E9ECEF; -fx-border-color: #CED4DA; -fx-border-width: 1 0 0 0;">
+              style="-fx-background-color: #f4f6fb; -fx-border-color: #e8eef8; -fx-border-width: 1 0 0 0;">
             <padding>
                 <Insets bottom="5.0" left="15.0" right="15.0" top="5.0"/>
             </padding>
-            <Label fx:id="lblEstado" text="Listo" style="-fx-font-size: 11px;"/>
+            <Label fx:id="lblEstado" text="Listo" style="-fx-font-size: 11px; -fx-text-fill: #666;"/>
             <Region HBox.hgrow="ALWAYS"/>
-            <Label text="v1.0.0" style="-fx-font-size: 11px;"/>
+            <Label text="Domino's Pizza © 2025  —  v1.0.0"
+                   style="-fx-font-size: 11px; -fx-text-fill: #aaa;"/>
         </HBox>
     </bottom>
 
