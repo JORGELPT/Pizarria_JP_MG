@@ -1,7 +1,6 @@
 package com.example.demo1.Controllers;
 
 import com.example.demo1.Database.Conexion;
-import com.example.demo1.Utils.JasperUtil;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -314,21 +313,5 @@ public class CONTROLLER_ComprasPago {
             this.cantidad       = new SimpleStringProperty(cantidad);
             this.estado         = new SimpleStringProperty(estado);
         }
-    }
-
-    @FXML
-    public void FnExportarReporteCompras() {
-        JasperUtil.exportarPDF(
-                "/com/example/demo1/reportes/Reporte_Compras.jrxml",
-                "Reporte_Compras.pdf"
-        );
-    }
-
-    @FXML
-    public void FnExportarReporteComprasVentas() {
-        JasperUtil.exportarPDF(
-                "/com/example/demo1/reportes/Reporte_ComprasVentas.jrxml",
-                "Reporte_ComprasVentas.pdf"
-        );
     }
 }
