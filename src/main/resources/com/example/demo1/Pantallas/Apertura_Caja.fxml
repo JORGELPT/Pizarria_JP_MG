@@ -15,59 +15,40 @@
           AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0"
           AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0">
 
-        <HBox alignment="CENTER_LEFT"
-              style="-fx-background-color: #004aad; -fx-padding: 14 24 14 24;">
-            <Label text="💰  Apertura de Caja"
-                   style="-fx-text-fill: white; -fx-font-size: 17px;
-                          -fx-font-weight: bold; -fx-font-family: 'Segoe UI';"/>
+        <HBox alignment="CENTER_LEFT" styleClass="content-header">
+            <Label text="¤  Apertura de Caja" styleClass="content-header-title"/>
         </HBox>
 
         <VBox spacing="14" VBox.vgrow="ALWAYS"
               style="-fx-background-color: white;">
             <padding><Insets top="20" right="26" bottom="20" left="26"/></padding>
 
-            <!-- Monto | Quien digita -->
             <HBox spacing="20">
                 <VBox HBox.hgrow="ALWAYS" spacing="5">
-                    <Label text="Monto inicial registrado" style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #555;"/>
-                    <TextField fx:id="TXTmonto" prefHeight="38"
-                               style="-fx-background-color: #f0f4ff; -fx-background-radius: 10;
-                                      -fx-border-color: #dde6f5; -fx-border-radius: 10; -fx-border-width: 1.5;
-                                      -fx-font-size: 13px; -fx-text-fill: #1a1a2e; -fx-padding: 0 12;"/>
+                    <Label text="Monto inicial registrado" styleClass="field-label"/>
+                    <TextField fx:id="TXTmonto" prefHeight="38" styleClass="field-input"/>
                 </VBox>
                 <VBox HBox.hgrow="ALWAYS" spacing="5">
-                    <Label text="Quien digita (id)" style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #555;"/>
-                    <TextField fx:id="TXTempleado" prefHeight="38"
-                               style="-fx-background-color: #f0f4ff; -fx-background-radius: 10;
-                                      -fx-border-color: #dde6f5; -fx-border-radius: 10; -fx-border-width: 1.5;
-                                      -fx-font-size: 13px; -fx-text-fill: #1a1a2e; -fx-padding: 0 12;"/>
+                    <Label text="Quien digita (id)" styleClass="field-label"/>
+                    <TextField fx:id="TXTempleado" prefHeight="38" styleClass="field-input"/>
                 </VBox>
             </HBox>
 
-            <!-- Botones -->
             <HBox spacing="10" alignment="CENTER_LEFT">
-                <Button text="Guardar" onAction="#FnGuardar"
-                        style="-fx-background-color: #004aad; -fx-text-fill: white; -fx-font-weight: bold;
-                               -fx-background-radius: 10; -fx-cursor: hand; -fx-padding: 8 22; -fx-font-size: 13px;"/>
-                <Button text="Eliminar" onAction="#FnEliminar"
-                        style="-fx-background-color: #be1e1e; -fx-text-fill: white; -fx-font-weight: bold;
-                               -fx-background-radius: 10; -fx-cursor: hand; -fx-padding: 8 22; -fx-font-size: 13px;"/>
+                <Button text="Guardar" onAction="#FnGuardar" styleClass="btn-primary"/>
+                <Button text="Eliminar" onAction="#FnEliminar" styleClass="btn-danger"/>
                 <Region HBox.hgrow="ALWAYS"/>
-                <Button text="Editar" onAction="#FnEditar"
-                        style="-fx-background-color: #6c757d; -fx-text-fill: white; -fx-font-weight: bold;
-                               -fx-background-radius: 10; -fx-cursor: hand; -fx-padding: 8 22; -fx-font-size: 13px;"/>
+                <Button text="Editar" onAction="#FnEditar" styleClass="btn-secondary"/>
             </HBox>
 
-            <!-- Tabla -->
-            <TableView fx:id="tablaAperturas" VBox.vgrow="ALWAYS"
-                       style="-fx-border-color: #e8eef8; -fx-border-width: 1; -fx-border-radius: 10;">
+            <TableView fx:id="tablaAperturas" VBox.vgrow="ALWAYS">
                 <columns>
                     <TableColumn fx:id="colIdApertura" prefWidth="100" text="ID"/>
                     <TableColumn fx:id="colFechaApert" prefWidth="180" text="Fecha Apertura"/>
                     <TableColumn fx:id="colMonto"      prefWidth="160" text="Monto Inicial (RD$)"/>
                     <TableColumn fx:id="colIdEmpleado" prefWidth="130" text="Empleado"/>
                 </columns>
-                <placeholder><Label text="Sin registros." style="-fx-text-fill: #aaa;"/></placeholder>
+                <placeholder><Label text="Sin registros." styleClass="info-label"/></placeholder>
             </TableView>
 
         </VBox>
