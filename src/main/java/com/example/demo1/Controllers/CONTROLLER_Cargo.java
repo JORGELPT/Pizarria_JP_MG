@@ -1,7 +1,6 @@
 package com.example.demo1.Controllers;
 
 import com.example.demo1.Database.Conexion;
-import com.example.demo1.Utils.JasperUtil;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -126,15 +125,14 @@ public class CONTROLLER_Cargo {
              PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setString(1, nombre);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    TXTnombre.setText(rs.getString("nombre"));
-                    TXTDescripcion.setText(rs.getString("descripcion"));
-                    cmbDepartamento.setValue(rs.getString("nombre_depto"));
-                    JOptionPane.showMessageDialog(null, "Registro encontrado.");
-                } else {
-                    JOptionPane.showMessageDialog(null, "No se encontró ningún cargo con ese nombre.");
-                }
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                TXTnombre.setText(rs.getString("nombre"));
+                TXTDescripcion.setText(rs.getString("descripcion"));
+                cmbDepartamento.setValue(rs.getString("nombre_depto"));
+                JOptionPane.showMessageDialog(null, "Registro encontrado.");
+            } else {
+                JOptionPane.showMessageDialog(null, "No se encontró ningún cargo con ese nombre.");
             }
 
         } catch (Exception e) {
@@ -226,17 +224,6 @@ public class CONTROLLER_Cargo {
         TXTnombre.clear();
         TXTDescripcion.clear();
         cmbDepartamento.getSelectionModel().clearSelection();
-    }
-
-    // ============================================================
-    //                      EXPORTAR PDF
-    // ============================================================
-    @FXML
-    public void FnExportarPDF() {
-        JasperUtil.exportarPDF(
-                "/com/example/demo1/reportes/Reporte_Cargos.jrxml",
-                "Reporte_Cargos.pdf"
-        );
     }
 
     // ============================================================
