@@ -5,99 +5,67 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxWidth="Infinity" maxHeight="Infinity" prefWidth="900.0" prefHeight="580.0"
-            xmlns="http://javafx.com/javafx/17.0.12"
+<AnchorPane maxWidth="Infinity" maxHeight="Infinity"
+            xmlns="http://javafx.com/javafx/17"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.example.demo1.Controllers.CONTROLLER_Proveedor">
+            fx:controller="com.example.demo1.Controllers.CONTROLLER_Proveedor"
+            style="-fx-background-color: #f4f6fb;">
 
-    <Region AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0" style="-fx-background-image: url('/com/example/demo1/imagenes/fondop.png'); -fx-background-size: cover; -fx-background-position: center;"/>
+    <VBox spacing="0"
+          AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0"
+          AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0">
 
-    <VBox spacing="15.0"
-          AnchorPane.topAnchor="30.0" AnchorPane.leftAnchor="40.0"
-          AnchorPane.rightAnchor="40.0" AnchorPane.bottomAnchor="30.0" style="-fx-background-color: rgba(0,0,0,0.48); -fx-background-radius: 14; -fx-padding: 10;">
-        <padding><Insets top="25.0" left="25.0" right="25.0" bottom="25.0"/></padding>
-
-        <Label text="AGREGAR PROVEEDOR" textFill="white">
-            <font><Font name="System Bold" size="24.0"/></font>
-        </Label>
-
-        <!-- FILA 1: Nombre | Email -->
-        <HBox spacing="30.0">
-            <VBox HBox.hgrow="ALWAYS" spacing="3.0">
-                <Label text="Nombre" textFill="white">
-                    <font><Font name="System Bold" size="14.0"/></font>
-                </Label>
-                <TextField fx:id="TXTnombre" prefHeight="32.0"
-                           style="-fx-background-color: rgba(255,255,255,0.88); -fx-background-radius: 8; -fx-text-fill: #1a1a1a; -fx-font-size: 13px;"/>
-            </VBox>
-            <VBox HBox.hgrow="ALWAYS" spacing="3.0">
-                <Label text="Email" textFill="white">
-                    <font><Font name="System Bold" size="14.0"/></font>
-                </Label>
-                <TextField fx:id="TXTemail" promptText="example@gmail.com"
-                           prefHeight="32.0"
-                           style="-fx-background-color: rgba(255,255,255,0.88); -fx-background-radius: 8; -fx-text-fill: #1a1a1a; -fx-font-size: 13px;"/>
-            </VBox>
+        <HBox alignment="CENTER_LEFT" styleClass="content-header">
+            <Label text="🚚  Agregar Proveedor" styleClass="content-header-title"/>
         </HBox>
 
-        <!-- FILA 2: Teléfono+RNC+Dirección | Descripción -->
-        <HBox spacing="30.0">
-            <VBox HBox.hgrow="ALWAYS" spacing="3.0">
-                <Label text="Teléfono" textFill="white">
-                    <font><Font name="System Bold" size="14.0"/></font>
-                </Label>
-                <TextField fx:id="TXTtelefono" prefHeight="32.0"
-                           style="-fx-background-color: rgba(255,255,255,0.88); -fx-background-radius: 8; -fx-text-fill: #1a1a1a; -fx-font-size: 13px;"/>
+        <VBox spacing="14" VBox.vgrow="ALWAYS"
+              style="-fx-background-color: white;">
+            <padding><Insets top="20" right="26" bottom="20" left="26"/></padding>
 
-                <Label text="RNC" textFill="white">
-                    <font><Font name="System Bold" size="14.0"/></font>
-                    <VBox.margin><Insets top="10.0"/></VBox.margin>
-                </Label>
-                <TextField fx:id="TXTrnc" promptText="Ej: 123-12-12"
-                           prefHeight="32.0"
-                           style="-fx-background-color: rgba(255,255,255,0.88); -fx-background-radius: 8; -fx-text-fill: #1a1a1a; -fx-font-size: 13px;"/>
+            <HBox spacing="20">
+                <VBox HBox.hgrow="ALWAYS" spacing="5">
+                    <Label text="Nombre" styleClass="field-label"/>
+                    <TextField fx:id="TXTnombre" prefHeight="38" styleClass="field-input"/>
+                </VBox>
+                <VBox HBox.hgrow="ALWAYS" spacing="5">
+                    <Label text="Email" styleClass="field-label"/>
+                    <TextField fx:id="TXTemail" promptText="example@gmail.com" prefHeight="38" styleClass="field-input"/>
+                </VBox>
+            </HBox>
 
-                <Label text="Dirección" textFill="white">
-                    <font><Font name="System Bold" size="14.0"/></font>
-                    <VBox.margin><Insets top="10.0"/></VBox.margin>
-                </Label>
-                <TextField fx:id="TXTdireccion" prefHeight="32.0"
-                           style="-fx-background-color: rgba(255,255,255,0.88); -fx-background-radius: 8; -fx-text-fill: #1a1a1a; -fx-font-size: 13px;"/>
-            </VBox>
+            <HBox spacing="20" VBox.vgrow="ALWAYS">
+                <VBox HBox.hgrow="ALWAYS" spacing="10">
+                    <Label text="Teléfono" styleClass="field-label"/>
+                    <TextField fx:id="TXTtelefono" prefHeight="38" styleClass="field-input"/>
+                    <Label text="RNC" styleClass="field-label"/>
+                    <TextField fx:id="TXTrnc" promptText="Ej: 123-12-12" prefHeight="38" styleClass="field-input"/>
+                    <Label text="Dirección" styleClass="field-label"/>
+                    <TextField fx:id="TXTdireccion" prefHeight="38" styleClass="field-input"/>
+                </VBox>
+                <VBox HBox.hgrow="ALWAYS" spacing="5" VBox.vgrow="ALWAYS">
+                    <Label text="Descripción" styleClass="field-label"/>
+                    <TextArea fx:id="TXTdescripcion" VBox.vgrow="ALWAYS" styleClass="field-textarea"/>
+                </VBox>
+            </HBox>
 
-            <VBox HBox.hgrow="ALWAYS" spacing="3.0">
-                <Label text="Descripción" textFill="white">
-                    <font><Font name="System Bold" size="14.0"/></font>
-                </Label>
-                <TextArea fx:id="TXTdescripcion"
-                          style="-fx-background-color: rgba(255,255,255,0.88); -fx-background-radius: 8; -fx-text-fill: #1a1a1a; -fx-font-size: 13px;" VBox.vgrow="ALWAYS"/>
-            </VBox>
-        </HBox>
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Button text="Guardar" onAction="#FnGuardar" styleClass="btn-primary"/>
+                <Button text="Eliminar" onAction="#FnEliminar" styleClass="btn-danger"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button text="Editar" onAction="#FnEditar" styleClass="btn-secondary"/>
+                <Button text="🔍 Buscar" onAction="#FnBuscar" styleClass="btn-primary"/>
+            </HBox>
 
-        <!-- BOTONES -->
-        <HBox spacing="10.0" alignment="CENTER_LEFT">
-            <padding><Insets top="10.0"/></padding>
-            <Button text="Guardar" onAction="#FnGuardar"
-                    prefWidth="80.0" prefHeight="32.0" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-cursor: hand;"/>
-            <Button text="Eliminar" onAction="#FnEliminar"
-                    prefWidth="80.0" prefHeight="32.0" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-cursor: hand;"/>
-            <Region HBox.hgrow="ALWAYS"/>
-            <Button text="Editar" onAction="#FnEditar"
-                    prefWidth="80.0" prefHeight="32.0" style="-fx-background-color: #f39c12; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-cursor: hand;"/>
-            <Button text="🔍" onAction="#FnBuscar"
-                    prefWidth="40.0" prefHeight="32.0" style="-fx-background-color: #c0392b; -fx-text-fill: white; -fx-background-radius: 50; -fx-cursor: hand;"/>
-        </HBox>
+            <TableView fx:id="tablaProveedores" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="colNombre"   prefWidth="220" text="Nombre"/>
+                    <TableColumn fx:id="colTelefono" prefWidth="160" text="Teléfono"/>
+                    <TableColumn fx:id="colRnc"      prefWidth="160" text="RNC"/>
+                </columns>
+                <placeholder><Label text="Sin registros." styleClass="info-label"/></placeholder>
+            </TableView>
 
-        <!-- TABLA -->
-        <TableView fx:id="tablaProveedores" VBox.vgrow="ALWAYS">
-            <columns>
-                <TableColumn fx:id="colNombre"   prefWidth="200.0" text="Nombre"/>
-                <TableColumn fx:id="colTelefono" prefWidth="150.0" text="Teléfono"/>
-                <TableColumn fx:id="colRnc"      prefWidth="150.0" text="RNC"/>
-            </columns>
-        </TableView>
-
+        </VBox>
     </VBox>
 </AnchorPane>
-
-
