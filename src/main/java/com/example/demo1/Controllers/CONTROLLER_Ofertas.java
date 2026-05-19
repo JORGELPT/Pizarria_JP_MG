@@ -67,9 +67,34 @@ public class CONTROLLER_Ofertas {
         cargarProductos();
         cargarOfertas();
 
+        // Restringir dpFin: no puede ser anterior a dpInicio
+        dpInicio.valueProperty().addListener((obs, anterior, inicio) -> {
+            actualizarRestriccionFin(inicio);
+            // Si la fecha fin ya seleccionada queda inválida, limpiarla
+            if (inicio != null && dpFin.getValue() != null
+                    && dpFin.getValue().isBefore(inicio)) {
+                dpFin.setValue(null);
+            }
+        });
+
         // Clic en fila → llenar formulario para editar
         tablaOfertas.getSelectionModel().selectedItemProperty()
                 .addListener((obs, old, sel) -> { if (sel != null) cargarOfertaEnFormulario(); });
+    }
+
+    // ── Restricción de fecha fin ─────────────────────────────────────────────
+
+    private void actualizarRestriccionFin(LocalDate inicio) {
+        dpFin.setDayCellFactory(picker -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate fecha, boolean vacio) {
+                super.updateItem(fecha, vacio);
+                if (inicio != null && fecha.isBefore(inicio)) {
+                    setDisable(true);
+                    setStyle("-fx-background-color: #f0f0f0; -fx-text-fill: #bbb;");
+                }
+            }
+        });
     }
 
     // ── Carga de combos ──────────────────────────────────────────────────────
@@ -193,12 +218,17 @@ public class CONTROLLER_Ofertas {
             return;
         }
 
+        // fecha_vigencia = fecha_fin (o hoy si no se especificó)
+        java.sql.Date fechaVigencia = fin != null
+                ? Date.valueOf(fin)
+                : Date.valueOf(java.time.LocalDate.now().plusMonths(1));
+
         boolean esNueva = (idOfertaSeleccionada == -1);
         String sql = esNueva
             ? "INSERT INTO tbl_oferta (nombre, descripcion, descuento_porcentaje, " +
-              "fecha_inicio, fecha_fin, activa, id_producto) VALUES (?,?,?,?,?,?,?)"
+              "fecha_inicio, fecha_fin, fecha_vigencia, activa, id_producto) VALUES (?,?,?,?,?,?,?,?)"
             : "UPDATE tbl_oferta SET nombre=?, descripcion=?, descuento_porcentaje=?, " +
-              "fecha_inicio=?, fecha_fin=?, activa=?, id_producto=? WHERE id_oferta=?";
+              "fecha_inicio=?, fecha_fin=?, fecha_vigencia=?, activa=?, id_producto=? WHERE id_oferta=?";
 
         try (Connection con = Conexion.establecerConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -208,9 +238,10 @@ public class CONTROLLER_Ofertas {
             ps.setDouble (3, descuento);
             ps.setDate   (4, inicio != null ? Date.valueOf(inicio) : null);
             ps.setDate   (5, fin    != null ? Date.valueOf(fin)    : null);
-            ps.setBoolean(6, activa);
-            ps.setInt    (7, idProducto);
-            if (!esNueva) ps.setInt(8, idOfertaSeleccionada);
+            ps.setDate   (6, fechaVigencia);
+            ps.setBoolean(7, activa);
+            ps.setInt    (8, idProducto);
+            if (!esNueva) ps.setInt(9, idOfertaSeleccionada);
 
             ps.executeUpdate();
             JOptionPane.showMessageDialog(null, esNueva ? "✅ Oferta creada." : "✅ Oferta actualizada.");
