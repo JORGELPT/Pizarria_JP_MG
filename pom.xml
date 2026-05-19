@@ -32,24 +32,30 @@
             <version>13.2.1.jre11</version>
         </dependency>
 
-        <!-- ===== JASPERREPORTS ===== -->
+        <!-- ===== JASPERREPORTS 6.21.3 ===== -->
         <dependency>
             <groupId>net.sf.jasperreports</groupId>
             <artifactId>jasperreports</artifactId>
             <version>6.21.3</version>
         </dependency>
-        <!-- PDF export -->
+        <!-- JFreeChart para gráfico de barras en reportes -->
         <dependency>
-            <groupId>com.lowagie</groupId>
-            <artifactId>itext</artifactId>
-            <version>2.1.7</version>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports-fonts</artifactId>
+            <version>6.21.3</version>
         </dependency>
-        <!-- Gráficas dentro del reporte -->
         <dependency>
             <groupId>jfree</groupId>
             <artifactId>jfreechart</artifactId>
             <version>1.0.13</version>
         </dependency>
+        <!-- ===== JAVAMAIL ===== -->
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <version>1.6.2</version>
+        </dependency>
+
         <!-- ===== JUNIT ===== -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -74,6 +80,12 @@
                 <configuration>
                     <source>23</source>
                     <target>23</target>
+                    <compilerArgs>
+                        <!-- JasperReports y JFreeChart van al classpath (unnamed module).
+                             Este flag permite que nuestro módulo los lea en tiempo de compilación. -->
+                        <arg>--add-reads</arg>
+                        <arg>com.example.demo1=ALL-UNNAMED</arg>
+                    </compilerArgs>
                 </configuration>
             </plugin>
             <plugin>
@@ -85,13 +97,18 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>com.example.demo1/com.example.demo1.HelloApplication</mainClass>
+                            <mainClass>com.example.demo1/com.example.demo1.app.Mainapp</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>
                             <noManPages>true</noManPages>
                             <stripDebug>true</stripDebug>
                             <noHeaderFiles>true</noHeaderFiles>
+                            <options>
+                                <!-- Permite que el módulo principal lea JasperReports/JFreeChart
+                                     desde el classpath (unnamed module) en tiempo de ejecución. -->
+                                <option>--add-reads=com.example.demo1=ALL-UNNAMED</option>
+                            </options>
                         </configuration>
                     </execution>
                 </executions>
