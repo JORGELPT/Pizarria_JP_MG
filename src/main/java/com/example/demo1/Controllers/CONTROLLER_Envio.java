@@ -77,9 +77,9 @@ public class CONTROLLER_Envio {
             JOptionPane.showMessageDialog(null, "Ingrese el ID del pedido.");
             return;
         }
-        String sql = "SELECT ped.id_pedido, per.nombre " +
+        String sql = "SELECT ped.id_pedido, ISNULL(per.nombre, '—') AS nombre " +
                 "FROM tbl_pedido ped " +
-                "INNER JOIN tbl_persona per ON ped.id_cliente = per.id_persona " +
+                "LEFT JOIN tbl_persona per ON ped.id_cliente = per.id_persona " +
                 "WHERE ped.id_pedido = ?";
         try (Connection con = conexion.establecerConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
