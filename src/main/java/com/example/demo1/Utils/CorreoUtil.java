@@ -1,29 +1,24 @@
 package com.example.demo1.Utils;
 
-/**
- * Utilidad de notificaciones del sistema Domino's Pizza.
- * Los eventos se registran en consola.
- */
 public class CorreoUtil {
 
-    private CorreoUtil() {}
+    public static void enviar(String asunto, String cuerpo) {
+        System.out.println("[CorreoUtil] Asunto : " + asunto);
+        System.out.println("[CorreoUtil] Cuerpo  : " + cuerpo);
+    }
 
     public static void notificarReclamacion(String cliente, String descripcion, String fecha) {
-        log("⚠ Nueva Reclamación — Cliente: " + cliente
-                + " | Fecha: " + fecha + " | " + descripcion);
+        enviar("Nueva Reclamación — " + cliente,
+                "Fecha: " + fecha + "\n" + descripcion);
     }
 
     public static void notificarFacturaGenerada(int idPedido, String cliente, String fecha) {
-        log("🧾 Factura Generada — Pedido #" + idPedido
-                + " | Cliente: " + cliente + " | Fecha: " + fecha);
+        enviar("Factura Generada — Pedido #" + idPedido,
+                "Cliente: " + cliente + " | Fecha: " + fecha);
     }
 
     public static void notificarStockBajo(String ingrediente, int stockActual, int minimo) {
-        log("🔴 Stock Crítico — " + ingrediente
-                + " | Stock actual: " + stockActual + " | Mínimo: " + minimo);
-    }
-
-    private static void log(String mensaje) {
-        System.out.println("[CorreoUtil] " + mensaje);
+        enviar("Stock Crítico — " + ingrediente,
+                "Stock actual: " + stockActual + " | Mínimo: " + minimo);
     }
 }
