@@ -10,64 +10,63 @@
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.example.demo1.Controllers.CONTROLLER_Comprobante">
 
-    <Region AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0"
-            style="-fx-background-image: url('/com/example/demo1/imagenes/fondop.png'); -fx-background-size: cover; -fx-background-position: center;"/>
+    <Region AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0"
+            AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0"
+            style="-fx-background-image: url('/com/example/demo1/imagenes/fondop.png');
+                   -fx-background-size: cover; -fx-background-position: center;"/>
 
     <VBox spacing="15.0"
           AnchorPane.topAnchor="30.0" AnchorPane.leftAnchor="40.0"
           AnchorPane.rightAnchor="40.0" AnchorPane.bottomAnchor="30.0"
-          style="-fx-background-color: rgba(0,0,0,0.48); -fx-background-radius: 14; -fx-padding: 10;">
+          style="-fx-background-color: rgba(0,0,0,0.52); -fx-background-radius: 14; -fx-padding: 10;">
         <padding><Insets top="25.0" left="25.0" right="25.0" bottom="25.0"/></padding>
 
         <Label text="COMPROBANTE / ITBS" textFill="white">
             <font><Font name="System Bold" size="24.0"/></font>
         </Label>
 
-        <!-- Fila 1: Categoría (tipo) | ID (código) -->
         <HBox spacing="30.0">
             <VBox HBox.hgrow="ALWAYS" spacing="3.0">
                 <Label text="Categoría" textFill="white"><font><Font name="System Bold" size="14.0"/></font></Label>
-                <TextField fx:id="Txttipo" prefHeight="32.0" promptText="Ej: Estándar"
-                           style="-fx-background-color: rgba(255,255,255,0.88); -fx-background-radius: 8; -fx-text-fill: #1a1a1a; -fx-font-size: 13px;"/>
+                <TextField fx:id="Txttipo" prefHeight="36.0" promptText="Ej: Estándar"
+                           style="-fx-background-color: rgba(255,255,255,0.90); -fx-background-radius: 10;
+                                  -fx-text-fill: #1a1a1a; -fx-font-size: 13px; -fx-padding: 0 12;
+                                  -fx-border-color: transparent; -fx-font-family: 'Segoe UI';"/>
             </VBox>
             <VBox HBox.hgrow="ALWAYS" spacing="3.0">
                 <Label text="ID (auto al buscar)" textFill="white"><font><Font name="System Bold" size="14.0"/></font></Label>
-                <TextField fx:id="Txtcodigo" prefHeight="32.0" promptText="Se llena al buscar"
+                <TextField fx:id="Txtcodigo" prefHeight="36.0" promptText="Se llena al buscar"
                            editable="false"
-                           style="-fx-background-color: rgba(220,220,220,0.70); -fx-background-radius: 8; -fx-text-fill: #555; -fx-font-size: 13px;"/>
+                           style="-fx-background-color: rgba(200,200,200,0.65); -fx-background-radius: 10;
+                                  -fx-text-fill: #555; -fx-font-size: 13px; -fx-padding: 0 12;
+                                  -fx-border-color: transparent;"/>
             </VBox>
         </HBox>
 
-        <!-- Fila 2: Tasa (serie) | Descripción (estado) -->
         <HBox spacing="30.0">
             <VBox HBox.hgrow="ALWAYS" spacing="3.0">
                 <Label text="Tasa ITBS (ej: 0.18)" textFill="white"><font><Font name="System Bold" size="14.0"/></font></Label>
-                <TextField fx:id="Txtserie" prefHeight="32.0" promptText="Ej: 0.18"
-                           style="-fx-background-color: rgba(255,255,255,0.88); -fx-background-radius: 8; -fx-text-fill: #1a1a1a; -fx-font-size: 13px;"/>
+                <TextField fx:id="Txtserie" prefHeight="36.0" promptText="Ej: 0.18"
+                           style="-fx-background-color: rgba(255,255,255,0.90); -fx-background-radius: 10;
+                                  -fx-text-fill: #1a1a1a; -fx-font-size: 13px; -fx-padding: 0 12;
+                                  -fx-border-color: transparent; -fx-font-family: 'Segoe UI';"/>
             </VBox>
             <VBox HBox.hgrow="ALWAYS" spacing="3.0">
                 <Label text="Descripción" textFill="white"><font><Font name="System Bold" size="14.0"/></font></Label>
-                <TextField fx:id="Txtestado" prefHeight="32.0" promptText="Descripción opcional"
-                           style="-fx-background-color: rgba(255,255,255,0.88); -fx-background-radius: 8; -fx-text-fill: #1a1a1a; -fx-font-size: 13px;"/>
+                <TextField fx:id="Txtestado" prefHeight="36.0" promptText="Descripción opcional"
+                           style="-fx-background-color: rgba(255,255,255,0.90); -fx-background-radius: 10;
+                                  -fx-text-fill: #1a1a1a; -fx-font-size: 13px; -fx-padding: 0 12;
+                                  -fx-border-color: transparent; -fx-font-family: 'Segoe UI';"/>
             </VBox>
         </HBox>
 
-        <!-- Botones principales -->
         <HBox spacing="10.0" alignment="CENTER_LEFT">
             <padding><Insets top="5.0"/></padding>
-            <Button text="Guardar" onAction="#FnGuardarComprobante"
-                    prefWidth="90.0" prefHeight="32.0"
-                    style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-cursor: hand;"/>
-            <Button text="Eliminar" onAction="#FnEliminarComprobante"
-                    prefWidth="90.0" prefHeight="32.0"
-                    style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-cursor: hand;"/>
+            <Button text="Guardar" onAction="#FnGuardarComprobante" styleClass="btn-primary"/>
+            <Button text="Eliminar" onAction="#FnEliminarComprobante" styleClass="btn-danger"/>
             <Region HBox.hgrow="ALWAYS"/>
-            <Button text="Editar" onAction="#FnEditarComprobante"
-                    prefWidth="90.0" prefHeight="32.0"
-                    style="-fx-background-color: #f39c12; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-cursor: hand;"/>
-            <Button text="🔍 Buscar" onAction="#FnBuscarComprobante"
-                    prefWidth="100.0" prefHeight="32.0"
-                    style="-fx-background-color: #c0392b; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-cursor: hand;"/>
+            <Button text="Editar" onAction="#FnEditarComprobante" styleClass="btn-warning"/>
+            <Button text="🔍 Buscar" onAction="#FnBuscarComprobante" styleClass="btn-primary"/>
         </HBox>
 
     </VBox>
