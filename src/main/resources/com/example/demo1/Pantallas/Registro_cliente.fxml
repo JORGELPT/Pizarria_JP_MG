@@ -34,7 +34,7 @@
             <!-- Icono de usuario -->
             <Circle fill="WHITE" layoutX="160.0" layoutY="55.0" radius="28.0"
                     stroke="#004aad" strokeType="INSIDE" strokeWidth="3.0"/>
-            <Label layoutX="148.0" layoutY="33.0" text="👤"
+            <Label layoutX="148.0" layoutY="33.0" text="●"
                    style="-fx-font-size: 26px;"/>
 
             <!-- Título -->
@@ -83,15 +83,11 @@
             <Button fx:id="btnRegistrar" layoutX="30.0" layoutY="400.0"
                     prefHeight="32.0" prefWidth="120.0"
                     onAction="#registrarUsuario" text="Registrar"
-                    style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-cursor: hand;">
-                <font><Font name="System Bold" size="13.0"/></font>
-            </Button>
+                    styleClass="btn-success"/>
             <Button fx:id="btnLimpiar" layoutX="160.0" layoutY="400.0"
                     prefHeight="32.0" prefWidth="130.0"
                     onAction="#limpiarCampos" text="Limpiar"
-                    style="-fx-background-color: #f39c12; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-cursor: hand;">
-                <font><Font name="System Bold" size="13.0"/></font>
-            </Button>
+                    styleClass="btn-warning"/>
 
         </AnchorPane>
     </VBox>
