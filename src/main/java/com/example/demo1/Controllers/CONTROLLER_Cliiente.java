@@ -1,7 +1,6 @@
 package com.example.demo1.Controllers;
 
 import com.example.demo1.Database.Conexion;
-import com.example.demo1.Utils.JasperUtil;
 import com.example.demo1.Utils.Permisos_Util;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -82,9 +81,8 @@ public class CONTROLLER_Cliiente {
                 // Contraseña por defecto = cédula (el cliente puede cambiarla después)
                 ps.setString(5, cedula.replace("-", ""));
                 ps.executeUpdate();
-                try (ResultSet keys = ps.getGeneratedKeys()) {
-                    idPersona = keys.next() ? keys.getInt(1) : 0;
-                }
+                ResultSet keys = ps.getGeneratedKeys();
+                idPersona = keys.next() ? keys.getInt(1) : 0;
             }
 
             // 2) Insertar en tbl_cliente (solo id_persona)
@@ -132,15 +130,14 @@ public class CONTROLLER_Cliiente {
              PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setString(1, cedula);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    TXTnombre.setText(rs.getString("nombre"));
-                    TXTtelefono.setText(rs.getString("tel"));
-                    TXTcedula.setText(rs.getString("cedula"));
-                    TXTdireccion.setText(rs.getString("direccion"));
-                } else {
-                    JOptionPane.showMessageDialog(null, "No se encontró el cliente.");
-                }
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                TXTnombre.setText(rs.getString("nombre"));
+                TXTtelefono.setText(rs.getString("tel"));
+                TXTcedula.setText(rs.getString("cedula"));
+                TXTdireccion.setText(rs.getString("direccion"));
+            } else {
+                JOptionPane.showMessageDialog(null, "No se encontró el cliente.");
             }
 
         } catch (Exception e) {
@@ -203,13 +200,12 @@ public class CONTROLLER_Cliiente {
             try (PreparedStatement ps = con.prepareStatement(
                     "SELECT id_persona FROM tbl_persona WHERE cedula = ?")) {
                 ps.setString(1, cedula);
-                try (ResultSet rs = ps.executeQuery()) {
-                    if (!rs.next()) {
-                        JOptionPane.showMessageDialog(null, "No se encontró el cliente.");
-                        return;
-                    }
-                    idPersona = rs.getInt("id_persona");
+                ResultSet rs = ps.executeQuery();
+                if (!rs.next()) {
+                    JOptionPane.showMessageDialog(null, "No se encontró el cliente.");
+                    return;
                 }
+                idPersona = rs.getInt("id_persona");
             }
 
             try (PreparedStatement ps = con.prepareStatement(
@@ -239,14 +235,6 @@ public class CONTROLLER_Cliiente {
                 if (con != null) con.close();
             } catch (Exception ignore) {}
         }
-    }
-
-    @FXML
-    public void FnExportarPDF() {
-        JasperUtil.exportarPDF(
-                "/com/example/demo1/reportes/Reporte_Clientes.jrxml",
-                "Reporte_Clientes.pdf"
-        );
     }
 
     private void cargarTabla() {
