@@ -16,23 +16,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/**
- * Controller de Login.
- *
- * Autentica al usuario contra la tabla tbl_usuario de la BD dominospizza_RA5.
- *
- * Login esperado:
- *   codigo_usuario → campo "Usuario"
- *   contrasenia    → campo "Contraseña"
- *
- * Reglas:
- *   - Solo se aceptan usuarios con estado = 'activo'.
- *   - Los roles válidos en la BD (CK_tbl_usuario_rol) son:
- *     cliente, cajero, gerente, administrador.
- *   - Cada usuario pertenece a un empleado O a un cliente (CK_tbl_usuario_tipo).
- *   - Al autenticar, se hace JOIN con tbl_persona para obtener el nombre.
- *   - Se actualiza ultimo_acceso y se resetean intentos_fallidos.
- */
+
 public class CONTROLLER_Login {
 
     @FXML private TextField     TXTusuario;
@@ -43,10 +27,7 @@ public class CONTROLLER_Login {
     public void initialize() {
         if (lblError != null) lblError.setText("");
     }
-
-    // -------------------------------------------------------------------------
     //  Acción del botón "Iniciar Sesión"
-    // -------------------------------------------------------------------------
     @FXML
     public void FnIniciarSesion(ActionEvent event) {
         String codigo     = TXTusuario.getText().trim();
@@ -57,13 +38,6 @@ public class CONTROLLER_Login {
             return;
         }
 
-        /*
-         * Consulta contra tbl_usuario con JOIN a tbl_persona para obtener el
-         * nombre del dueño del usuario (ya sea empleado o cliente).
-         *
-         *   u.id_empleado NOT NULL  →  JOIN por tbl_empleado.id_persona
-         *   u.id_cliente  NOT NULL  →  JOIN por tbl_cliente.id_persona
-         */
         final String SQL =
                 "SELECT  u.id_usuario, " +
                 "        u.codigo_usuario, " +
@@ -151,11 +125,8 @@ public class CONTROLLER_Login {
         }
     }
 
-    // -------------------------------------------------------------------------
     //  Actualización de metadatos del usuario
-    // -------------------------------------------------------------------------
 
-    /** Pone ultimo_acceso=GETDATE() y intentos_fallidos=0. */
     private void registrarAccesoExitoso(Connection con, int idUsuario) {
         final String SQL =
                 "UPDATE tbl_usuario " +
@@ -183,10 +154,7 @@ public class CONTROLLER_Login {
             // Error de auditoría no crítico
         }
     }
-
-    // -------------------------------------------------------------------------
     //  Cierra el Login y abre la ventana principal (MainView)
-    // -------------------------------------------------------------------------
     private void abrirMainApp(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(
@@ -210,10 +178,7 @@ public class CONTROLLER_Login {
             mostrarError("Error al abrir el sistema: " + e.getMessage());
         }
     }
-
-    // -------------------------------------------------------------------------
     //  Helpers UI
-    // -------------------------------------------------------------------------
     private void mostrarError(String msg) {
         if (lblError != null) lblError.setText(msg);
     }

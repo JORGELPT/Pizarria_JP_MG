@@ -1,6 +1,8 @@
 package com.example.demo1.Controllers;
 
 import com.example.demo1.Database.Conexion;
+import com.example.demo1.Utils.CONTROLLER_Seccion;
+import com.example.demo1.Utils.JasperUtil;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,6 +11,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.TableRow;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.StackPane;
 
 import java.io.IOException;
@@ -19,6 +23,7 @@ public class Controller_Inventario {
 
     Conexion conexion = new Conexion();
 
+    @FXML private Button    btnAgregar;
     @FXML private TextField TXTbuscar;
     @FXML private TableView<IngredienteRow> tablaInventario;
     @FXML private TableColumn<IngredienteRow, String> colId;
@@ -40,6 +45,47 @@ public class Controller_Inventario {
         colCantMin.setCellValueFactory(c -> c.getValue().cantMin);
 
         cargarInventario(null);
+        aplicarColoresStock();
+
+        if (CONTROLLER_Seccion.getInstancia().esCajero()) {
+            btnAgregar.setVisible(false);
+            btnAgregar.setManaged(false);
+        }
+    }
+
+    /** Row factory que colorea filas según nivel de stock. */
+    private void aplicarColoresStock() {
+        tablaInventario.setRowFactory(tv -> new TableRow<IngredienteRow>() {
+            @Override
+            protected void updateItem(IngredienteRow item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setStyle("");
+                    setTooltip(null);
+                    return;
+                }
+                try {
+                    double stock = Double.parseDouble(item.getCantStock());
+                    double min   = Double.parseDouble(item.getCantMin());
+                    if (stock < min) {
+                        // Crítico — rojo suave
+                        setStyle("-fx-background-color: #ffe4e4;");
+                        setTooltip(new Tooltip("⚠ Stock crítico: por debajo del mínimo"));
+                    } else if (stock < min * 1.5) {
+                        // Advertencia — naranja/amarillo suave
+                        setStyle("-fx-background-color: #fff8e1;");
+                        setTooltip(new Tooltip("Stock bajo: cerca del mínimo"));
+                    } else {
+                        // Normal — deja que el CSS (zebra) tome control
+                        setStyle("");
+                        setTooltip(null);
+                    }
+                } catch (NumberFormatException e) {
+                    setStyle("");
+                    setTooltip(null);
+                }
+            }
+        });
     }
 
     private void cargarInventario(String filtro) {
@@ -115,6 +161,15 @@ public class Controller_Inventario {
     @FXML
     private void FnBuscar() {
         cargarInventario(TXTbuscar.getText().trim());
+    }
+
+    @FXML
+    private void FnExportarPDF() {
+        if (!com.example.demo1.Utils.Permisos_Util.verificarReporte()) return;
+        JasperUtil.exportarPDF(
+                "/com/example/demo1/reportes/Reporte_Inventario.jrxml",
+                "Reporte_Inventario.pdf"
+        );
     }
 
     private void mostrarAviso(String mensaje) {

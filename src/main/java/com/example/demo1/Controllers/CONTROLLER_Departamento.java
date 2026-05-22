@@ -22,11 +22,13 @@ public class CONTROLLER_Departamento {
     @FXML private TableView<DepartamentoRow> tablaDepartamentos;
     @FXML private TableColumn<DepartamentoRow, String> colNombre;
     @FXML private TableColumn<DepartamentoRow, String> colDescripcion;
+    @FXML private TableColumn<DepartamentoRow, String> colEstado;
 
     @FXML
     public void initialize() {
         colNombre.setCellValueFactory(c -> c.getValue().nombre);
         colDescripcion.setCellValueFactory(c -> c.getValue().descripcion);
+        colEstado.setCellValueFactory(c -> c.getValue().estado);
 
         tablaDepartamentos.getSelectionModel().selectedItemProperty().addListener(
                 (obs, old, sel) -> {
@@ -131,6 +133,7 @@ public class CONTROLLER_Departamento {
 
     @FXML
     public void FnEliminar(ActionEvent actionEvent) {
+        if (!com.example.demo1.Utils.Permisos_Util.verificarEliminar()) return;
         String nombre = TXTnombre.getText().trim();
 
         if (nombre.isEmpty()) {
@@ -162,6 +165,48 @@ public class CONTROLLER_Departamento {
     }
 
     @FXML
+    public void FnInhabilitar() {
+        String nombre = TXTnombre.getText().trim();
+        if (nombre.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Ingrese el nombre del departamento a inhabilitar.");
+            return;
+        }
+        int confirmar = JOptionPane.showConfirmDialog(null,
+                "¿Inhabilitar '" + nombre + "'? No se eliminará, solo quedará inactivo.",
+                "Confirmar", JOptionPane.YES_NO_OPTION);
+        if (confirmar != JOptionPane.YES_OPTION) return;
+        try (java.sql.Connection con = Conexion.establecerConexion();
+             java.sql.PreparedStatement ps = con.prepareStatement(
+                     "UPDATE tbl_departamento SET estado = 'Inactivo' WHERE nombre = ?")) {
+            ps.setString(1, nombre);
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Departamento inhabilitado correctamente.");
+            cargarTabla();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al inhabilitar: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    public void FnHabilitar() {
+        String nombre = TXTnombre.getText().trim();
+        if (nombre.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Ingrese el nombre del departamento a habilitar.");
+            return;
+        }
+        try (java.sql.Connection con = Conexion.establecerConexion();
+             java.sql.PreparedStatement ps = con.prepareStatement(
+                     "UPDATE tbl_departamento SET estado = 'Activo' WHERE nombre = ?")) {
+            ps.setString(1, nombre);
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Departamento habilitado correctamente.");
+            cargarTabla();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al habilitar: " + e.getMessage());
+        }
+    }
+
+    @FXML
     public void FnLimpiar(ActionEvent actionEvent) {
         limpiar();
     }
@@ -173,7 +218,7 @@ public class CONTROLLER_Departamento {
 
     private void cargarTabla() {
         ObservableList<DepartamentoRow> datos = FXCollections.observableArrayList();
-        String sql = "SELECT nombre, descripcion FROM tbl_departamento ORDER BY nombre";
+        String sql = "SELECT nombre, descripcion, estado FROM tbl_departamento ORDER BY nombre";
 
         try (Connection con = conexion.establecerConexion();
              PreparedStatement ps = con.prepareStatement(sql);
@@ -182,7 +227,8 @@ public class CONTROLLER_Departamento {
             while (rs.next()) {
                 datos.add(new DepartamentoRow(
                         rs.getString("nombre"),
-                        rs.getString("descripcion")));
+                        rs.getString("descripcion"),
+                        rs.getString("estado")));
             }
             tablaDepartamentos.setItems(datos);
 
@@ -192,14 +238,16 @@ public class CONTROLLER_Departamento {
     }
 
     public static class DepartamentoRow {
-        final SimpleStringProperty nombre, descripcion;
+        final SimpleStringProperty nombre, descripcion, estado;
 
-        public DepartamentoRow(String n, String d) {
+        public DepartamentoRow(String n, String d, String est) {
             nombre      = new SimpleStringProperty(n);
             descripcion = new SimpleStringProperty(d);
+            estado      = new SimpleStringProperty(est != null ? est : "Activo");
         }
 
         public String getNombre()      { return nombre.get(); }
         public String getDescripcion() { return descripcion.get(); }
+        public String getEstado()      { return estado.get(); }
     }
 }

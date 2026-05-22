@@ -9,9 +9,6 @@ import javafx.scene.control.*;
 import javax.swing.JOptionPane;
 import java.sql.*;
 
-/**
- * tbl_devolucion: id_devolucion, id_pedido, motivo, monto, fecha, descripcion
- */
 public class CONTROLLER_Devolucion {
 
     Conexion conexion = new Conexion();
@@ -29,6 +26,7 @@ public class CONTROLLER_Devolucion {
     @FXML private TableColumn<DevolucionRow, String> colMotivo;
     @FXML private TableColumn<DevolucionRow, String> colMonto;
     @FXML private TableColumn<DevolucionRow, String> colFecha;
+    @FXML private TableColumn<DevolucionRow, String> colEstado;
 
     private int idDevolucionSeleccionado = -1;
 
@@ -39,6 +37,7 @@ public class CONTROLLER_Devolucion {
         colMotivo.setCellValueFactory(c   -> c.getValue().motivo);
         colMonto.setCellValueFactory(c    -> c.getValue().monto);
         colFecha.setCellValueFactory(c    -> c.getValue().fecha);
+        colEstado.setCellValueFactory(c   -> c.getValue().estado);
 
         cmbMotivo.setItems(FXCollections.observableArrayList(
                 "Producto dañado", "Pedido incorrecto", "Producto vencido",
@@ -66,9 +65,9 @@ public class CONTROLLER_Devolucion {
             JOptionPane.showMessageDialog(null, "Ingrese el ID del pedido.");
             return;
         }
-        String sql = "SELECT ped.id_pedido, per.nombre " +
+        String sql = "SELECT ped.id_pedido, ISNULL(per.nombre, '—') AS nombre " +
                 "FROM tbl_pedido ped " +
-                "INNER JOIN tbl_persona per ON ped.id_cliente = per.id_persona " +
+                "LEFT JOIN tbl_persona per ON ped.id_cliente = per.id_persona " +
                 "WHERE ped.id_pedido = ?";
         try (Connection con = conexion.establecerConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -119,6 +118,7 @@ public class CONTROLLER_Devolucion {
 
     @FXML
     public void FnEliminar() {
+        if (!com.example.demo1.Utils.Permisos_Util.verificarEliminar()) return;
         if (idDevolucionSeleccionado == -1) {
             JOptionPane.showMessageDialog(null, "Seleccione una devolución de la tabla primero.");
             return;
@@ -139,6 +139,48 @@ public class CONTROLLER_Devolucion {
             cargarTabla();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al eliminar: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    public void FnInhabilitar() {
+        if (idDevolucionSeleccionado == -1) {
+            JOptionPane.showMessageDialog(null, "Seleccione una devolución de la tabla primero.");
+            return;
+        }
+        int confirmar = JOptionPane.showConfirmDialog(null,
+                "¿Inhabilitar esta devolución? No se eliminará, solo quedará inactiva.",
+                "Confirmar", JOptionPane.YES_NO_OPTION);
+        if (confirmar != JOptionPane.YES_OPTION) return;
+        try (java.sql.Connection con = Conexion.establecerConexion();
+             java.sql.PreparedStatement ps = con.prepareStatement(
+                     "UPDATE tbl_devolucion SET estado = 'Inactivo' WHERE id_devolucion = ?")) {
+            ps.setInt(1, idDevolucionSeleccionado);
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Devolución inhabilitada correctamente.");
+            idDevolucionSeleccionado = -1;
+            cargarTabla();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al inhabilitar: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    public void FnHabilitar() {
+        if (idDevolucionSeleccionado == -1) {
+            JOptionPane.showMessageDialog(null, "Seleccione una devolución de la tabla primero.");
+            return;
+        }
+        try (java.sql.Connection con = Conexion.establecerConexion();
+             java.sql.PreparedStatement ps = con.prepareStatement(
+                     "UPDATE tbl_devolucion SET estado = 'Activo' WHERE id_devolucion = ?")) {
+            ps.setInt(1, idDevolucionSeleccionado);
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Devolución habilitada correctamente.");
+            idDevolucionSeleccionado = -1;
+            cargarTabla();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al habilitar: " + e.getMessage());
         }
     }
 
@@ -183,10 +225,10 @@ public class CONTROLLER_Devolucion {
         if (idStr.isEmpty()) { cargarTabla(); return; }
 
         ObservableList<DevolucionRow> datos = FXCollections.observableArrayList();
-        String sql = "SELECT d.id_devolucion, d.id_pedido, per.nombre, d.motivo, d.monto, d.fecha " +
+        String sql = "SELECT d.id_devolucion, d.id_pedido, ISNULL(per.nombre, '—') AS nombre, d.motivo, d.monto, d.fecha " +
                 "FROM tbl_devolucion d " +
                 "INNER JOIN tbl_pedido ped ON d.id_pedido = ped.id_pedido " +
-                "INNER JOIN tbl_persona per ON ped.id_cliente = per.id_persona " +
+                "LEFT JOIN tbl_persona per ON ped.id_cliente = per.id_persona " +
                 "WHERE d.id_pedido = ?";
         try (Connection con = conexion.establecerConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -201,10 +243,10 @@ public class CONTROLLER_Devolucion {
 
     private void cargarTabla() {
         ObservableList<DevolucionRow> datos = FXCollections.observableArrayList();
-        String sql = "SELECT d.id_devolucion, d.id_pedido, per.nombre, d.motivo, d.monto, d.fecha " +
+        String sql = "SELECT d.id_devolucion, d.id_pedido, ISNULL(per.nombre, '—') AS nombre, d.motivo, d.monto, d.fecha, d.estado " +
                 "FROM tbl_devolucion d " +
                 "INNER JOIN tbl_pedido ped ON d.id_pedido = ped.id_pedido " +
-                "INNER JOIN tbl_persona per ON ped.id_cliente = per.id_persona " +
+                "LEFT JOIN tbl_persona per ON ped.id_cliente = per.id_persona " +
                 "ORDER BY d.fecha DESC";
         try (Connection con = conexion.establecerConexion();
              PreparedStatement ps = con.prepareStatement(sql);
@@ -223,7 +265,8 @@ public class CONTROLLER_Devolucion {
                 rs.getString("nombre") != null ? rs.getString("nombre") : "",
                 rs.getString("motivo") != null ? rs.getString("motivo") : "",
                 rs.getBigDecimal("monto") != null ? rs.getBigDecimal("monto").toPlainString() : "",
-                rs.getDate("fecha") != null ? rs.getDate("fecha").toString() : ""
+                rs.getDate("fecha") != null ? rs.getDate("fecha").toString() : "",
+                rs.getString("estado") != null ? rs.getString("estado") : "Activo"
         );
     }
 
@@ -236,16 +279,17 @@ public class CONTROLLER_Devolucion {
 
     public static class DevolucionRow {
         final int idDevolucion;
-        final SimpleStringProperty idPedido, cliente, motivo, monto, fecha;
+        final SimpleStringProperty idPedido, cliente, motivo, monto, fecha, estado;
 
         public DevolucionRow(int idDevolucion, String idPedido, String cliente,
-                             String motivo, String monto, String fecha) {
+                             String motivo, String monto, String fecha, String estado) {
             this.idDevolucion = idDevolucion;
             this.idPedido = new SimpleStringProperty(idPedido);
             this.cliente  = new SimpleStringProperty(cliente);
             this.motivo   = new SimpleStringProperty(motivo);
             this.monto    = new SimpleStringProperty(monto);
             this.fecha    = new SimpleStringProperty(fecha);
+            this.estado   = new SimpleStringProperty(estado);
         }
     }
 }

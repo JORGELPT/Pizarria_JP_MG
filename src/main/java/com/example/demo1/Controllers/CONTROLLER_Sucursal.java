@@ -28,6 +28,7 @@ public class CONTROLLER_Sucursal {
     @FXML private TableColumn<SucursalRow, String> colNombre;
     @FXML private TableColumn<SucursalRow, String> colTipo;
     @FXML private TableColumn<SucursalRow, String> colDireccion;
+    @FXML private TableColumn<SucursalRow, String> colEstado;
 
     @FXML
     public void initialize() {
@@ -37,6 +38,7 @@ public class CONTROLLER_Sucursal {
         colNombre.setCellValueFactory(c -> c.getValue().nombre);
         colTipo.setCellValueFactory(c -> c.getValue().tipo);
         colDireccion.setCellValueFactory(c -> c.getValue().direccion);
+        colEstado.setCellValueFactory(c -> c.getValue().estado);
 
         tablaSucursales.getSelectionModel().selectedItemProperty().addListener(
                 (obs, old, sel) -> {
@@ -142,6 +144,7 @@ public class CONTROLLER_Sucursal {
 
     @FXML
     public void FnEliminar() {
+        if (!com.example.demo1.Utils.Permisos_Util.verificarEliminar()) return;
         String nombre = TXTnombre.getText().trim();
         if (nombre.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Ingrese el nombre a eliminar.");
@@ -171,9 +174,52 @@ public class CONTROLLER_Sucursal {
         }
     }
 
+    @FXML
+    public void FnInhabilitar() {
+        String nombre = TXTnombre.getText().trim();
+        if (nombre.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Ingrese el nombre de la sucursal a inhabilitar.");
+            return;
+        }
+        int confirmar = JOptionPane.showConfirmDialog(null,
+                "¿Inhabilitar '" + nombre + "'? No se eliminará, solo quedará inactiva.",
+                "Confirmar", JOptionPane.YES_NO_OPTION);
+        if (confirmar != JOptionPane.YES_OPTION) return;
+        try (java.sql.Connection con = Conexion.establecerConexion();
+             java.sql.PreparedStatement ps = con.prepareStatement(
+                     "UPDATE tbl_sucursal SET estado = 'Inactivo' WHERE nombre_sucursal = ?")) {
+            ps.setString(1, nombre);
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Sucursal inhabilitada correctamente.");
+            limpiar();
+            cargarTabla();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al inhabilitar: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    public void FnHabilitar() {
+        String nombre = TXTnombre.getText().trim();
+        if (nombre.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Ingrese el nombre de la sucursal a habilitar.");
+            return;
+        }
+        try (java.sql.Connection con = Conexion.establecerConexion();
+             java.sql.PreparedStatement ps = con.prepareStatement(
+                     "UPDATE tbl_sucursal SET estado = 'Activo' WHERE nombre_sucursal = ?")) {
+            ps.setString(1, nombre);
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Sucursal habilitada correctamente.");
+            cargarTabla();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al habilitar: " + e.getMessage());
+        }
+    }
+
     private void cargarTabla() {
         ObservableList<SucursalRow> datos = FXCollections.observableArrayList();
-        String sql = "SELECT nombre_sucursal, tipo_servicio, direccion " +
+        String sql = "SELECT nombre_sucursal, tipo_servicio, direccion, estado " +
                 "FROM tbl_sucursal ORDER BY nombre_sucursal";
 
         try (Connection con = conexion.establecerConexion();
@@ -184,7 +230,8 @@ public class CONTROLLER_Sucursal {
                 datos.add(new SucursalRow(
                         rs.getString("nombre_sucursal"),
                         rs.getString("tipo_servicio"),
-                        rs.getString("direccion")));
+                        rs.getString("direccion"),
+                        rs.getString("estado")));
             }
             tablaSucursales.setItems(datos);
 
@@ -200,16 +247,18 @@ public class CONTROLLER_Sucursal {
     }
 
     public static class SucursalRow {
-        final SimpleStringProperty nombre, tipo, direccion;
+        final SimpleStringProperty nombre, tipo, direccion, estado;
 
-        public SucursalRow(String n, String t, String d) {
+        public SucursalRow(String n, String t, String d, String est) {
             nombre    = new SimpleStringProperty(n);
             tipo      = new SimpleStringProperty(t);
             direccion = new SimpleStringProperty(d != null ? d : "");
+            estado    = new SimpleStringProperty(est != null ? est : "Activo");
         }
 
         public String getNombre()    { return nombre.get(); }
         public String getTipo()      { return tipo.get(); }
         public String getDireccion() { return direccion.get(); }
+        public String getEstado()    { return estado.get(); }
     }
 }

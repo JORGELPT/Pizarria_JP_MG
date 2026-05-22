@@ -10,9 +10,7 @@ import javafx.scene.control.*;
 import javax.swing.JOptionPane;
 import java.sql.*;
 
-/**
- * tbl_apertura_caja: id_apertura_caja, fecha_apertura, monto_inicial, id_empleado
- */
+
 public class CONTROLLER_Aperturacaja {
 
     Conexion conexion = new Conexion();
@@ -118,6 +116,7 @@ public class CONTROLLER_Aperturacaja {
 
     @FXML
     public void FnEliminar() {
+        if (!com.example.demo1.Utils.Permisos_Util.verificarEliminar()) return;
         if (idAperturaSeleccionada == -1) {
             JOptionPane.showMessageDialog(null, "Seleccione una apertura de la tabla primero.");
             return;

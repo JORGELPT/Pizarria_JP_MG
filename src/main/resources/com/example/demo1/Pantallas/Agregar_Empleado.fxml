@@ -19,9 +19,13 @@
             <Label text="●  Agregar Empleado" styleClass="content-header-title"/>
         </HBox>
 
-        <VBox spacing="14" VBox.vgrow="ALWAYS"
-              style="-fx-background-color: white;">
-            <padding><Insets top="20" right="26" bottom="20" left="26"/></padding>
+        <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
+                    hbarPolicy="NEVER" vbarPolicy="AS_NEEDED"
+                    style="-fx-background-color: white; -fx-background: white;
+                           -fx-border-color: transparent;">
+            <VBox spacing="14"
+                  style="-fx-background-color: white;">
+                <padding><Insets top="20" right="26" bottom="20" left="26"/></padding>
 
             <HBox spacing="20">
                 <VBox HBox.hgrow="ALWAYS" spacing="5">
@@ -96,6 +100,8 @@
             <HBox spacing="10" alignment="CENTER_LEFT">
                 <Button text="Guardar" onAction="#fnGuardar" styleClass="btn-primary"/>
                 <Button text="Eliminar" onAction="#fnEliminar" styleClass="btn-danger"/>
+                <Button text="Inhabilitar" onAction="#FnInhabilitar" styleClass="btn-warning"/>
+                <Button text="Habilitar" onAction="#FnHabilitar" styleClass="btn-success"/>
                 <Region HBox.hgrow="ALWAYS"/>
                 <Button text="Editar" onAction="#fnEditar" styleClass="btn-secondary"/>
                 <Button text="🔍 Buscar" onAction="#fnBuscar" styleClass="btn-primary"/>
@@ -106,10 +112,12 @@
                     <TableColumn fx:id="colNombre" prefWidth="220" text="Nombre"/>
                     <TableColumn fx:id="colCedula" prefWidth="180" text="Cédula"/>
                     <TableColumn fx:id="colCargo"  prefWidth="150" text="Cargo"/>
+                    <TableColumn fx:id="colEstado" prefWidth="100" text="Estado"/>
                 </columns>
                 <placeholder><Label text="Sin registros." styleClass="info-label"/></placeholder>
             </TableView>
 
-        </VBox>
+            </VBox>
+        </ScrollPane>
     </VBox>
 </AnchorPane>

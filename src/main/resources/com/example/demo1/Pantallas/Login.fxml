@@ -51,7 +51,7 @@
                                -fx-border-width: 1.5;
                                -fx-effect: dropshadow(gaussian, rgba(0,100,255,0.4), 20, 0, 0, 0);"/>
                 <ImageView fitWidth="62" fitHeight="62" preserveRatio="true" pickOnBounds="true">
-                    <image><Image url="@../imagenes/p1-removebg-preview.png"/></image>
+                    <image><Image url="@../imagenes/Logo.png"/></image>
                 </ImageView>
             </StackPane>
 

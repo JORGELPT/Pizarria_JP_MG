@@ -1,9 +1,8 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 
 <AnchorPane maxWidth="Infinity" maxHeight="Infinity"
             xmlns="http://javafx.com/javafx/17"
@@ -19,78 +18,147 @@
             <Label text="¤  Compras y Pago" styleClass="content-header-title"/>
         </HBox>
 
-        <VBox spacing="14" VBox.vgrow="ALWAYS"
-              style="-fx-background-color: white;">
-            <padding><Insets top="20" right="26" bottom="20" left="26"/></padding>
+        <!-- ScrollPane que permite bajar por todo el contenido -->
+        <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
+                    style="-fx-background-color: white; -fx-background: white;
+                           -fx-border-color: transparent;">
 
-            <HBox spacing="20">
-                <VBox HBox.hgrow="ALWAYS" spacing="5">
-                    <Label text="Proveedor" styleClass="field-label"/>
-                    <ComboBox fx:id="cmbProveedor" maxWidth="Infinity" prefHeight="38" styleClass="field-combo"/>
-                </VBox>
-                <VBox HBox.hgrow="ALWAYS" spacing="5">
-                    <Label text="Sucursal" styleClass="field-label"/>
-                    <ComboBox fx:id="cmbSucursal" maxWidth="Infinity" prefHeight="38" styleClass="field-combo"/>
-                </VBox>
-            </HBox>
+            <VBox spacing="16" style="-fx-background-color: white;">
+                <padding><Insets top="20" right="26" bottom="24" left="26"/></padding>
 
-            <HBox spacing="20">
-                <VBox HBox.hgrow="ALWAYS" spacing="5">
-                    <Label text="Fecha" styleClass="field-label"/>
-                    <TextField fx:id="TXTfecha" promptText="Ej: 2024-01-15" prefHeight="38" styleClass="field-input"/>
-                </VBox>
-                <VBox HBox.hgrow="ALWAYS" spacing="5">
-                    <Label text="Estado" styleClass="field-label"/>
-                    <ComboBox fx:id="cmbEstado" maxWidth="Infinity" prefHeight="38" styleClass="field-combo"/>
-                </VBox>
-            </HBox>
+                <!-- ── Fila 1: Proveedor + Sucursal ── -->
+                <HBox spacing="20">
+                    <VBox HBox.hgrow="ALWAYS" spacing="5">
+                        <Label text="Proveedor" styleClass="field-label"/>
+                        <ComboBox fx:id="cmbProveedor" maxWidth="Infinity" prefHeight="38" styleClass="field-combo"/>
+                    </VBox>
+                    <VBox HBox.hgrow="ALWAYS" spacing="5">
+                        <Label text="Sucursal" styleClass="field-label"/>
+                        <ComboBox fx:id="cmbSucursal" maxWidth="Infinity" prefHeight="38" styleClass="field-combo"/>
+                    </VBox>
+                </HBox>
 
-            <HBox spacing="14">
-                <VBox HBox.hgrow="ALWAYS" spacing="5">
-                    <Label text="Monto (RD$)" styleClass="field-label"/>
-                    <TextField fx:id="TXTmonto" promptText="Ej: 5000.00" prefHeight="38" styleClass="field-input"/>
-                </VBox>
-                <VBox HBox.hgrow="ALWAYS" spacing="5">
-                    <Label text="Monto pendiente" styleClass="field-label"/>
-                    <TextField fx:id="TXTmontoPendiente" promptText="Ej: 0.00" prefHeight="38" styleClass="field-input"/>
-                </VBox>
-                <VBox HBox.hgrow="ALWAYS" spacing="5">
-                    <Label text="Precio unit." styleClass="field-label"/>
-                    <TextField fx:id="TXTprecio" promptText="Ej: 250.00" prefHeight="38" styleClass="field-input"/>
-                </VBox>
-                <VBox HBox.hgrow="ALWAYS" spacing="5">
-                    <Label text="Cantidad" styleClass="field-label"/>
-                    <TextField fx:id="TXTcantidad" promptText="Ej: 10" prefHeight="38" styleClass="field-input"/>
-                </VBox>
-            </HBox>
+                <!-- ── Fila 2: Fecha + Estado ── -->
+                <HBox spacing="20">
+                    <VBox HBox.hgrow="ALWAYS" spacing="5">
+                        <Label text="Fecha" styleClass="field-label"/>
+                        <TextField fx:id="TXTfecha" promptText="Ej: 2024-01-15" prefHeight="38" styleClass="field-input"/>
+                    </VBox>
+                    <VBox HBox.hgrow="ALWAYS" spacing="5">
+                        <Label text="Estado" styleClass="field-label"/>
+                        <ComboBox fx:id="cmbEstado" maxWidth="Infinity" prefHeight="38" styleClass="field-combo"/>
+                    </VBox>
+                </HBox>
 
-            <VBox spacing="5">
-                <Label text="Observación" styleClass="field-label"/>
-                <TextField fx:id="TXTobservacion" prefHeight="38" styleClass="field-input"/>
+                <!-- ── Fila 3: Montos ── -->
+                <HBox spacing="14">
+                    <VBox HBox.hgrow="ALWAYS" spacing="5">
+                        <Label text="Monto (RD$)" styleClass="field-label"/>
+                        <TextField fx:id="TXTmonto" promptText="Ej: 5000.00" prefHeight="38" styleClass="field-input"/>
+                    </VBox>
+                    <VBox HBox.hgrow="ALWAYS" spacing="5">
+                        <Label text="Monto pendiente" styleClass="field-label"/>
+                        <TextField fx:id="TXTmontoPendiente" promptText="Ej: 0.00" prefHeight="38" styleClass="field-input"/>
+                    </VBox>
+                    <VBox HBox.hgrow="ALWAYS" spacing="5">
+                        <Label text="Precio unit." styleClass="field-label"/>
+                        <TextField fx:id="TXTprecio" promptText="Ej: 250.00" prefHeight="38" styleClass="field-input"/>
+                    </VBox>
+                    <VBox HBox.hgrow="ALWAYS" spacing="5">
+                        <Label text="Cantidad" styleClass="field-label"/>
+                        <TextField fx:id="TXTcantidad" promptText="Ej: 10" prefHeight="38" styleClass="field-input"/>
+                    </VBox>
+                </HBox>
+
+                <!-- ── Observación ── -->
+                <VBox spacing="5">
+                    <Label text="Observación" styleClass="field-label"/>
+                    <TextField fx:id="TXTobservacion" prefHeight="38" styleClass="field-input"/>
+                </VBox>
+
+                <!-- ── Separador ── -->
+                <Separator opacity="0.4"/>
+
+                <!-- ── Panel Pago / Abono al Proveedor ── -->
+                <VBox spacing="12"
+                      style="-fx-background-color: #f0f4ff;
+                             -fx-background-radius: 12;
+                             -fx-border-color: #c5d3f0;
+                             -fx-border-radius: 12;
+                             -fx-border-width: 1;
+                             -fx-padding: 16 18 16 18;">
+
+                    <Label text="PAGO AL PROVEEDOR"
+                           style="-fx-font-size: 11px; -fx-font-weight: bold;
+                                  -fx-text-fill: #004aad; -fx-letter-spacing: 1px;"/>
+
+                    <!-- Monto a abonar + botón Pagar -->
+                    <HBox spacing="14" alignment="BOTTOM_LEFT">
+                        <VBox HBox.hgrow="ALWAYS" spacing="5">
+                            <Label text="Monto a abonar (RD$)" styleClass="field-label"/>
+                            <TextField fx:id="txtAbono" promptText="Ej: 1500.00"
+                                       prefHeight="38" styleClass="field-input"/>
+                        </VBox>
+                        <Button text="💰  Pagar / Abonar" onAction="#FnPagar"
+                                prefHeight="38" prefWidth="170"
+                                style="-fx-background-color: #1a6b2e; -fx-text-fill: white;
+                                       -fx-font-weight: bold; -fx-font-size: 12px;
+                                       -fx-background-radius: 9; -fx-cursor: hand;"/>
+                    </HBox>
+
+                    <!-- ID Factura generada -->
+                    <HBox spacing="14" alignment="CENTER_LEFT"
+                          style="-fx-background-color: white;
+                                 -fx-background-radius: 8;
+                                 -fx-padding: 10 14;
+                                 -fx-border-color: #c5d3f0;
+                                 -fx-border-radius: 8;
+                                 -fx-border-width: 1;">
+                        <Label text="N° Factura:"
+                               style="-fx-font-size: 12px; -fx-text-fill: #555; -fx-font-weight: bold;"/>
+                        <Label fx:id="lblFacturaId" text="---"
+                               style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #004aad;"/>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Label fx:id="lblInfoPago" text=""
+                               wrapText="true"
+                               style="-fx-font-size: 11px; -fx-text-fill: #1a6b2e; -fx-font-weight: bold;"/>
+                        <Button text="📄  Generar Factura PDF" onAction="#FnGenerarFacturaPago"
+                                prefHeight="32"
+                                style="-fx-background-color: #004aad; -fx-text-fill: white;
+                                       -fx-font-weight: bold; -fx-font-size: 11px;
+                                       -fx-background-radius: 8; -fx-cursor: hand;
+                                       -fx-padding: 0 14;"/>
+                    </HBox>
+                </VBox>
+
+                <!-- ── Botones principales ── -->
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Button text="Guardar"      onAction="#FnGuardar"    styleClass="btn-primary"/>
+                    <Button text="Eliminar"     onAction="#FnEliminar"   styleClass="btn-danger"/>
+                    <Button text="Inhabilitar"  onAction="#FnInhabilitar" styleClass="btn-warning"/>
+                    <Button text="Habilitar"    onAction="#FnHabilitar"  styleClass="btn-success"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Button text="Editar"       onAction="#FnEditar"     styleClass="btn-secondary"/>
+                    <Button text="🔍 Buscar"    onAction="#FnBuscar"     styleClass="btn-primary"/>
+                    <Button text="📄 Rep. Compras"      onAction="#FnExportarReporteCompras"       styleClass="btn-success"/>
+                    <Button text="📊 Compras+Ventas"    onAction="#FnExportarReporteComprasVentas" styleClass="btn-success"/>
+                </HBox>
+
+                <!-- ── Tabla ── -->
+                <TableView fx:id="tablaCompras" prefHeight="320" maxHeight="Infinity">
+                    <columns>
+                        <TableColumn fx:id="colFactura"        prefWidth="90"  text="Factura #"/>
+                        <TableColumn fx:id="colProveedor"      prefWidth="150" text="Proveedor"/>
+                        <TableColumn fx:id="colFecha"          prefWidth="100" text="Fecha"/>
+                        <TableColumn fx:id="colMonto"          prefWidth="110" text="Monto"/>
+                        <TableColumn fx:id="colMontoPendiente" prefWidth="110" text="Pendiente"/>
+                        <TableColumn fx:id="colCantidad"       prefWidth="80"  text="Cantidad"/>
+                        <TableColumn fx:id="colEstado"         prefWidth="100" text="Estado"/>
+                    </columns>
+                    <placeholder><Label text="Sin registros." styleClass="info-label"/></placeholder>
+                </TableView>
+
             </VBox>
-
-            <HBox spacing="10" alignment="CENTER_LEFT">
-                <Button text="Guardar" onAction="#FnGuardar" styleClass="btn-primary"/>
-                <Button text="Eliminar" onAction="#FnEliminar" styleClass="btn-danger"/>
-                <Region HBox.hgrow="ALWAYS"/>
-                <Button text="Editar" onAction="#FnEditar" styleClass="btn-secondary"/>
-                <Button text="🔍 Buscar" onAction="#FnBuscar" styleClass="btn-primary"/>
-                <Button text="📄 Rep. Compras" onAction="#FnExportarReporteCompras" styleClass="btn-success"/>
-                <Button text="📊 Compras+Ventas" onAction="#FnExportarReporteComprasVentas" styleClass="btn-success"/>
-            </HBox>
-
-            <TableView fx:id="tablaCompras" VBox.vgrow="ALWAYS">
-                <columns>
-                    <TableColumn fx:id="colProveedor"      prefWidth="160" text="Proveedor"/>
-                    <TableColumn fx:id="colFecha"          prefWidth="110" text="Fecha"/>
-                    <TableColumn fx:id="colMonto"          prefWidth="120" text="Monto"/>
-                    <TableColumn fx:id="colMontoPendiente" prefWidth="130" text="Pendiente"/>
-                    <TableColumn fx:id="colCantidad"       prefWidth="90"  text="Cantidad"/>
-                    <TableColumn fx:id="colEstado"         prefWidth="110" text="Estado"/>
-                </columns>
-                <placeholder><Label text="Sin registros." styleClass="info-label"/></placeholder>
-            </TableView>
-
-        </VBox>
+        </ScrollPane>
     </VBox>
 </AnchorPane>

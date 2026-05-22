@@ -10,7 +10,7 @@
     <VBox spacing="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
 
         <!-- HEADER AZUL -->
-        <HBox alignment="CENTER_LEFT" spacing="14" style="-fx-background-color: #004aad; -fx-padding: 18 28 18 28;">
+        <HBox alignment="CENTER_LEFT" spacing="14" style="-fx-background-color: linear-gradient(to right, #000d2e, #001a5c); -fx-border-color: #be1e1e; -fx-border-width: 0 0 3 0; -fx-padding: 18 28 18 28;">
             <VBox spacing="3">
                 <Label style="-fx-text-fill: white; -fx-font-size: 22px;                               -fx-font-weight: bold; -fx-font-family: 'Segoe UI';" text="¡Bienvenido!" />
                 <Label style="-fx-text-fill: rgba(255,255,255,0.75);                               -fx-font-size: 13px; -fx-font-family: 'Segoe UI';" text="¿Qué deseas hacer hoy?" />

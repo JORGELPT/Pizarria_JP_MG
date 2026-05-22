@@ -64,6 +64,8 @@
             <padding><Insets top="5.0"/></padding>
             <Button text="Guardar" onAction="#FnGuardarComprobante" styleClass="btn-primary"/>
             <Button text="Eliminar" onAction="#FnEliminarComprobante" styleClass="btn-danger"/>
+            <Button text="Inhabilitar" onAction="#FnInhabilitar" styleClass="btn-warning"/>
+            <Button text="Habilitar" onAction="#FnHabilitar" styleClass="btn-success"/>
             <Region HBox.hgrow="ALWAYS"/>
             <Button text="Editar" onAction="#FnEditarComprobante" styleClass="btn-warning"/>
             <Button text="🔍 Buscar" onAction="#FnBuscarComprobante" styleClass="btn-primary"/>

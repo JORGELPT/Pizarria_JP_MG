@@ -7,13 +7,7 @@ import javafx.scene.control.TextField;
 import javax.swing.JOptionPane;
 import java.sql.*;
 
-/**
- * Registro de cliente nuevo.
- *
- * Flujo:
- *   1) INSERT tbl_persona (nombre, tel, cedula, direccion, rol_bd='cliente', contrasenia)
- *   2) INSERT tbl_cliente (id_persona)
- */
+
 public class CONTROLLER_Registro {
 
     Conexion conexion = new Conexion();

@@ -10,15 +10,6 @@ import javafx.scene.control.*;
 import javax.swing.JOptionPane;
 import java.sql.*;
 
-/**
- * Controller de Agregar Empleado.
- * Adaptado a BD real:
- *   - tbl_persona:  nombre, tel, cedula, direccion, rol_bd, contrasenia
- *   - tbl_empleado: id_persona, id_cargo, horario, salario, id_sucursal,
- *                   fecha_ingreso, estado, email
- *
- * NOTA: Solo ADMIN puede crear empleados.
- */
 public class CONTROLLER_Empleado {
 
     Conexion conexion = new Conexion();
@@ -54,6 +45,7 @@ public class CONTROLLER_Empleado {
     @FXML private TableColumn<EmpleadoRow, String> colNombre;
     @FXML private TableColumn<EmpleadoRow, String> colCedula;
     @FXML private TableColumn<EmpleadoRow, String> colCargo;
+    @FXML private TableColumn<EmpleadoRow, String> colEstado;
 
     private int idEmpleadoSeleccionado = -1;
     private int idPersonaSeleccionada  = -1;
@@ -76,7 +68,8 @@ public class CONTROLLER_Empleado {
 
         colNombre.setCellValueFactory(c -> c.getValue().nombre);
         colCedula.setCellValueFactory(c -> c.getValue().cedula);
-        colCargo.setCellValueFactory(c -> c.getValue().cargo);
+        colCargo.setCellValueFactory(c  -> c.getValue().cargo);
+        colEstado.setCellValueFactory(c -> c.getValue().estado);
 
         tablaEmpleados.getSelectionModel().selectedItemProperty().addListener(
                 (obs, old, sel) -> {
@@ -372,9 +365,50 @@ public class CONTROLLER_Empleado {
         }
     }
 
+    @FXML
+    public void FnInhabilitar() {
+        if (idEmpleadoSeleccionado == -1) {
+            JOptionPane.showMessageDialog(null, "Seleccione un empleado de la tabla primero.");
+            return;
+        }
+        int confirmar = JOptionPane.showConfirmDialog(null,
+                "¿Inhabilitar este empleado? No se eliminará, solo quedará inactivo.",
+                "Confirmar", JOptionPane.YES_NO_OPTION);
+        if (confirmar != JOptionPane.YES_OPTION) return;
+        try (java.sql.Connection con = Conexion.establecerConexion();
+             java.sql.PreparedStatement ps = con.prepareStatement(
+                     "UPDATE tbl_empleado SET estado = 'Inactivo' WHERE id_empleado = ?")) {
+            ps.setInt(1, idEmpleadoSeleccionado);
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Empleado inhabilitado correctamente.");
+            idEmpleadoSeleccionado = -1;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al inhabilitar: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    public void FnHabilitar() {
+        if (idEmpleadoSeleccionado == -1) {
+            JOptionPane.showMessageDialog(null, "Seleccione un empleado de la tabla primero.");
+            return;
+        }
+        try (java.sql.Connection con = Conexion.establecerConexion();
+             java.sql.PreparedStatement ps = con.prepareStatement(
+                     "UPDATE tbl_empleado SET estado = 'Activo' WHERE id_empleado = ?")) {
+            ps.setInt(1, idEmpleadoSeleccionado);
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Empleado habilitado correctamente.");
+            idEmpleadoSeleccionado = -1;
+            cargarTabla();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al habilitar: " + e.getMessage());
+        }
+    }
+
     private void cargarTabla() {
         ObservableList<EmpleadoRow> datos = FXCollections.observableArrayList();
-        String sql = "SELECT e.id_empleado, e.id_persona, p.nombre, p.cedula, c.nombre as cargo " +
+        String sql = "SELECT e.id_empleado, e.id_persona, p.nombre, p.cedula, c.nombre as cargo, e.estado " +
                 "FROM tbl_empleado e " +
                 "INNER JOIN tbl_persona p ON e.id_persona = p.id_persona " +
                 "LEFT JOIN tbl_cargo c ON e.id_cargo = c.id_cargo " +
@@ -390,7 +424,8 @@ public class CONTROLLER_Empleado {
                         rs.getInt("id_persona"),
                         rs.getString("nombre"),
                         rs.getString("cedula"),
-                        rs.getString("cargo")));
+                        rs.getString("cargo"),
+                        rs.getString("estado")));
             }
             tablaEmpleados.setItems(datos);
 
@@ -416,18 +451,20 @@ public class CONTROLLER_Empleado {
 
     public static class EmpleadoRow {
         final int idEmpleado, idPersona;
-        final SimpleStringProperty nombre, cedula, cargo;
+        final SimpleStringProperty nombre, cedula, cargo, estado;
 
-        public EmpleadoRow(int idEmpleado, int idPersona, String n, String c, String ca) {
+        public EmpleadoRow(int idEmpleado, int idPersona, String n, String c, String ca, String est) {
             this.idEmpleado = idEmpleado;
             this.idPersona  = idPersona;
             nombre = new SimpleStringProperty(n);
             cedula = new SimpleStringProperty(c);
-            cargo  = new SimpleStringProperty(ca);
+            cargo  = new SimpleStringProperty(ca != null ? ca : "");
+            estado = new SimpleStringProperty(est != null ? est : "Activo");
         }
 
         public String getNombre() { return nombre.get(); }
         public String getCedula() { return cedula.get(); }
         public String getCargo()  { return cargo.get(); }
+        public String getEstado() { return estado.get(); }
     }
 }

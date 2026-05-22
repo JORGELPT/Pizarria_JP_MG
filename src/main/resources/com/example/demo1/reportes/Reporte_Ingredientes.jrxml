@@ -14,11 +14,11 @@
             <style mode="Opaque" backcolor="#FFE4E4"/>
         </conditionalStyle>
         <conditionalStyle>
-            <conditionExpression><![CDATA[$F{cantidad_stock} >= $F{cantidad_minima_stock} &amp;&amp; $F{cantidad_stock} < $F{cantidad_minima_stock} * 1.5 &amp;&amp; $V{REPORT_COUNT} % 2 == 0]]></conditionExpression>
+            <conditionExpression><![CDATA[$F{cantidad_stock} >= $F{cantidad_minima_stock} && $F{cantidad_stock} < $F{cantidad_minima_stock} * 1.5 && $V{REPORT_COUNT} % 2 == 0]]></conditionExpression>
             <style mode="Opaque" backcolor="#FFF8E1"/>
         </conditionalStyle>
         <conditionalStyle>
-            <conditionExpression><![CDATA[$F{cantidad_stock} >= $F{cantidad_minima_stock} * 1.5 &amp;&amp; $V{REPORT_COUNT} % 2 == 0]]></conditionExpression>
+            <conditionExpression><![CDATA[$F{cantidad_stock} >= $F{cantidad_minima_stock} * 1.5 && $V{REPORT_COUNT} % 2 == 0]]></conditionExpression>
             <style mode="Opaque" backcolor="#E8F0FB"/>
         </conditionalStyle>
     </style>

@@ -7,11 +7,7 @@ import javafx.scene.control.TextField;
 import javax.swing.JOptionPane;
 import java.sql.*;
 
-/**
- * Las tablas tbl_comprobante_fiscal y tbl_secuencia no existen en la BD.
- * Este controller está mapeado a tbl_itbs que es la tabla fiscal disponible:
- *   tbl_itbs: id_itbs (IDENTITY), categoria, tasa (decimal), desc (nullable)
- */
+
 public class CONTROLLER_Comprobante {
 
     Conexion conexion = new Conexion();
@@ -27,10 +23,7 @@ public class CONTROLLER_Comprobante {
     @FXML
     public void initialize() {}
 
-    /**
-     * Guarda una categoría de ITBS en tbl_itbs.
-     * Campos usados: Txttipo=categoria, Txtserie=tasa, Txtestado=descripcion
-     */
+
     @FXML
     public void FnGuardarComprobante(ActionEvent actionEvent) {
         String categoria = Txttipo != null ? Txttipo.getText().trim() : "";
@@ -74,10 +67,7 @@ public class CONTROLLER_Comprobante {
                 "Use FnGuardarComprobante para registrar tasas ITBS.");
     }
 
-    /**
-     * Edita el registro ITBS encontrado por FnBuscarComprobante.
-     * Requiere que Txtcodigo tenga el id_itbs.
-     */
+
     @FXML
     public void FnEditarComprobante(ActionEvent actionEvent) {
         String idStr     = Txtcodigo  != null ? Txtcodigo.getText().trim()  : "";
@@ -119,11 +109,10 @@ public class CONTROLLER_Comprobante {
         }
     }
 
-    /**
-     * Elimina el registro ITBS encontrado por FnBuscarComprobante.
-     */
+
     @FXML
     public void FnEliminarComprobante(ActionEvent actionEvent) {
+        if (!com.example.demo1.Utils.Permisos_Util.verificarEliminar()) return;
         String idStr = Txtcodigo != null ? Txtcodigo.getText().trim() : "";
         if (idStr.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Busque primero el registro a eliminar.");
@@ -149,9 +138,47 @@ public class CONTROLLER_Comprobante {
         }
     }
 
-    /**
-     * Busca por categoría en tbl_itbs.
-     */
+    @FXML
+    public void FnInhabilitar() {
+        String idStr = Txtcodigo != null ? Txtcodigo.getText().trim() : "";
+        if (idStr.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Ingrese el código del comprobante a inhabilitar.");
+            return;
+        }
+        int confirmar = JOptionPane.showConfirmDialog(null,
+                "¿Inhabilitar este comprobante? No se eliminará, solo quedará inactivo.",
+                "Confirmar", JOptionPane.YES_NO_OPTION);
+        if (confirmar != JOptionPane.YES_OPTION) return;
+        try (java.sql.Connection con = Conexion.establecerConexion();
+             java.sql.PreparedStatement ps = con.prepareStatement(
+                     "UPDATE tbl_itbs SET estado = 'Inactivo' WHERE id_itbs = ?")) {
+            ps.setInt(1, Integer.parseInt(idStr));
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Comprobante inhabilitado correctamente.");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al inhabilitar: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    public void FnHabilitar() {
+        String idStr = Txtcodigo != null ? Txtcodigo.getText().trim() : "";
+        if (idStr.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Busque primero el comprobante a habilitar.");
+            return;
+        }
+        try (java.sql.Connection con = conexion.establecerConexion();
+             java.sql.PreparedStatement ps = con.prepareStatement(
+                     "UPDATE tbl_itbs SET estado = 'Activo' WHERE id_itbs = ?")) {
+            ps.setInt(1, Integer.parseInt(idStr));
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Comprobante habilitado correctamente.");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al habilitar: " + e.getMessage());
+        }
+    }
+
+
     @FXML
     public void FnBuscarComprobante(ActionEvent actionEvent) {
         String categoria = Txttipo != null ? Txttipo.getText().trim() : "";

@@ -199,6 +199,7 @@ public class CONTROLLER_Maquina {
 
     @FXML
     public void FnEliminar() {
+        if (!com.example.demo1.Utils.Permisos_Util.verificarEliminar()) return;
         String nombre = TXTnombre.getText().trim();
         if (nombre.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Ingrese el nombre a eliminar.");
@@ -220,6 +221,49 @@ public class CONTROLLER_Maquina {
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    public void FnInhabilitar() {
+        String nombre = TXTnombre.getText().trim();
+        if (nombre.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Ingrese el nombre de la máquina a inhabilitar.");
+            return;
+        }
+        int confirmar = JOptionPane.showConfirmDialog(null,
+                "¿Inhabilitar '" + nombre + "'? No se eliminará, solo quedará inactiva.",
+                "Confirmar", JOptionPane.YES_NO_OPTION);
+        if (confirmar != JOptionPane.YES_OPTION) return;
+        try (java.sql.Connection con = Conexion.establecerConexion();
+             java.sql.PreparedStatement ps = con.prepareStatement(
+                     "UPDATE tbl_maquina SET estado = 'Inactivo' WHERE nombre_maquina = ?")) {
+            ps.setString(1, nombre);
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Máquina inhabilitada correctamente.");
+            limpiar();
+            cargarTabla();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al inhabilitar: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    public void FnHabilitar() {
+        String nombre = TXTnombre.getText().trim();
+        if (nombre.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Ingrese el nombre de la máquina a habilitar.");
+            return;
+        }
+        try (java.sql.Connection con = Conexion.establecerConexion();
+             java.sql.PreparedStatement ps = con.prepareStatement(
+                     "UPDATE tbl_maquina SET estado = 'Activo' WHERE nombre_maquina = ?")) {
+            ps.setString(1, nombre);
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Máquina habilitada correctamente.");
+            cargarTabla();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al habilitar: " + e.getMessage());
         }
     }
 

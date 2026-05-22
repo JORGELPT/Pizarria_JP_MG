@@ -6,6 +6,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javax.swing.JOptionPane;
 import java.io.File;
@@ -24,7 +26,9 @@ public class CONTROLLER_Producto {
     @FXML private TextField  Txtprecio;
     @FXML private TextField  txtporcion;
     @FXML private ComboBox<String> cmbtipo;
-    @FXML private Label      lblRutaImagen;
+    @FXML private Label     lblRutaImagen;
+    @FXML private ImageView imgProducto;
+    private String rutaImagenActual = null;
 
     @FXML private RadioButton rbSi;
     @FXML private RadioButton rbNo;
@@ -84,6 +88,13 @@ public class CONTROLLER_Producto {
     // ================================================================
     @FXML
     public void FnGuardar() {
+        if (com.example.demo1.Utils.CONTROLLER_Seccion.getInstancia().esCajero()) {
+            javax.swing.JOptionPane.showMessageDialog(null,
+                    "Los cajeros no pueden agregar productos nuevos.",
+                    "Acceso denegado", javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (!com.example.demo1.Utils.Permisos_Util.verificarInsertar()) return;
         String nombre   = Txtnombre.getText().trim();
         String tipo     = cmbtipo.getValue();
         boolean disp    = rbSi.isSelected();
@@ -181,12 +192,14 @@ public class CONTROLLER_Producto {
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 idProductoActual = rs.getInt("id_producto");
-                Txtnombre.setText(rs.getString("nombre"));
+                String nombreEncontrado = rs.getString("nombre");
+                Txtnombre.setText(nombreEncontrado);
                 cmbtipo.setValue(rs.getString("tipo"));
                 boolean disp = rs.getBoolean("disponibilidad");
                 if (disp) rbSi.setSelected(true); else rbNo.setSelected(true);
                 double precio = rs.getDouble("precio");
                 if (Txtprecio != null && precio > 0) Txtprecio.setText(String.valueOf(precio));
+                autoCargarImagen(nombreEncontrado);
             } else {
                 JOptionPane.showMessageDialog(null, "No se encontró el producto.");
                 idProductoActual = -1;
@@ -240,6 +253,7 @@ public class CONTROLLER_Producto {
     // ================================================================
     @FXML
     public void FnEliminar() {
+        if (!com.example.demo1.Utils.Permisos_Util.verificarEliminar()) return;
         if (idProductoActual == -1) {
             JOptionPane.showMessageDialog(null, "Seleccione un producto de la tabla o use 🔍.");
             return;
@@ -269,14 +283,78 @@ public class CONTROLLER_Producto {
     }
 
     @FXML
+    public void FnInhabilitar() {
+        if (idProductoActual == -1) {
+            JOptionPane.showMessageDialog(null, "Seleccione un producto de la tabla o use 🔍.");
+            return;
+        }
+        int confirmar = JOptionPane.showConfirmDialog(null,
+                "¿Inhabilitar este producto? No se eliminará, solo quedará no disponible.",
+                "Confirmar", JOptionPane.YES_NO_OPTION);
+        if (confirmar != JOptionPane.YES_OPTION) return;
+        try (java.sql.Connection con = Conexion.establecerConexion();
+             java.sql.PreparedStatement ps = con.prepareStatement(
+                     "UPDATE tbl_producto SET disponibilidad = 0 WHERE id_producto = ?")) {
+            ps.setInt(1, idProductoActual);
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Producto inhabilitado correctamente.");
+            idProductoActual = -1;
+            limpiar();
+            cargarTabla();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al inhabilitar: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    public void FnHabilitar() {
+        if (idProductoActual == -1) {
+            JOptionPane.showMessageDialog(null, "Seleccione un producto de la tabla o use 🔍.");
+            return;
+        }
+        try (java.sql.Connection con = conexion.establecerConexion();
+             java.sql.PreparedStatement ps = con.prepareStatement(
+                     "UPDATE tbl_producto SET disponibilidad = 1 WHERE id_producto = ?")) {
+            ps.setInt(1, idProductoActual);
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Producto habilitado correctamente.");
+            idProductoActual = -1;
+            limpiar();
+            cargarTabla();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al habilitar: " + e.getMessage());
+        }
+    }
+
+    @FXML
     public void FnSeleccionarImagen() {
         FileChooser fc = new FileChooser();
+        fc.setTitle("Seleccionar imagen del producto");
         fc.getExtensionFilters().add(
                 new FileChooser.ExtensionFilter("Imágenes", "*.png", "*.jpg", "*.jpeg", "*.gif"));
         File file = fc.showOpenDialog(null);
-        if (file != null && lblRutaImagen != null) {
-            lblRutaImagen.setText(file.getAbsolutePath());
+        if (file != null) {
+            rutaImagenActual = file.getAbsolutePath();
+            if (lblRutaImagen != null) lblRutaImagen.setText(file.getName());
+            mostrarImagen(rutaImagenActual);
         }
+    }
+
+    private void mostrarImagen(String ruta) {
+        if (imgProducto == null || ruta == null || ruta.isBlank()) return;
+        try {
+            Image img = null;
+            if (ruta.startsWith("/")) {
+                // Ruta de classpath (imágenes empaquetadas en resources)
+                var stream = getClass().getResourceAsStream(ruta);
+                if (stream != null) img = new Image(stream);
+            } else {
+                // Ruta absoluta del sistema de archivos
+                File f = new File(ruta);
+                if (f.exists()) img = new Image(f.toURI().toString());
+            }
+            if (img != null) imgProducto.setImage(img);
+        } catch (Exception ignored) {}
     }
 
     // ================================================================
@@ -314,7 +392,6 @@ public class CONTROLLER_Producto {
         Txtnombre.setText(row.nombre.get());
         cmbtipo.setValue(row.tipo.get());
         if (Txtprecio != null) Txtprecio.setText(row.precio.get().equals("—") ? "" : row.precio.get());
-        // Buscar id para editar/eliminar
         try (Connection con = conexion.establecerConexion();
              PreparedStatement ps = con.prepareStatement(
                      "SELECT id_producto, disponibilidad FROM tbl_producto WHERE nombre = ?")) {
@@ -326,6 +403,45 @@ public class CONTROLLER_Producto {
                 else rbNo.setSelected(true);
             }
         } catch (Exception ignore) {}
+        autoCargarImagen(row.nombre.get());
+    }
+
+    private void autoCargarImagen(String nombre) {
+        if (imgProducto == null || nombre == null) return;
+        String base = "/com/example/demo1/imagenes/productos/";
+        String[] exts = {".jpg", ".png", ".jpeg"};
+        // 1. Coincidencia exacta
+        for (String ext : exts) {
+            var stream = getClass().getResourceAsStream(base + nombre + ext);
+            if (stream != null) {
+                imgProducto.setImage(new Image(stream));
+                if (lblRutaImagen != null) lblRutaImagen.setText(nombre + ext);
+                return;
+            }
+        }
+        // 2. Coincidencia parcial: alguna imagen cuyo nombre contiene una palabra del producto
+        String[] palabras = nombre.toLowerCase().split("\\s+");
+        try {
+            var dir = getClass().getResource(base);
+            if (dir != null) {
+                File folder = new File(dir.toURI());
+                File[] files = folder.listFiles();
+                if (files == null) return;
+                for (File img : files) {
+                    String fn = img.getName().toLowerCase();
+                    for (String palabra : palabras) {
+                        if (palabra.length() > 3 && fn.contains(palabra)) {
+                            imgProducto.setImage(new Image(img.toURI().toString()));
+                            if (lblRutaImagen != null) lblRutaImagen.setText(img.getName());
+                            return;
+                        }
+                    }
+                }
+            }
+        } catch (Exception ignored) {}
+        // 3. Sin coincidencia
+        imgProducto.setImage(null);
+        if (lblRutaImagen != null) lblRutaImagen.setText("Sin imagen");
     }
 
     public void limpiar() {
@@ -340,7 +456,9 @@ public class CONTROLLER_Producto {
         chkMaiz.setSelected(false);     chkSalchicha.setSelected(false);
         chkVegetales.setSelected(false); chkPina.setSelected(false);
         chkBebida.setSelected(false);   chkOtro.setSelected(false);
-        if (lblRutaImagen != null) lblRutaImagen.setText("Seleccionar Archivo");
+        if (lblRutaImagen != null) lblRutaImagen.setText("Sin imagen seleccionada");
+        if (imgProducto   != null) imgProducto.setImage(null);
+        rutaImagenActual = null;
         idProductoActual = -1;
     }
 

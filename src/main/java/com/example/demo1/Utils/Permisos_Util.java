@@ -56,7 +56,7 @@ public class Permisos_Util {
         if (!CONTROLLER_Seccion.getInstancia().puedeEliminar()) {
             JOptionPane.showMessageDialog(null,
                     "Tu rol (" + CONTROLLER_Seccion.getInstancia().getRol() + ") no tiene permisos para eliminar.\n" +
-                    "Solo los roles ADMIN y GERENTE pueden hacerlo.",
+                    "Solo el ADMINISTRADOR puede eliminar registros.",
                     "Acceso denegado", JOptionPane.WARNING_MESSAGE);
             return false;
         }
@@ -70,6 +70,20 @@ public class Permisos_Util {
         if (!CONTROLLER_Seccion.getInstancia().puedeBuscar()) {
             JOptionPane.showMessageDialog(null,
                     "Tu rol (" + CONTROLLER_Seccion.getInstancia().getRol() + ") no tiene permisos para buscar.",
+                    "Acceso denegado", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Solo ADMIN y GERENTE pueden generar reportes/exportar PDF.
+     */
+    public static boolean verificarReporte() {
+        CONTROLLER_Seccion s = CONTROLLER_Seccion.getInstancia();
+        if (!s.esAdmin() && !s.esGerente()) {
+            JOptionPane.showMessageDialog(null,
+                    "Solo los roles ADMIN y GERENTE pueden generar reportes.",
                     "Acceso denegado", JOptionPane.WARNING_MESSAGE);
             return false;
         }

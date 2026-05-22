@@ -56,7 +56,7 @@
             </Label>
 
             <ImageView fitHeight="28" fitWidth="28" preserveRatio="true">
-                <image><Image url="@../imagenes/p1-removebg-preview.png"/></image>
+                <image><Image url="@../imagenes/Logo.png"/></image>
             </ImageView>
         </HBox>
     </top>
@@ -78,7 +78,7 @@
                 <HBox alignment="CENTER_LEFT" spacing="10"
                       style="-fx-padding: 2 4 12 4;">
                     <ImageView fitHeight="30" fitWidth="30" preserveRatio="true">
-                        <image><Image url="@../imagenes/p1-removebg-preview.png"/></image>
+                        <image><Image url="@../imagenes/Logo.png"/></image>
                     </ImageView>
                     <VBox spacing="2">
                         <Label text="DOMINO'S PIZZA"
@@ -141,6 +141,9 @@
                             <Button maxWidth="Infinity" onAction="#abrirHacerPedido"
                                     text="✎  Hacer un Pedido"
                                     styleClass="side-sub-btn"/>
+                            <Button maxWidth="Infinity" onAction="#abrirCuentasAbiertas"
+                                    text="📋  Cuentas Abiertas"
+                                    styleClass="side-sub-btn"/>
                             <!-- 👤 roto → @ (usuario) -->
                             <Button maxWidth="Infinity" onAction="#abrirRegistroCliente"
                                     text="●  Registro de Cliente"
@@ -202,6 +205,9 @@
                             <!-- 👨‍🍳 roto → @ -->
                             <Button maxWidth="Infinity" onAction="#abrirAgregarEmpleado"
                                     text="●  Agregar Empleado"
+                                    styleClass="side-sub-btn"/>
+                            <Button maxWidth="Infinity" onAction="#abrirGestionUsuarios"
+                                    text="🔐  Gestión de Usuarios"
                                     styleClass="side-sub-btn"/>
                             <!-- 💼 roto → ◆ -->
                             <Button maxWidth="Infinity" onAction="#abrirAgregarCargo"

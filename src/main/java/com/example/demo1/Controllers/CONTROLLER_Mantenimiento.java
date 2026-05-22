@@ -232,6 +232,7 @@ public class CONTROLLER_Mantenimiento {
 
     @FXML
     public void FnEliminar() {
+        if (!com.example.demo1.Utils.Permisos_Util.verificarEliminar()) return;
         if (idMantenimiento == -1) {
             JOptionPane.showMessageDialog(null, "Use el botón 🔍 para buscar el mantenimiento a eliminar.");
             return;
@@ -264,6 +265,48 @@ public class CONTROLLER_Mantenimiento {
             JOptionPane.showMessageDialog(null, "Error al eliminar: " + e.getMessage());
         } finally {
             try { if (con != null) con.close(); } catch (Exception ignore) {}
+        }
+    }
+
+    @FXML
+    public void FnInhabilitar() {
+        if (idMantenimiento == -1) {
+            JOptionPane.showMessageDialog(null, "Use el botón 🔍 para buscar el mantenimiento primero.");
+            return;
+        }
+        int confirmar = JOptionPane.showConfirmDialog(null,
+                "¿Inhabilitar el mantenimiento #" + idMantenimiento + "? No se eliminará, solo quedará inactivo.",
+                "Confirmar", JOptionPane.YES_NO_OPTION);
+        if (confirmar != JOptionPane.YES_OPTION) return;
+        try (java.sql.Connection con = Conexion.establecerConexion();
+             java.sql.PreparedStatement ps = con.prepareStatement(
+                     "UPDATE tbl_mantenimiento SET estado = 'Inactivo' WHERE id_mantenimiento = ?")) {
+            ps.setInt(1, idMantenimiento);
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Mantenimiento inhabilitado correctamente.");
+            idMantenimiento = -1;
+            limpiar();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al inhabilitar: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    public void FnHabilitar() {
+        if (idMantenimiento == -1) {
+            JOptionPane.showMessageDialog(null, "Use el botón 🔍 para buscar el mantenimiento a habilitar.");
+            return;
+        }
+        try (java.sql.Connection con = conexion.establecerConexion();
+             java.sql.PreparedStatement ps = con.prepareStatement(
+                     "UPDATE tbl_mantenimiento SET estado = 'Activo' WHERE id_mantenimiento = ?")) {
+            ps.setInt(1, idMantenimiento);
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Mantenimiento habilitado correctamente.");
+            idMantenimiento = -1;
+            limpiar();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al habilitar: " + e.getMessage());
         }
     }
 

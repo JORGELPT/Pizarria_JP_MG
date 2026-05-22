@@ -196,6 +196,7 @@ public class CONTROLLER_Inv_Ingrediente {
 
     @FXML
     public void FnEliminar() {
+        if (!com.example.demo1.Utils.Permisos_Util.verificarEliminar()) return;
         String nombre = TXTnombre.getText().trim();
         if (nombre.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Ingrese el nombre a eliminar.");

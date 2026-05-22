@@ -42,6 +42,8 @@
             <HBox spacing="10" alignment="CENTER_LEFT">
                 <Button text="Guardar" onAction="#FnGuardar" styleClass="btn-primary"/>
                 <Button text="Eliminar" onAction="#FnEliminar" styleClass="btn-danger"/>
+                <Button text="Inhabilitar" onAction="#FnInhabilitar" styleClass="btn-warning"/>
+                <Button text="Habilitar" onAction="#FnHabilitar" styleClass="btn-success"/>
                 <Region HBox.hgrow="ALWAYS"/>
                 <Button text="Editar" onAction="#FnEditar" styleClass="btn-secondary"/>
                 <Button text="🔍 Buscar" onAction="#FnBuscar" styleClass="btn-primary"/>
@@ -52,6 +54,7 @@
                     <TableColumn fx:id="colNombre"    prefWidth="220" text="Nombre"/>
                     <TableColumn fx:id="colTipo"      prefWidth="180" text="Tipo"/>
                     <TableColumn fx:id="colDireccion" prefWidth="280" text="Dirección"/>
+                    <TableColumn fx:id="colEstado"    prefWidth="100" text="Estado"/>
                 </columns>
                 <placeholder><Label text="Sin registros." styleClass="info-label"/></placeholder>
             </TableView>

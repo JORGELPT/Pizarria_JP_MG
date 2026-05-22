@@ -9,38 +9,30 @@ import javafx.scene.control.*;
 import javax.swing.JOptionPane;
 import java.sql.*;
 
-/**
- * tbl_envio: id_envio, costo_servicio, id_metodo_envio, id_pedido, observacion, direccion
- */
 public class CONTROLLER_Envio {
 
     Conexion conexion = new Conexion();
 
-    @FXML private TextField        TXTidPedido;
-    @FXML private TextField        TXTdireccion;
-    @FXML private TextField        TXTcostoServicio;
-    @FXML private TextField        TXTobservacion;
-    @FXML private ComboBox<String> cmbMetodoEnvio;
-    @FXML private Label            lblCliente;
+    @FXML private TextField TXTidPedido;
+    @FXML private TextField TXTdireccion;
+    @FXML private Label     lblCliente;
 
     @FXML private TableView<EnvioRow>           tablaEnvios;
     @FXML private TableColumn<EnvioRow, String> colIdPedido;
+    @FXML private TableColumn<EnvioRow, String> colCliente;
     @FXML private TableColumn<EnvioRow, String> colDireccion;
-    @FXML private TableColumn<EnvioRow, String> colCosto;
     @FXML private TableColumn<EnvioRow, String> colMetodoEnvio;
-    @FXML private TableColumn<EnvioRow, String> colObservacion;
+    @FXML private TableColumn<EnvioRow, String> colEstado;
 
     private int idEnvioSeleccionado = -1;
 
     @FXML
     public void initialize() {
         colIdPedido.setCellValueFactory(c    -> c.getValue().idPedido);
+        colCliente.setCellValueFactory(c     -> c.getValue().cliente);
         colDireccion.setCellValueFactory(c   -> c.getValue().direccion);
-        colCosto.setCellValueFactory(c       -> c.getValue().costo);
         colMetodoEnvio.setCellValueFactory(c -> c.getValue().metodoEnvio);
-        colObservacion.setCellValueFactory(c -> c.getValue().observacion);
-
-        cargarMetodosEnvio();
+        colEstado.setCellValueFactory(c      -> c.getValue().estado);
 
         tablaEnvios.getSelectionModel().selectedItemProperty().addListener(
                 (obs, old, sel) -> {
@@ -48,94 +40,41 @@ public class CONTROLLER_Envio {
                     idEnvioSeleccionado = sel.idEnvio;
                     TXTidPedido.setText(sel.idPedido.get());
                     TXTdireccion.setText(sel.direccion.get());
-                    TXTcostoServicio.setText(sel.costo.get());
-                    TXTobservacion.setText(sel.observacion.get());
+                    lblCliente.setText("Cliente: " + sel.cliente.get());
                 });
 
         cargarTabla();
     }
 
-    private void cargarMetodosEnvio() {
-        // Intenta cargar desde tbl_metodo_envio; si no existe usa valores fijos
-        ObservableList<String> lista = FXCollections.observableArrayList();
+    @FXML
+    public void FnActualizarDireccion() {
+        if (idEnvioSeleccionado == -1) {
+            JOptionPane.showMessageDialog(null, "Seleccione un envío de la tabla primero.");
+            return;
+        }
+        String nuevaDireccion = TXTdireccion.getText().trim();
+        if (nuevaDireccion.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "La dirección no puede estar vacía.");
+            return;
+        }
         try (Connection con = conexion.establecerConexion();
              PreparedStatement ps = con.prepareStatement(
-                     "SELECT id_metodo_envio, descripcion FROM tbl_metodo_envio ORDER BY id_metodo_envio");
-             ResultSet rs = ps.executeQuery()) {
-            while (rs.next())
-                lista.add(rs.getInt("id_metodo_envio") + " - " + rs.getString("descripcion"));
-        } catch (Exception ignored) {
-            lista.setAll("1 - Propio", "2 - Externo", "3 - Recogida en tienda");
-        }
-        cmbMetodoEnvio.setItems(lista);
-    }
-
-    @FXML
-    public void FnBuscarPedido() {
-        String idStr = TXTidPedido.getText().trim();
-        if (idStr.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Ingrese el ID del pedido.");
-            return;
-        }
-        String sql = "SELECT ped.id_pedido, per.nombre " +
-                "FROM tbl_pedido ped " +
-                "INNER JOIN tbl_persona per ON ped.id_cliente = per.id_persona " +
-                "WHERE ped.id_pedido = ?";
-        try (Connection con = conexion.establecerConexion();
-             PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setInt(1, Integer.parseInt(idStr));
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                lblCliente.setText("Cliente: " + rs.getString("nombre"));
-            } else {
-                lblCliente.setText("Cliente: — no encontrado");
-                JOptionPane.showMessageDialog(null, "No se encontró el pedido.");
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error al buscar pedido: " + e.getMessage());
-        }
-    }
-
-    @FXML
-    public void FnGuardar() {
-        String idPedido    = TXTidPedido.getText().trim();
-        String direccion   = TXTdireccion.getText().trim();
-        String costoStr    = TXTcostoServicio.getText().trim();
-        String observacion = TXTobservacion.getText().trim();
-        String metodoSel   = cmbMetodoEnvio.getValue();
-
-        if (idPedido.isEmpty() || direccion.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "ID pedido y dirección son obligatorios.");
-            return;
-        }
-
-        int idMetodo = 1;
-        if (metodoSel != null && !metodoSel.isEmpty()) {
-            try { idMetodo = Integer.parseInt(metodoSel.split(" - ")[0].trim()); }
-            catch (NumberFormatException ignored) {}
-        }
-
-        String sql = "INSERT INTO tbl_envio (id_pedido, direccion, costo_servicio, id_metodo_envio, observacion) " +
-                "VALUES (?, ?, ?, ?, ?)";
-        try (Connection con = conexion.establecerConexion();
-             PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setInt(1, Integer.parseInt(idPedido));
-            ps.setString(2, direccion);
-            ps.setBigDecimal(3, costoStr.isEmpty() ? java.math.BigDecimal.ZERO
-                    : new java.math.BigDecimal(costoStr));
-            ps.setInt(4, idMetodo);
-            ps.setString(5, observacion.isEmpty() ? null : observacion);
+                     "UPDATE tbl_envio SET direccion = ? WHERE id_envio = ?")) {
+            ps.setString(1, nuevaDireccion);
+            ps.setInt(2, idEnvioSeleccionado);
             ps.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Envío registrado correctamente.");
+            JOptionPane.showMessageDialog(null, "Dirección actualizada correctamente.");
+            idEnvioSeleccionado = -1;
             limpiar();
             cargarTabla();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error al guardar: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al actualizar: " + e.getMessage());
         }
     }
 
     @FXML
     public void FnEliminar() {
+        if (!com.example.demo1.Utils.Permisos_Util.verificarEliminar()) return;
         if (idEnvioSeleccionado == -1) {
             JOptionPane.showMessageDialog(null, "Seleccione un envío de la tabla primero.");
             return;
@@ -145,9 +84,9 @@ public class CONTROLLER_Envio {
                 "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
         if (confirmar != JOptionPane.YES_OPTION) return;
 
-        String sql = "DELETE FROM tbl_envio WHERE id_envio = ?";
         try (Connection con = conexion.establecerConexion();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+             PreparedStatement ps = con.prepareStatement(
+                     "DELETE FROM tbl_envio WHERE id_envio = ?")) {
             ps.setInt(1, idEnvioSeleccionado);
             ps.executeUpdate();
             JOptionPane.showMessageDialog(null, "Envío eliminado correctamente.");
@@ -160,44 +99,45 @@ public class CONTROLLER_Envio {
     }
 
     @FXML
-    public void FnEditar() {
+    public void FnInhabilitar() {
         if (idEnvioSeleccionado == -1) {
             JOptionPane.showMessageDialog(null, "Seleccione un envío de la tabla primero.");
             return;
         }
-        String idPedido    = TXTidPedido.getText().trim();
-        String direccion   = TXTdireccion.getText().trim();
-        String costoStr    = TXTcostoServicio.getText().trim();
-        String observacion = TXTobservacion.getText().trim();
-        String metodoSel   = cmbMetodoEnvio.getValue();
-
-        if (direccion.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "La dirección es obligatoria.");
-            return;
-        }
-
-        int idMetodo = 1;
-        if (metodoSel != null && !metodoSel.isEmpty()) {
-            try { idMetodo = Integer.parseInt(metodoSel.split(" - ")[0].trim()); }
-            catch (NumberFormatException ignored) {}
-        }
-
-        String sql = "UPDATE tbl_envio SET direccion=?, costo_servicio=?, id_metodo_envio=?, observacion=? WHERE id_envio=?";
+        int confirmar = JOptionPane.showConfirmDialog(null,
+                "¿Inhabilitar este envío? No se eliminará, solo quedará inactivo.",
+                "Confirmar", JOptionPane.YES_NO_OPTION);
+        if (confirmar != JOptionPane.YES_OPTION) return;
         try (Connection con = conexion.establecerConexion();
-             PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, direccion);
-            ps.setBigDecimal(2, costoStr.isEmpty() ? java.math.BigDecimal.ZERO
-                    : new java.math.BigDecimal(costoStr));
-            ps.setInt(3, idMetodo);
-            ps.setString(4, observacion.isEmpty() ? null : observacion);
-            ps.setInt(5, idEnvioSeleccionado);
+             PreparedStatement ps = con.prepareStatement(
+                     "UPDATE tbl_envio SET estado = 'Inactivo' WHERE id_envio = ?")) {
+            ps.setInt(1, idEnvioSeleccionado);
             ps.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Envío actualizado correctamente.");
+            JOptionPane.showMessageDialog(null, "Envío inhabilitado correctamente.");
             idEnvioSeleccionado = -1;
             limpiar();
             cargarTabla();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error al actualizar: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al inhabilitar: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    public void FnHabilitar() {
+        if (idEnvioSeleccionado == -1) {
+            JOptionPane.showMessageDialog(null, "Seleccione un envío de la tabla primero.");
+            return;
+        }
+        try (Connection con = conexion.establecerConexion();
+             PreparedStatement ps = con.prepareStatement(
+                     "UPDATE tbl_envio SET estado = 'Activo' WHERE id_envio = ?")) {
+            ps.setInt(1, idEnvioSeleccionado);
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Envío habilitado correctamente.");
+            idEnvioSeleccionado = -1;
+            cargarTabla();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al habilitar: " + e.getMessage());
         }
     }
 
@@ -207,9 +147,9 @@ public class CONTROLLER_Envio {
         if (idStr.isEmpty()) { cargarTabla(); return; }
 
         ObservableList<EnvioRow> datos = FXCollections.observableArrayList();
-        String sql = buildSelectSQL() + " WHERE e.id_pedido = ?";
         try (Connection con = conexion.establecerConexion();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+             PreparedStatement ps = con.prepareStatement(
+                     buildSelectSQL() + " WHERE e.id_pedido = ?")) {
             ps.setInt(1, Integer.parseInt(idStr));
             ResultSet rs = ps.executeQuery();
             while (rs.next()) datos.add(filaDesdeRS(rs));
@@ -221,9 +161,9 @@ public class CONTROLLER_Envio {
 
     private void cargarTabla() {
         ObservableList<EnvioRow> datos = FXCollections.observableArrayList();
-        String sql = buildSelectSQL() + " ORDER BY e.id_envio DESC";
         try (Connection con = conexion.establecerConexion();
-             PreparedStatement ps = con.prepareStatement(sql);
+             PreparedStatement ps = con.prepareStatement(
+                     buildSelectSQL() + " ORDER BY e.id_envio DESC");
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) datos.add(filaDesdeRS(rs));
             tablaEnvios.setItems(datos);
@@ -233,42 +173,45 @@ public class CONTROLLER_Envio {
     }
 
     private String buildSelectSQL() {
-        return "SELECT e.id_envio, e.id_pedido, e.direccion, e.costo_servicio, " +
-                "CAST(e.id_metodo_envio AS VARCHAR) AS metodo_envio, e.observacion " +
-                "FROM tbl_envio e";
+        return "SELECT e.id_envio, e.id_pedido, e.direccion, " +
+                "CAST(e.id_metodo_envio AS VARCHAR) AS metodo_envio, " +
+                "ISNULL(e.estado, 'Activo') AS estado, " +
+                "ISNULL(per.nombre, '—') AS nombre_cliente " +
+                "FROM tbl_envio e " +
+                "LEFT JOIN tbl_pedido  ped ON ped.id_pedido  = e.id_pedido " +
+                "LEFT JOIN tbl_cliente cli ON cli.id_cliente = ped.id_cliente " +
+                "LEFT JOIN tbl_persona per ON per.id_persona = cli.id_persona";
     }
 
     private EnvioRow filaDesdeRS(ResultSet rs) throws SQLException {
         return new EnvioRow(
                 rs.getInt("id_envio"),
                 String.valueOf(rs.getInt("id_pedido")),
-                rs.getString("direccion") != null ? rs.getString("direccion") : "",
-                rs.getBigDecimal("costo_servicio") != null
-                        ? rs.getBigDecimal("costo_servicio").toPlainString() : "",
-                rs.getString("metodo_envio") != null ? rs.getString("metodo_envio") : "",
-                rs.getString("observacion") != null ? rs.getString("observacion") : ""
+                rs.getString("nombre_cliente") != null ? rs.getString("nombre_cliente") : "—",
+                rs.getString("direccion")      != null ? rs.getString("direccion")      : "",
+                rs.getString("metodo_envio")   != null ? rs.getString("metodo_envio")   : "",
+                rs.getString("estado")         != null ? rs.getString("estado")         : "Activo"
         );
     }
 
     private void limpiar() {
-        TXTidPedido.clear(); TXTdireccion.clear();
-        TXTcostoServicio.clear(); TXTobservacion.clear();
-        cmbMetodoEnvio.getSelectionModel().clearSelection();
+        TXTidPedido.clear();
+        TXTdireccion.clear();
         lblCliente.setText("Cliente: —");
     }
 
     public static class EnvioRow {
         final int idEnvio;
-        final SimpleStringProperty idPedido, direccion, costo, metodoEnvio, observacion;
+        final SimpleStringProperty idPedido, cliente, direccion, metodoEnvio, estado;
 
-        public EnvioRow(int idEnvio, String idPedido, String direccion, String costo,
-                        String metodoEnvio, String observacion) {
+        public EnvioRow(int idEnvio, String idPedido, String cliente,
+                        String direccion, String metodoEnvio, String estado) {
             this.idEnvio     = idEnvio;
             this.idPedido    = new SimpleStringProperty(idPedido);
+            this.cliente     = new SimpleStringProperty(cliente);
             this.direccion   = new SimpleStringProperty(direccion);
-            this.costo       = new SimpleStringProperty(costo);
             this.metodoEnvio = new SimpleStringProperty(metodoEnvio);
-            this.observacion = new SimpleStringProperty(observacion);
+            this.estado      = new SimpleStringProperty(estado);
         }
     }
 }

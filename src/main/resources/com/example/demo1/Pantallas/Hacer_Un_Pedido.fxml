@@ -139,6 +139,15 @@
                                    -fx-cursor: hand; -fx-padding: 0; -fx-font-size: 10px;"/>
                 </HBox>
 
+                <!-- ScrollPane que envuelve todo el contenido del carrito -->
+                <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
+                            hbarPolicy="NEVER" vbarPolicy="AS_NEEDED"
+                            style="-fx-background-color: transparent;
+                                   -fx-background: transparent;
+                                   -fx-border-color: transparent;">
+                    <VBox spacing="0">
+                        <padding><Insets top="0" right="0" bottom="0" left="0"/></padding>
+
                 <!-- ── Tabs tipo de entrega ── -->
                 <HBox fx:id="hboxEntrega" spacing="5"
                       style="-fx-padding: 0 12 8 12;">
@@ -177,7 +186,7 @@
                                   -fx-text-fill: rgba(255,255,255,0.40);
                                   -fx-font-family: 'Segoe UI';"/>
                     <HBox spacing="6" alignment="CENTER_LEFT">
-                        <TextField fx:id="txtCedula" promptText="Cédula del cliente"
+                        <TextField fx:id="txtCedula" promptText="Cédula o nombre del cliente"
                                    HBox.hgrow="ALWAYS" onAction="#FnBuscarCliente"
                                    style="-fx-background-color: rgba(255,255,255,0.08);
                                           -fx-background-radius: 10;
@@ -199,16 +208,10 @@
                 </VBox>
 
                 <!-- ── Lista ítems del carrito ── -->
-                <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
-                            hbarPolicy="NEVER" vbarPolicy="AS_NEEDED"
-                            style="-fx-background-color: transparent;
-                                   -fx-background: transparent;
-                                   -fx-border-color: transparent;">
-                    <VBox fx:id="vboxItems" spacing="8"
-                          style="-fx-background-color: transparent;">
-                        <padding><Insets top="10" right="12" bottom="8" left="12"/></padding>
-                    </VBox>
-                </ScrollPane>
+                <VBox fx:id="vboxItems" spacing="8"
+                      style="-fx-background-color: transparent;">
+                    <padding><Insets top="10" right="12" bottom="8" left="12"/></padding>
+                </VBox>
 
                 <!-- ── Sección Delivery campos (oculta) ── -->
                 <VBox fx:id="vboxDelivery" spacing="5" visible="false" managed="false"
@@ -243,26 +246,37 @@
                                       -fx-padding: 8 10; -fx-font-size: 12px;"/>
                 </VBox>
 
-                <!-- ── Código promo ── -->
-                <HBox alignment="CENTER_LEFT" spacing="8"
-                      style="-fx-padding: 7 12;
-                             -fx-background-color: rgba(255,255,255,0.03);
-                             -fx-border-color: rgba(255,255,255,0.07) transparent rgba(255,255,255,0.07) transparent;
+                <!-- ── Código Promocional ── -->
+                <VBox spacing="5"
+                      style="-fx-padding: 6 14 6 14;
+                             -fx-border-color: rgba(255,255,255,0.08) transparent rgba(255,255,255,0.08) transparent;
                              -fx-border-width: 1 0 1 0;">
-                    <Label text="Código Promo"
-                           style="-fx-text-fill: rgba(255,255,255,0.60); -fx-font-size: 12px;
-                                  -fx-font-family: 'Segoe UI';"
-                           HBox.hgrow="ALWAYS"/>
-                    <TextField fx:id="txtPromo" promptText="Código..."
-                               prefWidth="88"
-                               style="-fx-background-color: rgba(255,255,255,0.08);
-                                      -fx-background-radius: 8;
-                                      -fx-border-color: rgba(255,255,255,0.18);
-                                      -fx-border-radius: 8; -fx-border-width: 1;
-                                      -fx-text-fill: white;
-                                      -fx-prompt-text-fill: rgba(255,255,255,0.28);
-                                      -fx-padding: 6 10; -fx-font-size: 11px;"/>
-                </HBox>
+                    <Label text="CÓDIGO PROMOCIONAL"
+                           style="-fx-font-size: 10px; -fx-font-weight: bold;
+                                  -fx-text-fill: rgba(255,255,255,0.40);"/>
+                    <HBox spacing="6">
+                        <TextField fx:id="txtCodigoPromo"
+                                   promptText="Código de descuento..."
+                                   HBox.hgrow="ALWAYS"
+                                   onAction="#FnAplicarPromo"
+                                   style="-fx-background-color: rgba(255,255,255,0.08);
+                                          -fx-background-radius: 10;
+                                          -fx-border-color: rgba(255,255,255,0.15);
+                                          -fx-border-radius: 10; -fx-border-width: 1;
+                                          -fx-text-fill: white;
+                                          -fx-prompt-text-fill: rgba(255,255,255,0.32);
+                                          -fx-padding: 8 10; -fx-font-size: 12px;"/>
+                        <Button text="OK" onAction="#FnAplicarPromo"
+                                style="-fx-background-color: #f0a500; -fx-text-fill: white;
+                                       -fx-font-size: 14px; -fx-font-weight: bold;
+                                       -fx-background-radius: 10; -fx-cursor: hand;
+                                       -fx-min-width: 36; -fx-min-height: 36;
+                                       -fx-max-width: 36; -fx-max-height: 36;
+                                       -fx-effect: dropshadow(gaussian,rgba(240,165,0,0.40),6,0,0,1);"/>
+                    </HBox>
+                    <Label fx:id="lblPromoStatus" text=""
+                           style="-fx-font-size: 10px; -fx-text-fill: #4cd97b; -fx-font-weight: bold;"/>
+                </VBox>
 
                 <!-- ── Subtotales ── -->
                 <VBox spacing="5" style="-fx-padding: 8 14 6 14;">
@@ -274,13 +288,6 @@
                         <Label fx:id="lblSubtotal" text="0.00"
                                style="-fx-font-size: 12px; -fx-font-weight: bold;
                                       -fx-text-fill: white;"/>
-                    </HBox>
-                    <HBox>
-                        <Label text="Descuento"
-                               style="-fx-font-size: 12px; -fx-text-fill: rgba(255,255,255,0.50);"
-                               HBox.hgrow="ALWAYS"/>
-                        <Label fx:id="lblDescuento" text="-$0.00"
-                               style="-fx-font-size: 12px; -fx-text-fill: #4cd97b;"/>
                     </HBox>
                     <HBox>
                         <Label fx:id="lblItbsNombre" text="ITBIS (18%)"
@@ -339,6 +346,141 @@
                     </HBox>
                 </VBox>
 
+                <!-- ── Panel Pago Efectivo (visible solo cuando se elige Efectivo) ── -->
+                <VBox fx:id="vboxPagoEfectivo" spacing="7" visible="false" managed="false"
+                      style="-fx-padding: 8 14 10 14;
+                             -fx-background-color: rgba(255,255,255,0.05);
+                             -fx-border-color: rgba(255,255,255,0.10) transparent rgba(255,255,255,0.10) transparent;
+                             -fx-border-width: 1 0 1 0;">
+                    <Label text="PAGO EN EFECTIVO"
+                           style="-fx-font-size: 10px; -fx-font-weight: bold;
+                                  -fx-text-fill: rgba(255,255,255,0.40);"/>
+                    <HBox alignment="CENTER_LEFT">
+                        <Label text="Monto a pagar:"
+                               style="-fx-text-fill: rgba(255,255,255,0.70); -fx-font-size: 12px;"
+                               HBox.hgrow="ALWAYS"/>
+                        <Label fx:id="lblMontoEfectivo" text="0.00"
+                               style="-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px;"/>
+                    </HBox>
+                    <HBox spacing="8" alignment="CENTER_LEFT">
+                        <Label text="Cantidad recibida:"
+                               style="-fx-text-fill: rgba(255,255,255,0.70); -fx-font-size: 12px;"/>
+                        <TextField fx:id="txtCantidadRecibida" promptText="0.00"
+                                   HBox.hgrow="ALWAYS" onKeyReleased="#FnCalcularCambio"
+                                   style="-fx-background-color: rgba(255,255,255,0.10);
+                                          -fx-background-radius: 8;
+                                          -fx-border-color: rgba(255,255,255,0.22);
+                                          -fx-border-radius: 8; -fx-border-width: 1;
+                                          -fx-text-fill: white;
+                                          -fx-prompt-text-fill: rgba(255,255,255,0.32);
+                                          -fx-padding: 7 10; -fx-font-size: 12px;"/>
+                    </HBox>
+                    <HBox alignment="CENTER_LEFT">
+                        <Label text="Cambio:"
+                               style="-fx-text-fill: rgba(255,255,255,0.70); -fx-font-size: 12px;"
+                               HBox.hgrow="ALWAYS"/>
+                        <Label fx:id="lblCambio" text="0.00"
+                               style="-fx-text-fill: #4cd97b; -fx-font-weight: bold; -fx-font-size: 14px;"/>
+                    </HBox>
+                </VBox>
+
+                <!-- ── Panel Pago Tarjeta (visible solo cuando se elige Tarjeta) ── -->
+                <VBox fx:id="vboxPagoTarjeta" spacing="7" visible="false" managed="false"
+                      style="-fx-padding: 8 14 10 14;
+                             -fx-background-color: rgba(255,255,255,0.05);
+                             -fx-border-color: rgba(255,255,255,0.10) transparent rgba(255,255,255,0.10) transparent;
+                             -fx-border-width: 1 0 1 0;">
+                    <Label text="PAGO CON TARJETA"
+                           style="-fx-font-size: 10px; -fx-font-weight: bold;
+                                  -fx-text-fill: rgba(255,255,255,0.40);"/>
+                    <HBox alignment="CENTER_LEFT">
+                        <Label text="Monto a pagar:"
+                               style="-fx-text-fill: rgba(255,255,255,0.70); -fx-font-size: 12px;"
+                               HBox.hgrow="ALWAYS"/>
+                        <Label fx:id="lblMontoTarjeta" text="0.00"
+                               style="-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px;"/>
+                    </HBox>
+                    <TextField fx:id="txtNombreTarjeta" promptText="Nombre en la tarjeta"
+                               style="-fx-background-color: rgba(255,255,255,0.10);
+                                      -fx-background-radius: 8;
+                                      -fx-border-color: rgba(255,255,255,0.22);
+                                      -fx-border-radius: 8; -fx-border-width: 1;
+                                      -fx-text-fill: white;
+                                      -fx-prompt-text-fill: rgba(255,255,255,0.32);
+                                      -fx-padding: 7 10; -fx-font-size: 12px;"/>
+                    <TextField fx:id="txtNumeroTarjeta" promptText="Número de tarjeta"
+                               style="-fx-background-color: rgba(255,255,255,0.10);
+                                      -fx-background-radius: 8;
+                                      -fx-border-color: rgba(255,255,255,0.22);
+                                      -fx-border-radius: 8; -fx-border-width: 1;
+                                      -fx-text-fill: white;
+                                      -fx-prompt-text-fill: rgba(255,255,255,0.32);
+                                      -fx-padding: 7 10; -fx-font-size: 12px;"/>
+                    <HBox spacing="8">
+                        <TextField fx:id="txtVencimiento" promptText="MM/AA"
+                                   HBox.hgrow="ALWAYS"
+                                   style="-fx-background-color: rgba(255,255,255,0.10);
+                                          -fx-background-radius: 8;
+                                          -fx-border-color: rgba(255,255,255,0.22);
+                                          -fx-border-radius: 8; -fx-border-width: 1;
+                                          -fx-text-fill: white;
+                                          -fx-prompt-text-fill: rgba(255,255,255,0.32);
+                                          -fx-padding: 7 10; -fx-font-size: 12px;"/>
+                        <TextField fx:id="txtCVV" promptText="CVV"
+                                   HBox.hgrow="ALWAYS"
+                                   style="-fx-background-color: rgba(255,255,255,0.10);
+                                          -fx-background-radius: 8;
+                                          -fx-border-color: rgba(255,255,255,0.22);
+                                          -fx-border-radius: 8; -fx-border-width: 1;
+                                          -fx-text-fill: white;
+                                          -fx-prompt-text-fill: rgba(255,255,255,0.32);
+                                          -fx-padding: 7 10; -fx-font-size: 12px;"/>
+                    </HBox>
+                    <Label fx:id="lblEstadoTarjeta" text="" wrapText="true"
+                           style="-fx-text-fill: #4cd97b; -fx-font-size: 11px; -fx-font-weight: bold;"/>
+                    <Button text="✓  Confirmar Pago con Tarjeta" maxWidth="Infinity"
+                            onAction="#FnConfirmarTarjeta"
+                            style="-fx-background-color: #004aad; -fx-text-fill: white;
+                                   -fx-font-weight: bold; -fx-font-size: 12px;
+                                   -fx-background-radius: 10; -fx-cursor: hand; -fx-padding: 9 0;"/>
+                </VBox>
+
+                <!-- ── Panel Pago E-Wallet (visible solo cuando se elige E-Wallet) ── -->
+                <VBox fx:id="vboxPagoEWallet" spacing="7" visible="false" managed="false"
+                      style="-fx-padding: 8 14 10 14;
+                             -fx-background-color: rgba(255,255,255,0.05);
+                             -fx-border-color: rgba(255,255,255,0.10) transparent rgba(255,255,255,0.10) transparent;
+                             -fx-border-width: 1 0 1 0;">
+                    <Label text="PAGO E-WALLET"
+                           style="-fx-font-size: 10px; -fx-font-weight: bold;
+                                  -fx-text-fill: rgba(255,255,255,0.40);"/>
+                    <HBox alignment="CENTER_LEFT">
+                        <Label text="Monto a pagar:"
+                               style="-fx-text-fill: rgba(255,255,255,0.70); -fx-font-size: 12px;"
+                               HBox.hgrow="ALWAYS"/>
+                        <Label fx:id="lblMontoEWallet" text="0.00"
+                               style="-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px;"/>
+                    </HBox>
+                    <Label text="Envía al número: 809-555-0123"
+                           wrapText="true"
+                           style="-fx-text-fill: #4cd97b; -fx-font-size: 11px; -fx-font-weight: bold;"/>
+                    <TextField fx:id="txtReferenciaEWallet" promptText="Número de referencia"
+                               style="-fx-background-color: rgba(255,255,255,0.10);
+                                      -fx-background-radius: 8;
+                                      -fx-border-color: rgba(255,255,255,0.22);
+                                      -fx-border-radius: 8; -fx-border-width: 1;
+                                      -fx-text-fill: white;
+                                      -fx-prompt-text-fill: rgba(255,255,255,0.32);
+                                      -fx-padding: 7 10; -fx-font-size: 12px;"/>
+                    <Label fx:id="lblEstadoEWallet" text="" wrapText="true"
+                           style="-fx-text-fill: #4cd97b; -fx-font-size: 11px; -fx-font-weight: bold;"/>
+                    <Button text="✓  Confirmar Pago E-Wallet" maxWidth="Infinity"
+                            onAction="#FnConfirmarEWallet"
+                            style="-fx-background-color: #004aad; -fx-text-fill: white;
+                                   -fx-font-weight: bold; -fx-font-size: 12px;
+                                   -fx-background-radius: 10; -fx-cursor: hand; -fx-padding: 9 0;"/>
+                </VBox>
+
                 <!-- ── Botones de acción ── -->
                 <VBox spacing="6" style="-fx-padding: 6 12 12 12;">
                     <Label fx:id="lblMensaje" text=""
@@ -354,6 +496,25 @@
                                    -fx-padding: 13 0;
                                    -fx-effect: dropshadow(gaussian, rgba(190,30,30,0.55), 16, 0, 0, 5);"/>
 
+                    <Button text="📋  Cuenta Abierta" maxWidth="Infinity"
+                            onAction="#FnCuentaAbierta"
+                            style="-fx-background-color: #f0a500;
+                                   -fx-text-fill: white; -fx-font-weight: bold;
+                                   -fx-font-size: 13px; -fx-font-family: 'Segoe UI';
+                                   -fx-background-radius: 12; -fx-cursor: hand;
+                                   -fx-padding: 11 0;
+                                   -fx-effect: dropshadow(gaussian, rgba(240,165,0,0.50), 14, 0, 0, 4);"/>
+
+                    <Button text="🔍  Ver Cuentas Abiertas" maxWidth="Infinity"
+                            onAction="#FnVerCuentasAbiertas"
+                            style="-fx-background-color: #2b78e4;
+                                   -fx-text-fill: white; -fx-font-weight: bold;
+                                   -fx-font-size: 13px; -fx-font-family: 'Segoe UI';
+                                   -fx-background-radius: 12; -fx-cursor: hand;
+                                   -fx-padding: 11 0;
+                                   -fx-effect: dropshadow(gaussian, rgba(43,120,228,0.50), 14, 0, 0, 4);"/>
+
+
                     <Separator opacity="0.12">
                         <VBox.margin><Insets top="2" bottom="2"/></VBox.margin>
                     </Separator>
@@ -365,6 +526,9 @@
                             onAction="#FnExportarReporteVentas"
                             styleClass="btn-primary"/>
                 </VBox>
+
+                    </VBox>
+                </ScrollPane>
 
             </VBox>
             <!-- fin panel carrito -->

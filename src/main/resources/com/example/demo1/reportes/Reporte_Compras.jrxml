@@ -10,11 +10,11 @@
 
     <style name="Row" isDefault="false" mode="Transparent" fontName="Arial" fontSize="9">
         <conditionalStyle>
-            <conditionExpression><![CDATA[$F{estado} != null &amp;&amp; $F{estado}.equalsIgnoreCase("Pendiente")]]></conditionExpression>
+            <conditionExpression><![CDATA[$F{estado} != null && $F{estado}.equalsIgnoreCase("Pendiente")]]></conditionExpression>
             <style mode="Opaque" backcolor="#FFF8E1"/>
         </conditionalStyle>
         <conditionalStyle>
-            <conditionExpression><![CDATA[($F{estado} == null || !$F{estado}.equalsIgnoreCase("Pendiente")) &amp;&amp; $V{REPORT_COUNT} % 2 == 0]]></conditionExpression>
+            <conditionExpression><![CDATA[($F{estado} == null || !$F{estado}.equalsIgnoreCase("Pendiente")) && $V{REPORT_COUNT} % 2 == 0]]></conditionExpression>
             <style mode="Opaque" backcolor="#E8F0FB"/>
         </conditionalStyle>
     </style>

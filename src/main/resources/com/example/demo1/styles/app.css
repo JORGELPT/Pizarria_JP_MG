@@ -286,6 +286,48 @@
     -fx-effect: none;
 }
 
+/* ─── QUANTITY BUTTONS (carrito − / +) ───────────── */
+.btn-qty-dark {
+    -fx-background-color: #2e3657;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 15px;
+    -fx-font-family: 'Segoe UI';
+    -fx-background-radius: 14;
+    -fx-border-radius: 14;
+    -fx-border-color: rgba(255,255,255,0.20);
+    -fx-border-width: 1;
+    -fx-cursor: hand;
+    -fx-min-width: 28px;
+    -fx-min-height: 28px;
+    -fx-max-width: 28px;
+    -fx-max-height: 28px;
+    -fx-alignment: center;
+    -fx-padding: 0;
+}
+.btn-qty-dark .text {
+    -fx-fill: white;
+}
+.btn-qty-dark:hover {
+    -fx-background-color: #3a4a80;
+    -fx-text-fill: white;
+    -fx-border-color: rgba(255,255,255,0.40);
+    -fx-effect: dropshadow(gaussian, rgba(0,74,173,0.45), 7, 0, 0, 1);
+}
+.btn-qty-dark:hover .text {
+    -fx-fill: white;
+}
+.btn-qty-dark:pressed {
+    -fx-background-color: #004aad;
+    -fx-text-fill: white;
+    -fx-border-color: rgba(255,255,255,0.60);
+    -fx-scale-x: 0.90;
+    -fx-scale-y: 0.90;
+}
+.btn-qty-dark:pressed .text {
+    -fx-fill: white;
+}
+
 /* ─── CHECK BOX / RADIO BUTTON ────────────────────── */
 .check-item {
     -fx-text-fill: #2d3748;

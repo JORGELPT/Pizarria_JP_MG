@@ -48,6 +48,10 @@
                     <ComboBox fx:id="cmbTipo" maxWidth="Infinity" prefHeight="38" styleClass="field-combo"/>
                 </VBox>
                 <VBox HBox.hgrow="ALWAYS" spacing="5">
+                    <Label text="Unidad de Medida" styleClass="field-label"/>
+                    <ComboBox fx:id="cmbUnidad" maxWidth="Infinity" prefHeight="38" styleClass="field-combo"/>
+                </VBox>
+                <VBox HBox.hgrow="ALWAYS" spacing="5">
                     <Label text="Proveedor" styleClass="field-label"/>
                     <ComboBox fx:id="cmbProveedor" maxWidth="Infinity" prefHeight="38" styleClass="field-combo"/>
                 </VBox>
@@ -56,6 +60,8 @@
             <HBox spacing="10" alignment="CENTER_LEFT">
                 <Button text="Guardar" onAction="#FnGuardar" styleClass="btn-primary"/>
                 <Button text="Eliminar" onAction="#FnEliminar" styleClass="btn-danger"/>
+                <Button text="Inhabilitar" onAction="#FnInhabilitar" styleClass="btn-warning"/>
+                <Button text="Habilitar" onAction="#FnHabilitar" styleClass="btn-success"/>
                 <Region HBox.hgrow="ALWAYS"/>
                 <Button text="Editar" onAction="#FnEditar" styleClass="btn-secondary"/>
                 <Button text="🔍 Buscar" onAction="#FnBuscar" styleClass="btn-primary"/>
@@ -63,12 +69,14 @@
 
             <TableView fx:id="tablaIngredientes" VBox.vgrow="ALWAYS">
                 <columns>
-                    <TableColumn fx:id="colNombre"    prefWidth="160" text="Nombre"/>
-                    <TableColumn fx:id="colTipo"      prefWidth="100" text="Tipo"/>
-                    <TableColumn fx:id="colStock"     prefWidth="80"  text="Stock"/>
-                    <TableColumn fx:id="colCantMin"   prefWidth="90"  text="Cant. Min."/>
-                    <TableColumn fx:id="colFecha"     prefWidth="120" text="F. Caducidad"/>
-                    <TableColumn fx:id="colProveedor" prefWidth="160" text="Proveedor"/>
+                    <TableColumn fx:id="colNombre"    prefWidth="140" text="Nombre"/>
+                    <TableColumn fx:id="colTipo"      prefWidth="90"  text="Tipo"/>
+                    <TableColumn fx:id="colStock"     prefWidth="70"  text="Stock"/>
+                    <TableColumn fx:id="colCantMin"   prefWidth="80"  text="Cant. Min."/>
+                    <TableColumn fx:id="colUnidad"    prefWidth="90"  text="Unidad"/>
+                    <TableColumn fx:id="colFecha"     prefWidth="110" text="F. Caducidad"/>
+                    <TableColumn fx:id="colProveedor" prefWidth="140" text="Proveedor"/>
+                    <TableColumn fx:id="colEstado"    prefWidth="90"  text="Estado"/>
                 </columns>
                 <placeholder><Label text="Sin registros." styleClass="info-label"/></placeholder>
             </TableView>

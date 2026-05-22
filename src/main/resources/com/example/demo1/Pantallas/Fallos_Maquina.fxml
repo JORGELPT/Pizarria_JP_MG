@@ -46,6 +46,8 @@
             <HBox alignment="CENTER_LEFT" spacing="10">
                 <Button onAction="#FnGuardar" text="Guardar" styleClass="btn-primary"/>
                 <Button onAction="#FnEliminar" text="Eliminar" styleClass="btn-danger"/>
+                <Button onAction="#FnInhabilitar" text="Inhabilitar" styleClass="btn-warning"/>
+                <Button onAction="#FnHabilitar" text="Habilitar" styleClass="btn-success"/>
                 <Region HBox.hgrow="ALWAYS"/>
                 <Button onAction="#FnEditar" text="Editar" styleClass="btn-secondary"/>
                 <Button onAction="#FnBuscar" text="🔍 Buscar" styleClass="btn-primary"/>
