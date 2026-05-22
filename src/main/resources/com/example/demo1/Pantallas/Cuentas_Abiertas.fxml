@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxWidth="Infinity" maxHeight="Infinity"
+            xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.demo1.Controllers.CONTROLLER_CuentasAbiertas"
+            style="-fx-background-color: #f4f6fb;">
+
+    <VBox spacing="0"
+          AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0"
+          AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0">
+
+        <HBox alignment="CENTER_LEFT" styleClass="content-header">
+            <Label text="📋  Cuentas Abiertas" styleClass="content-header-title"/>
+        </HBox>
+
+        <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
+                    hbarPolicy="NEVER" vbarPolicy="AS_NEEDED"
+                    style="-fx-background-color: white; -fx-background: white;
+                           -fx-border-color: transparent;">
+            <VBox spacing="16"
+                  style="-fx-background-color: white;">
+                <padding><Insets top="20" right="26" bottom="20" left="26"/></padding>
+
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Label text="Buscar por cliente:" styleClass="field-label"/>
+                    <TextField fx:id="txtBuscar" promptText="Nombre o cédula..."
+                               HBox.hgrow="ALWAYS" prefHeight="34" styleClass="field-input"/>
+                    <Button text="🔍 Buscar" onAction="#FnBuscar" styleClass="btn-primary"/>
+                    <Button text="⟳  Mostrar Todas" onAction="#FnMostrarTodas" styleClass="btn-secondary"/>
+                </HBox>
+
+                <Label text="Cuentas pendientes de pago" styleClass="section-label"/>
+
+                <TableView fx:id="tablaCuentas" VBox.vgrow="ALWAYS" prefHeight="260">
+                    <columns>
+                        <TableColumn fx:id="colId"        prefWidth="70"  text="Pedido #"/>
+                        <TableColumn fx:id="colCliente"   prefWidth="200" text="Cliente"/>
+                        <TableColumn fx:id="colFecha"     prefWidth="110" text="Fecha"/>
+                        <TableColumn fx:id="colTotal"     prefWidth="120" text="Total (RD$)"/>
+                        <TableColumn fx:id="colEntrega"   prefWidth="110" text="Tipo Entrega"/>
+                    </columns>
+                    <placeholder><Label text="No hay cuentas abiertas." styleClass="info-label"/></placeholder>
+                </TableView>
+
+                <Separator/>
+
+                <VBox fx:id="vboxPago" spacing="12"
+                      style="-fx-background-color: #f8f9fc;
+                             -fx-background-radius: 12;
+                             -fx-border-color: #dde6f5;
+                             -fx-border-radius: 12;
+                             -fx-border-width: 1;
+                             -fx-padding: 16 18 16 18;">
+
+                    <Label text="PROCESAR PAGO"
+                           style="-fx-font-size: 13px; -fx-font-weight: bold;
+                                  -fx-text-fill: #004aad; -fx-letter-spacing: 1px;"/>
+
+                    <HBox spacing="8">
+                        <Label text="Pedido:" styleClass="field-label"/>
+                        <Label fx:id="lblPedidoSel" text="—"
+                               style="-fx-font-weight: bold; -fx-text-fill: #1a1a2e;"/>
+                        <Label text="   Total a pagar:" styleClass="field-label"/>
+                        <Label fx:id="lblTotalPago" text="RD$ 0.00"
+                               style="-fx-font-weight: bold; -fx-text-fill: #be1e1e; -fx-font-size: 16px;"/>
+                    </HBox>
+
+                    <Label text="MÉTODO DE PAGO"
+                           style="-fx-font-size: 10px; -fx-font-weight: bold;
+                                  -fx-text-fill: rgba(0,0,0,0.40);"/>
+                    <HBox spacing="5">
+                        <ToggleButton fx:id="tglEfectivo" text="Efectivo"
+                                      HBox.hgrow="ALWAYS" maxWidth="Infinity"
+                                      onAction="#FnPagoEfectivo"
+                                      style="-fx-background-color: #be1e1e; -fx-text-fill: white;
+                                             -fx-background-radius: 20; -fx-cursor: hand;
+                                             -fx-font-size: 12px; -fx-font-weight: bold;
+                                             -fx-padding: 7 0; -fx-border-color: transparent;"/>
+                        <ToggleButton fx:id="tglTarjeta" text="Tarjeta"
+                                      HBox.hgrow="ALWAYS" maxWidth="Infinity"
+                                      onAction="#FnPagoTarjeta"
+                                      style="-fx-background-color: rgba(0,0,0,0.09);
+                                             -fx-text-fill: rgba(0,0,0,0.60);
+                                             -fx-background-radius: 20; -fx-cursor: hand;
+                                             -fx-font-size: 12px; -fx-padding: 7 0;
+                                             -fx-border-color: transparent;"/>
+                        <ToggleButton fx:id="tglEWallet" text="E-Wallet"
+                                      HBox.hgrow="ALWAYS" maxWidth="Infinity"
+                                      onAction="#FnPagoEWallet"
+                                      style="-fx-background-color: rgba(0,0,0,0.09);
+                                             -fx-text-fill: rgba(0,0,0,0.60);
+                                             -fx-background-radius: 20; -fx-cursor: hand;
+                                             -fx-font-size: 12px; -fx-padding: 7 0;
+                                             -fx-border-color: transparent;"/>
+                    </HBox>
+
+                    <VBox fx:id="vboxPagoEfectivo" spacing="7" visible="false" managed="false"
+                          style="-fx-background-color: rgba(0,0,0,0.03);
+                                 -fx-background-radius: 8;
+                                 -fx-padding: 10 14;">
+                        <Label text="PAGO EN EFECTIVO"
+                               style="-fx-font-size: 10px; -fx-font-weight: bold;
+                                      -fx-text-fill: rgba(0,0,0,0.40);"/>
+                        <HBox alignment="CENTER_LEFT">
+                            <Label text="Monto a pagar:" styleClass="field-label" HBox.hgrow="ALWAYS"/>
+                            <Label fx:id="lblMontoEfectivo" text="0.00"
+                                   style="-fx-font-weight: bold; -fx-text-fill: #1a1a2e; -fx-font-size: 14px;"/>
+                        </HBox>
+                        <HBox spacing="8" alignment="CENTER_LEFT">
+                            <Label text="Cantidad recibida:" styleClass="field-label"/>
+                            <TextField fx:id="txtCantidadRecibida" promptText="0.00"
+                                       HBox.hgrow="ALWAYS" onKeyReleased="#FnCalcularCambio"
+                                       style="-fx-background-color: white;
+                                              -fx-background-radius: 8;
+                                              -fx-border-color: #d0daea;
+                                              -fx-border-radius: 8; -fx-border-width: 1;
+                                              -fx-padding: 7 10; -fx-font-size: 12px;"/>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT">
+                            <Label text="Cambio:" styleClass="field-label" HBox.hgrow="ALWAYS"/>
+                            <Label fx:id="lblCambio" text="0.00"
+                                   style="-fx-font-weight: bold; -fx-text-fill: #1a6b2e; -fx-font-size: 14px;"/>
+                        </HBox>
+                    </VBox>
+
+                    <VBox fx:id="vboxPagoTarjeta" spacing="7" visible="false" managed="false"
+                          style="-fx-background-color: rgba(0,0,0,0.03);
+                                 -fx-background-radius: 8;
+                                 -fx-padding: 10 14;">
+                        <Label text="PAGO CON TARJETA"
+                               style="-fx-font-size: 10px; -fx-font-weight: bold;
+                                      -fx-text-fill: rgba(0,0,0,0.40);"/>
+                        <HBox alignment="CENTER_LEFT">
+                            <Label text="Monto a pagar:" styleClass="field-label" HBox.hgrow="ALWAYS"/>
+                            <Label fx:id="lblMontoTarjeta" text="0.00"
+                                   style="-fx-font-weight: bold; -fx-text-fill: #1a1a2e; -fx-font-size: 14px;"/>
+                        </HBox>
+                        <TextField fx:id="txtNombreTarjeta" promptText="Nombre en la tarjeta"
+                                   style="-fx-background-color: white; -fx-background-radius: 8;
+                                          -fx-border-color: #d0daea; -fx-border-radius: 8;
+                                          -fx-border-width: 1; -fx-padding: 7 10; -fx-font-size: 12px;"/>
+                        <TextField fx:id="txtNumeroTarjeta" promptText="Número de tarjeta"
+                                   style="-fx-background-color: white; -fx-background-radius: 8;
+                                          -fx-border-color: #d0daea; -fx-border-radius: 8;
+                                          -fx-border-width: 1; -fx-padding: 7 10; -fx-font-size: 12px;"/>
+                        <HBox spacing="8">
+                            <TextField fx:id="txtVencimiento" promptText="MM/AA" HBox.hgrow="ALWAYS"
+                                       style="-fx-background-color: white; -fx-background-radius: 8;
+                                              -fx-border-color: #d0daea; -fx-border-radius: 8;
+                                              -fx-border-width: 1; -fx-padding: 7 10; -fx-font-size: 12px;"/>
+                            <TextField fx:id="txtCVV" promptText="CVV" HBox.hgrow="ALWAYS"
+                                       style="-fx-background-color: white; -fx-background-radius: 8;
+                                              -fx-border-color: #d0daea; -fx-border-radius: 8;
+                                              -fx-border-width: 1; -fx-padding: 7 10; -fx-font-size: 12px;"/>
+                        </HBox>
+                        <Label fx:id="lblEstadoTarjeta" text="" wrapText="true"
+                               style="-fx-text-fill: #1a6b2e; -fx-font-size: 11px; -fx-font-weight: bold;"/>
+                        <Button text="✓  Confirmar Pago con Tarjeta" maxWidth="Infinity"
+                                onAction="#FnConfirmarTarjeta"
+                                style="-fx-background-color: #004aad; -fx-text-fill: white;
+                                       -fx-font-weight: bold; -fx-font-size: 12px;
+                                       -fx-background-radius: 10; -fx-cursor: hand; -fx-padding: 9 0;"/>
+                    </VBox>
+
+                    <VBox fx:id="vboxPagoEWallet" spacing="7" visible="false" managed="false"
+                          style="-fx-background-color: rgba(0,0,0,0.03);
+                                 -fx-background-radius: 8;
+                                 -fx-padding: 10 14;">
+                        <Label text="PAGO E-WALLET"
+                               style="-fx-font-size: 10px; -fx-font-weight: bold;
+                                      -fx-text-fill: rgba(0,0,0,0.40);"/>
+                        <HBox alignment="CENTER_LEFT">
+                            <Label text="Monto a pagar:" styleClass="field-label" HBox.hgrow="ALWAYS"/>
+                            <Label fx:id="lblMontoEWallet" text="0.00"
+                                   style="-fx-font-weight: bold; -fx-text-fill: #1a1a2e; -fx-font-size: 14px;"/>
+                        </HBox>
+                        <Label text="Envíe al número: 809-555-0123" wrapText="true"
+                               style="-fx-text-fill: #1a6b2e; -fx-font-size: 11px; -fx-font-weight: bold;"/>
+                        <TextField fx:id="txtReferenciaEWallet" promptText="Número de referencia"
+                                   style="-fx-background-color: white; -fx-background-radius: 8;
+                                          -fx-border-color: #d0daea; -fx-border-radius: 8;
+                                          -fx-border-width: 1; -fx-padding: 7 10; -fx-font-size: 12px;"/>
+                        <Label fx:id="lblEstadoEWallet" text="" wrapText="true"
+                               style="-fx-text-fill: #1a6b2e; -fx-font-size: 11px; -fx-font-weight: bold;"/>
+                        <Button text="✓  Confirmar Pago E-Wallet" maxWidth="Infinity"
+                                onAction="#FnConfirmarEWallet"
+                                style="-fx-background-color: #004aad; -fx-text-fill: white;
+                                       -fx-font-weight: bold; -fx-font-size: 12px;
+                                       -fx-background-radius: 10; -fx-cursor: hand; -fx-padding: 9 0;"/>
+                    </VBox>
+
+                    <Label fx:id="lblMensaje" text="" wrapText="true"
+                           style="-fx-text-fill: #be1e1e; -fx-font-size: 11px;"/>
+
+                    <Button text="💳  Proceder Pago" maxWidth="Infinity"
+                            onAction="#FnProcedePago"
+                            style="-fx-background-color: #1a6b2e;
+                                   -fx-text-fill: white; -fx-font-weight: bold;
+                                   -fx-font-size: 14px;
+                                   -fx-background-radius: 12; -fx-cursor: hand;
+                                   -fx-padding: 13 0;
+                                   -fx-effect: dropshadow(gaussian, rgba(26,107,46,0.50), 16, 0, 0, 5);"/>
+
+                </VBox>
+
+            </VBox>
+        </ScrollPane>
+    </VBox>
+</AnchorPane>
