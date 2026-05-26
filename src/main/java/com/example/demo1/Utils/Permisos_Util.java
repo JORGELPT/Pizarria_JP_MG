@@ -77,6 +77,20 @@ public class Permisos_Util {
     }
 
     /**
+     * Solo ADMIN y GERENTE pueden generar reportes/exportar PDF.
+     */
+    public static boolean verificarReporte() {
+        CONTROLLER_Seccion s = CONTROLLER_Seccion.getInstancia();
+        if (!s.esAdmin() && !s.esGerente()) {
+            JOptionPane.showMessageDialog(null,
+                    "Solo los roles ADMIN y GERENTE pueden generar reportes.",
+                    "Acceso denegado", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * Solo ADMIN puede crear usuarios/empleados.
      */
     public static boolean verificarCrearUsuario() {

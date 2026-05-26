@@ -66,9 +66,9 @@ public class CONTROLLER_Devolucion {
             JOptionPane.showMessageDialog(null, "Ingrese el ID del pedido.");
             return;
         }
-        String sql = "SELECT ped.id_pedido, per.nombre " +
+        String sql = "SELECT ped.id_pedido, ISNULL(per.nombre, '—') AS nombre " +
                 "FROM tbl_pedido ped " +
-                "INNER JOIN tbl_persona per ON ped.id_cliente = per.id_persona " +
+                "LEFT JOIN tbl_persona per ON ped.id_cliente = per.id_persona " +
                 "WHERE ped.id_pedido = ?";
         try (Connection con = conexion.establecerConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -183,10 +183,10 @@ public class CONTROLLER_Devolucion {
         if (idStr.isEmpty()) { cargarTabla(); return; }
 
         ObservableList<DevolucionRow> datos = FXCollections.observableArrayList();
-        String sql = "SELECT d.id_devolucion, d.id_pedido, per.nombre, d.motivo, d.monto, d.fecha " +
+        String sql = "SELECT d.id_devolucion, d.id_pedido, ISNULL(per.nombre, '—') AS nombre, d.motivo, d.monto, d.fecha " +
                 "FROM tbl_devolucion d " +
                 "INNER JOIN tbl_pedido ped ON d.id_pedido = ped.id_pedido " +
-                "INNER JOIN tbl_persona per ON ped.id_cliente = per.id_persona " +
+                "LEFT JOIN tbl_persona per ON ped.id_cliente = per.id_persona " +
                 "WHERE d.id_pedido = ?";
         try (Connection con = conexion.establecerConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -201,10 +201,10 @@ public class CONTROLLER_Devolucion {
 
     private void cargarTabla() {
         ObservableList<DevolucionRow> datos = FXCollections.observableArrayList();
-        String sql = "SELECT d.id_devolucion, d.id_pedido, per.nombre, d.motivo, d.monto, d.fecha " +
+        String sql = "SELECT d.id_devolucion, d.id_pedido, ISNULL(per.nombre, '—') AS nombre, d.motivo, d.monto, d.fecha " +
                 "FROM tbl_devolucion d " +
                 "INNER JOIN tbl_pedido ped ON d.id_pedido = ped.id_pedido " +
-                "INNER JOIN tbl_persona per ON ped.id_cliente = per.id_persona " +
+                "LEFT JOIN tbl_persona per ON ped.id_cliente = per.id_persona " +
                 "ORDER BY d.fecha DESC";
         try (Connection con = conexion.establecerConexion();
              PreparedStatement ps = con.prepareStatement(sql);

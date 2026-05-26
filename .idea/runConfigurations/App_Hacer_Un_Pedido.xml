@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="App_Hacer_Un_Pedido" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="com.example.demo1.app.App_Hacer_Un_Pedido" />
+    <option name="VM_PARAMETERS" value="--add-reads com.example.demo1=ALL-UNNAMED" />
+    <module name="demo1" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
