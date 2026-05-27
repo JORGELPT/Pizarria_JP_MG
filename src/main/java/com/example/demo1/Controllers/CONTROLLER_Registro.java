@@ -70,7 +70,7 @@ public class CONTROLLER_Registro {
             JOptionPane.showMessageDialog(null, "¡Registro Exitoso de Cliente!");
             limpiarCampos();
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al registrar cliente - pantalla Registro de Cliente
             try { if (connection != null) connection.rollback(); } catch (SQLException ex) { /* rollback silencioso */ }
             JOptionPane.showMessageDialog(null, "Error en registro: " + e.getMessage());
         } finally {

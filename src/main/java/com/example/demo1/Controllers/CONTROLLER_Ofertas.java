@@ -113,7 +113,7 @@ public class CONTROLLER_Ofertas {
             while (rs.next())
                 lista.add(rs.getInt("id_producto") + " — " + rs.getString("nombre"));
             lstProductos.setItems(lista);
-        } catch (Exception e) {
+        } catch (Exception e) { //error al cargar productos para oferta - pantalla Ofertas
             JOptionPane.showMessageDialog(null, "Error al cargar productos: " + e.getMessage());
         }
     }
@@ -152,7 +152,7 @@ public class CONTROLLER_Ofertas {
                     rs.getBoolean("activa") ? "✅ Activa" : "⏸ Pausada"
                 });
             }
-        } catch (Exception e) {
+        } catch (Exception e) { //error al cargar tabla de ofertas - pantalla Ofertas
             JOptionPane.showMessageDialog(null, "Error al cargar ofertas: " + e.getMessage());
         }
         tablaOfertas.setItems(datos);
@@ -206,7 +206,7 @@ public class CONTROLLER_Ofertas {
                     lstProductos.getSelectionModel().select(i);
             }
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al cargar oferta en formulario - pantalla Ofertas
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
         }
     }
@@ -326,7 +326,7 @@ public class CONTROLLER_Ofertas {
             FnLimpiar();
             cargarOfertas();
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al guardar oferta - pantalla Ofertas
             try { if (con != null) con.rollback(); } catch (Exception ignored) {}
             JOptionPane.showMessageDialog(null, "Error al guardar: " + e.getMessage());
         } finally {
@@ -350,7 +350,7 @@ public class CONTROLLER_Ofertas {
             JOptionPane.showMessageDialog(null, "Estado de la oferta actualizado.");
             FnLimpiar();
             cargarOfertas();
-        } catch (Exception e) {
+        } catch (Exception e) { //error al activar/pausar oferta - pantalla Ofertas
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
         }
     }
@@ -377,7 +377,7 @@ public class CONTROLLER_Ofertas {
             JOptionPane.showMessageDialog(null, "Oferta eliminada.");
             FnLimpiar();
             cargarOfertas();
-        } catch (Exception e) {
+        } catch (Exception e) { //error al eliminar oferta - pantalla Ofertas
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
         }
     }

@@ -92,7 +92,7 @@ public class CONTROLLER_ComprasPago {
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) lista.add(rs.getString("nombre_proveedor"));
             cmbProveedor.setItems(lista);
-        } catch (Exception e) {
+        } catch (Exception e) { //error al cargar proveedores - pantalla Compras y Pago
             JOptionPane.showMessageDialog(null, "Error al cargar proveedores: " + e.getMessage());
         }
     }
@@ -105,7 +105,7 @@ public class CONTROLLER_ComprasPago {
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) lista.add(rs.getString("nombre_sucursal"));
             cmbSucursal.setItems(lista);
-        } catch (Exception e) {
+        } catch (Exception e) { //error al cargar sucursales - pantalla Compras y Pago
             JOptionPane.showMessageDialog(null, "Error al cargar sucursales: " + e.getMessage());
         }
     }
@@ -202,7 +202,7 @@ public class CONTROLLER_ComprasPago {
             limpiarFormulario();
             cargarTabla();
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al guardar compra - pantalla Compras y Pago
             JOptionPane.showMessageDialog(null, "Error al guardar: " + e.getMessage());
         }
     }
@@ -317,7 +317,7 @@ public class CONTROLLER_ComprasPago {
             if (txtAbono != null) txtAbono.clear();
             cargarTabla();
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al registrar pago de compra - pantalla Compras y Pago
             try { if (con != null) con.rollback(); } catch (Exception ignored) {}
             JOptionPane.showMessageDialog(null, "Error al registrar pago: " + e.getMessage());
         } finally {
@@ -365,7 +365,7 @@ public class CONTROLLER_ComprasPago {
             idCompraSeleccionada = -1;
             limpiarFormulario();
             cargarTabla();
-        } catch (Exception e) {
+        } catch (Exception e) { //error al eliminar compra - pantalla Compras y Pago
             JOptionPane.showMessageDialog(null, "Error al eliminar: " + e.getMessage());
         }
     }
@@ -401,7 +401,7 @@ public class CONTROLLER_ComprasPago {
             idCompraSeleccionada = -1;
             limpiarFormulario();
             cargarTabla();
-        } catch (Exception e) {
+        } catch (Exception e) { //error al cambiar estado de compra - pantalla Compras y Pago
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
         }
     }
@@ -451,7 +451,7 @@ public class CONTROLLER_ComprasPago {
             idCompraSeleccionada = -1;
             limpiarFormulario();
             cargarTabla();
-        } catch (Exception e) {
+        } catch (Exception e) { //error al actualizar compra - pantalla Compras y Pago
             JOptionPane.showMessageDialog(null, "Error al actualizar: " + e.getMessage());
         }
     }
@@ -479,7 +479,7 @@ public class CONTROLLER_ComprasPago {
                 while (rs.next()) datos.add(filaDesdeRS(rs));
             }
             tablaCompras.setItems(datos);
-        } catch (Exception e) {
+        } catch (Exception e) { //error al buscar compras - pantalla Compras y Pago
             JOptionPane.showMessageDialog(null, "Error al buscar: " + e.getMessage());
         }
     }
@@ -498,7 +498,7 @@ public class CONTROLLER_ComprasPago {
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) datos.add(filaDesdeRS(rs));
             tablaCompras.setItems(datos);
-        } catch (Exception e) {
+        } catch (Exception e) { //error al cargar tabla de compras - pantalla Compras y Pago
             JOptionPane.showMessageDialog(null, "Error al cargar compras: " + e.getMessage());
         }
     }

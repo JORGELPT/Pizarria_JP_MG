@@ -67,7 +67,7 @@ public class CONTROLLER_Cargo {
             }
             cmbDepartamento.setItems(nombresDepto);
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al cargar departamentos - pantalla Agregar Cargo
             JOptionPane.showMessageDialog(null, "Error al cargar departamentos: " + e.getMessage());
         }
     }
@@ -98,7 +98,7 @@ public class CONTROLLER_Cargo {
             limpiar();
             cargarTabla();
 
-        } catch (SQLException e) {
+        } catch (SQLException e) { //error al guardar cargo - pantalla Agregar Cargo
             JOptionPane.showMessageDialog(null, "Error al guardar: " + e.getMessage());
         }
     }
@@ -131,7 +131,7 @@ public class CONTROLLER_Cargo {
                 }
             }
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al buscar cargo - pantalla Agregar Cargo
             JOptionPane.showMessageDialog(null, "Error al buscar: " + e.getMessage());
         }
     }
@@ -168,7 +168,7 @@ public class CONTROLLER_Cargo {
                 JOptionPane.showMessageDialog(null, "No se encontró el cargo.");
             }
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al editar cargo - pantalla Agregar Cargo
             JOptionPane.showMessageDialog(null, "Error al editar: " + e.getMessage());
         }
     }
@@ -200,7 +200,7 @@ public class CONTROLLER_Cargo {
                 JOptionPane.showMessageDialog(null, "No se encontró el cargo.");
             }
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al eliminar cargo - pantalla Agregar Cargo
             JOptionPane.showMessageDialog(null, "Error al eliminar: " + e.getMessage());
         }
     }
@@ -223,7 +223,7 @@ public class CONTROLLER_Cargo {
             ps.executeUpdate();
             JOptionPane.showMessageDialog(null, "Cargo inhabilitado correctamente.");
             cargarTabla();
-        } catch (Exception e) {
+        } catch (Exception e) { //error al inhabilitar cargo - pantalla Agregar Cargo
             JOptionPane.showMessageDialog(null, "Error al inhabilitar: " + e.getMessage());
         }
     }
@@ -242,7 +242,7 @@ public class CONTROLLER_Cargo {
             ps.executeUpdate();
             JOptionPane.showMessageDialog(null, "Cargo habilitado correctamente.");
             cargarTabla();
-        } catch (Exception e) {
+        } catch (Exception e) { //error al habilitar cargo - pantalla Agregar Cargo
             JOptionPane.showMessageDialog(null, "Error al habilitar: " + e.getMessage());
         }
     }
@@ -290,7 +290,7 @@ public class CONTROLLER_Cargo {
             }
             tablaCargos.setItems(datos);
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al cargar tabla de cargos - pantalla Agregar Cargo
             JOptionPane.showMessageDialog(null, "Error al cargar cargos: " + e.getMessage());
         }
     }

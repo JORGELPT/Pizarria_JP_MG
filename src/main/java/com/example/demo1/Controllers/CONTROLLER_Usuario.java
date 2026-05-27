@@ -50,6 +50,7 @@ public class CONTROLLER_Usuario {
         colEmpleado.setCellValueFactory(c -> c.getValue().empleado);
         colEstado.setCellValueFactory(c -> c.getValue().estado);
 
+        // Observer
         tablaUsuarios.getSelectionModel().selectedItemProperty().addListener(
                 (obs, old, sel) -> {
                     if (sel == null) return;
@@ -99,7 +100,7 @@ public class CONTROLLER_Usuario {
             }
             cmbEmpleado.setItems(nombres);
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al cargar empleados - pantalla Gestión de Usuarios
             JOptionPane.showMessageDialog(null, "Error al cargar empleados: " + e.getMessage());
         }
     }
@@ -140,7 +141,7 @@ public class CONTROLLER_Usuario {
             limpiar();
             cargarTabla();
 
-        } catch (SQLException e) {
+        } catch (SQLException e) { //error al guardar usuario - pantalla Gestión de Usuarios
             JOptionPane.showMessageDialog(null, "Error al guardar: " + e.getMessage());
         }
     }
@@ -193,7 +194,7 @@ public class CONTROLLER_Usuario {
                 }
             }
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al buscar usuario - pantalla Gestión de Usuarios
             JOptionPane.showMessageDialog(null, "Error al buscar: " + e.getMessage());
         }
     }
@@ -247,7 +248,7 @@ public class CONTROLLER_Usuario {
                 JOptionPane.showMessageDialog(null, "No se encontró el usuario.");
             }
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al editar usuario - pantalla Gestión de Usuarios
             JOptionPane.showMessageDialog(null, "Error al editar: " + e.getMessage());
         }
     }
@@ -282,7 +283,7 @@ public class CONTROLLER_Usuario {
                 JOptionPane.showMessageDialog(null, "No se encontró el usuario.");
             }
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al eliminar usuario - pantalla Gestión de Usuarios
             JOptionPane.showMessageDialog(null, "Error al eliminar: " + e.getMessage());
         }
     }
@@ -309,7 +310,7 @@ public class CONTROLLER_Usuario {
             JOptionPane.showMessageDialog(null, "Usuario inhabilitado correctamente.");
             idUsuarioSeleccionado = -1;
             cargarTabla();
-        } catch (Exception e) {
+        } catch (Exception e) { //error al inhabilitar usuario - pantalla Gestión de Usuarios
             JOptionPane.showMessageDialog(null, "Error al inhabilitar: " + e.getMessage());
         }
     }
@@ -331,7 +332,7 @@ public class CONTROLLER_Usuario {
             JOptionPane.showMessageDialog(null, "Usuario habilitado correctamente.");
             idUsuarioSeleccionado = -1;
             cargarTabla();
-        } catch (Exception e) {
+        } catch (Exception e) { //error al habilitar usuario - pantalla Gestión de Usuarios
             JOptionPane.showMessageDialog(null, "Error al habilitar: " + e.getMessage());
         }
     }
@@ -362,7 +363,7 @@ public class CONTROLLER_Usuario {
                     return true;
                 }
             }
-        } catch (Exception e) {
+        } catch (Exception e) { //error al verificar admin protegido - pantalla Gestión de Usuarios
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
         }
         return false;
@@ -393,7 +394,7 @@ public class CONTROLLER_Usuario {
             }
             tablaUsuarios.setItems(datos);
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al cargar tabla de usuarios - pantalla Gestión de Usuarios
             JOptionPane.showMessageDialog(null, "Error al cargar usuarios: " + e.getMessage());
         }
     }

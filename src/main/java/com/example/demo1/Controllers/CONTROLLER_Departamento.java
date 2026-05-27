@@ -66,7 +66,7 @@ public class CONTROLLER_Departamento {
             limpiar();
             cargarTabla();
 
-        } catch (SQLException e) {
+        } catch (SQLException e) { //error al guardar departamento - pantalla Agregar Departamento
             JOptionPane.showMessageDialog(null, "Error de SQL: " + e.getMessage());
         }
     }
@@ -96,7 +96,7 @@ public class CONTROLLER_Departamento {
                 JOptionPane.showMessageDialog(null, "No se encontró ningún departamento con ese nombre.");
             }
 
-        } catch (SQLException e) {
+        } catch (SQLException e) { //error al buscar departamento - pantalla Agregar Departamento
             JOptionPane.showMessageDialog(null, "Error de búsqueda: " + e.getMessage());
         }
     }
@@ -126,7 +126,7 @@ public class CONTROLLER_Departamento {
                 JOptionPane.showMessageDialog(null, "No se encontró el departamento.");
             }
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al editar departamento - pantalla Agregar Departamento
             JOptionPane.showMessageDialog(null, "Error al editar: " + e.getMessage());
         }
     }
@@ -159,7 +159,7 @@ public class CONTROLLER_Departamento {
                 JOptionPane.showMessageDialog(null, "No se encontró el departamento.");
             }
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al eliminar departamento - pantalla Agregar Departamento
             JOptionPane.showMessageDialog(null, "Error al eliminar: " + e.getMessage());
         }
     }
@@ -182,7 +182,7 @@ public class CONTROLLER_Departamento {
             ps.executeUpdate();
             JOptionPane.showMessageDialog(null, "Departamento inhabilitado correctamente.");
             cargarTabla();
-        } catch (Exception e) {
+        } catch (Exception e) { //error al inhabilitar departamento - pantalla Agregar Departamento
             JOptionPane.showMessageDialog(null, "Error al inhabilitar: " + e.getMessage());
         }
     }
@@ -201,7 +201,7 @@ public class CONTROLLER_Departamento {
             ps.executeUpdate();
             JOptionPane.showMessageDialog(null, "Departamento habilitado correctamente.");
             cargarTabla();
-        } catch (Exception e) {
+        } catch (Exception e) { //error al habilitar departamento - pantalla Agregar Departamento
             JOptionPane.showMessageDialog(null, "Error al habilitar: " + e.getMessage());
         }
     }
@@ -232,7 +232,7 @@ public class CONTROLLER_Departamento {
             }
             tablaDepartamentos.setItems(datos);
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al cargar tabla de departamentos - pantalla Agregar Departamento
             JOptionPane.showMessageDialog(null, "Error al cargar departamentos: " + e.getMessage());
         }
     }

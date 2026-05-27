@@ -96,7 +96,7 @@ public class CONTROLLER_Cliiente {
             limpiar();
             cargarTabla();
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al guardar cliente - pantalla Agregar Cliente
             try {
                 if (con != null) con.rollback();
             } catch (Exception ignore) {}
@@ -137,7 +137,7 @@ public class CONTROLLER_Cliiente {
                 }
             }
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al buscar cliente - pantalla Agregar Cliente
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
         }
     }
@@ -168,7 +168,7 @@ public class CONTROLLER_Cliiente {
                 JOptionPane.showMessageDialog(null, "No se encontró el cliente.");
             }
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al editar cliente - pantalla Agregar Cliente
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
         }
     }
@@ -223,7 +223,7 @@ public class CONTROLLER_Cliiente {
             limpiar();
             cargarTabla();
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al eliminar cliente - pantalla Agregar Cliente
             try {
                 if (con != null) con.rollback();
             } catch (Exception ignore) {}
@@ -255,7 +255,7 @@ public class CONTROLLER_Cliiente {
             JOptionPane.showMessageDialog(null, "Cliente inhabilitado correctamente.");
             limpiar();
             cargarTabla();
-        } catch (Exception e) {
+        } catch (Exception e) { //error al inhabilitar cliente - pantalla Agregar Cliente
             JOptionPane.showMessageDialog(null, "Error al inhabilitar: " + e.getMessage());
         }
     }
@@ -275,7 +275,7 @@ public class CONTROLLER_Cliiente {
             ps.executeUpdate();
             JOptionPane.showMessageDialog(null, "Cliente habilitado correctamente.");
             cargarTabla();
-        } catch (Exception e) {
+        } catch (Exception e) { //error al habilitar cliente - pantalla Agregar Cliente
             JOptionPane.showMessageDialog(null, "Error al habilitar: " + e.getMessage());
         }
     }
@@ -308,7 +308,7 @@ public class CONTROLLER_Cliiente {
             }
             tablaClientes.setItems(datos);
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al cargar tabla de clientes - pantalla Agregar Cliente
             JOptionPane.showMessageDialog(null, "Error al cargar clientes: " + e.getMessage());
         }
     }

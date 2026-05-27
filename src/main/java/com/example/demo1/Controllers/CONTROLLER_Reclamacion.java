@@ -84,7 +84,7 @@ public class CONTROLLER_Reclamacion {
                 }
             }
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al buscar cliente - pantalla Reclamación
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
         }
     }
@@ -137,9 +137,9 @@ public class CONTROLLER_Reclamacion {
 
             limpiar();
 
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException e) { //error de formato de id de pedido - pantalla Reclamación
             JOptionPane.showMessageDialog(null, "El id de pedido debe ser un número.");
-        } catch (SQLException e) {
+        } catch (SQLException e) { //error al guardar reclamación - pantalla Reclamación
             JOptionPane.showMessageDialog(null, "Error al guardar: " + e.getMessage());
         }
     }
@@ -172,7 +172,7 @@ public class CONTROLLER_Reclamacion {
                 }
             }
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al buscar reclamación - pantalla Reclamación
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
         }
     }
@@ -201,7 +201,7 @@ public class CONTROLLER_Reclamacion {
                 JOptionPane.showMessageDialog(null, "No se encontró la reclamación.");
             }
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al editar reclamación - pantalla Reclamación
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
         }
     }
@@ -230,7 +230,7 @@ public class CONTROLLER_Reclamacion {
                 limpiar();
             }
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al eliminar reclamación - pantalla Reclamación
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
         }
     }

@@ -110,7 +110,7 @@ public class CONTROLLER_Ingrediente {
             }
             tablaIngredientes.setItems(lista);
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al cargar tabla - pantalla Agregar Ingrediente
             JOptionPane.showMessageDialog(null, "Error al cargar tabla: " + e.getMessage());
         }
     }
@@ -135,7 +135,7 @@ public class CONTROLLER_Ingrediente {
             }
             cmbProveedor.setItems(nombres);
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al cargar proveedores - pantalla Agregar Ingrediente
             JOptionPane.showMessageDialog(null, "Error al cargar proveedores: " + e.getMessage());
         }
     }
@@ -177,13 +177,13 @@ public class CONTROLLER_Ingrediente {
         int cantidad, cantMin;
         try {
             cantidad = Integer.parseInt(cantStr);
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException e) { //error formato cantidad en stock - pantalla Agregar Ingrediente
             JOptionPane.showMessageDialog(null, "La cantidad en stock debe ser un número entero.");
             return;
         }
         try {
             cantMin = minStr.isEmpty() ? 0 : Integer.parseInt(minStr);
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException e) { //error formato cantidad mínima - pantalla Agregar Ingrediente
             JOptionPane.showMessageDialog(null, "La cantidad mínima debe ser un número entero.");
             return;
         }
@@ -228,7 +228,7 @@ public class CONTROLLER_Ingrediente {
             limpiar();
             cargarTabla();
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al guardar ingrediente - pantalla Agregar Ingrediente
             JOptionPane.showMessageDialog(null, "Error al guardar: " + e.getMessage());
         }
     }
@@ -274,7 +274,7 @@ public class CONTROLLER_Ingrediente {
                 }
             }
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al buscar ingrediente - pantalla Agregar Ingrediente
             JOptionPane.showMessageDialog(null, "Error al buscar: " + e.getMessage());
         }
     }
@@ -306,7 +306,7 @@ public class CONTROLLER_Ingrediente {
         try {
             cantidad = Integer.parseInt(cantStr);
             cantMin  = minStr.isEmpty() ? 0 : Integer.parseInt(minStr);
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException e) { //error formato cantidades al editar - pantalla Agregar Ingrediente
             JOptionPane.showMessageDialog(null, "Las cantidades deben ser números enteros.");
             return;
         }
@@ -356,7 +356,7 @@ public class CONTROLLER_Ingrediente {
                 JOptionPane.showMessageDialog(null, "No se encontró el registro para actualizar.");
             }
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al editar ingrediente - pantalla Agregar Ingrediente
             JOptionPane.showMessageDialog(null, "Error al editar: " + e.getMessage());
         }
     }
@@ -391,7 +391,7 @@ public class CONTROLLER_Ingrediente {
                 JOptionPane.showMessageDialog(null, "No se encontró el registro para eliminar.");
             }
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al eliminar ingrediente - pantalla Agregar Ingrediente
             JOptionPane.showMessageDialog(null, "Error al eliminar: " + e.getMessage());
         }
     }
@@ -414,7 +414,7 @@ public class CONTROLLER_Ingrediente {
             JOptionPane.showMessageDialog(null, "Ingrediente inhabilitado correctamente.");
             idIngredienteActual = -1;
             cargarTabla();
-        } catch (Exception e) {
+        } catch (Exception e) { //error al inhabilitar ingrediente - pantalla Agregar Ingrediente
             JOptionPane.showMessageDialog(null, "Error al inhabilitar: " + e.getMessage());
         }
     }
@@ -433,7 +433,7 @@ public class CONTROLLER_Ingrediente {
             JOptionPane.showMessageDialog(null, "Ingrediente habilitado correctamente.");
             idIngredienteActual = -1;
             cargarTabla();
-        } catch (Exception e) {
+        } catch (Exception e) { //error al habilitar ingrediente - pantalla Agregar Ingrediente
             JOptionPane.showMessageDialog(null, "Error al habilitar: " + e.getMessage());
         }
     }

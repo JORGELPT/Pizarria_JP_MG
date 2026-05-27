@@ -121,7 +121,7 @@ public class CONTROLLER_CuentasAbiertas {
             }
             tablaCuentas.setItems(datos);
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al cargar cuentas abiertas - pantalla Cuentas Abiertas
             JOptionPane.showMessageDialog(null, "Error al cargar cuentas abiertas: " + e.getMessage());
         }
     }

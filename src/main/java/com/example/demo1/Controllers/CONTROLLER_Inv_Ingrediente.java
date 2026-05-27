@@ -112,9 +112,9 @@ public class CONTROLLER_Inv_Ingrediente {
             JOptionPane.showMessageDialog(null, "Ingrediente guardado correctamente.");
             limpiar();
 
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) { //error de formato de fecha al guardar ingrediente - pantalla Inventario
             JOptionPane.showMessageDialog(null, "Formato de fecha inválido. Use YYYY-MM-DD");
-        } catch (SQLException e) {
+        } catch (SQLException e) { //error al guardar ingrediente - pantalla Inventario
             JOptionPane.showMessageDialog(null, "Error al guardar: " + e.getMessage());
         }
     }
@@ -146,7 +146,7 @@ public class CONTROLLER_Inv_Ingrediente {
                 JOptionPane.showMessageDialog(null, "No se encontró el ingrediente.");
             }
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al buscar ingrediente - pantalla Inventario
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
         }
     }
@@ -187,9 +187,9 @@ public class CONTROLLER_Inv_Ingrediente {
             } else {
                 JOptionPane.showMessageDialog(null, "No se encontró el ingrediente.");
             }
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) { //error de formato de fecha al editar ingrediente - pantalla Inventario
             JOptionPane.showMessageDialog(null, "Formato de fecha inválido. Use YYYY-MM-DD");
-        } catch (Exception e) {
+        } catch (Exception e) { //error al editar ingrediente - pantalla Inventario
             JOptionPane.showMessageDialog(null, "Error al actualizar: " + e.getMessage());
         }
     }
@@ -219,7 +219,7 @@ public class CONTROLLER_Inv_Ingrediente {
                 JOptionPane.showMessageDialog(null, "No se encontró el ingrediente.");
             }
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al eliminar ingrediente - pantalla Inventario
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
         }
     }

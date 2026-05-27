@@ -20,7 +20,7 @@ public class Conexion_Local {
                     + "encrypt=true;"
                     + "trustServerCertificate=true";
             return DriverManager.getConnection(cadena);
-        } catch (Exception e) {
+        } catch (Exception e) { //error al establecer conexión local - pantalla capa Database
             System.out.println(e.toString());
             JOptionPane.showMessageDialog(null, "Error en la conexión local: " + e.toString());
             return null;

@@ -67,7 +67,7 @@ public class CONTROLLER_Envio {
             idEnvioSeleccionado = -1;
             limpiar();
             cargarTabla();
-        } catch (Exception e) {
+        } catch (Exception e) { //error al actualizar dirección de envío - pantalla Envío
             JOptionPane.showMessageDialog(null, "Error al actualizar: " + e.getMessage());
         }
     }
@@ -93,7 +93,7 @@ public class CONTROLLER_Envio {
             idEnvioSeleccionado = -1;
             limpiar();
             cargarTabla();
-        } catch (Exception e) {
+        } catch (Exception e) { //error al eliminar envío - pantalla Envío
             JOptionPane.showMessageDialog(null, "Error al eliminar: " + e.getMessage());
         }
     }
@@ -117,7 +117,7 @@ public class CONTROLLER_Envio {
             idEnvioSeleccionado = -1;
             limpiar();
             cargarTabla();
-        } catch (Exception e) {
+        } catch (Exception e) { //error al inhabilitar envío - pantalla Envío
             JOptionPane.showMessageDialog(null, "Error al inhabilitar: " + e.getMessage());
         }
     }
@@ -136,7 +136,7 @@ public class CONTROLLER_Envio {
             JOptionPane.showMessageDialog(null, "Envío habilitado correctamente.");
             idEnvioSeleccionado = -1;
             cargarTabla();
-        } catch (Exception e) {
+        } catch (Exception e) { //error al habilitar envío - pantalla Envío
             JOptionPane.showMessageDialog(null, "Error al habilitar: " + e.getMessage());
         }
     }
@@ -154,7 +154,7 @@ public class CONTROLLER_Envio {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) datos.add(filaDesdeRS(rs));
             tablaEnvios.setItems(datos);
-        } catch (Exception e) {
+        } catch (Exception e) { //error al buscar envío - pantalla Envío
             JOptionPane.showMessageDialog(null, "Error al buscar: " + e.getMessage());
         }
     }
@@ -167,7 +167,7 @@ public class CONTROLLER_Envio {
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) datos.add(filaDesdeRS(rs));
             tablaEnvios.setItems(datos);
-        } catch (Exception e) {
+        } catch (Exception e) { //error al cargar tabla de envíos - pantalla Envío
             JOptionPane.showMessageDialog(null, "Error al cargar envíos: " + e.getMessage());
         }
     }

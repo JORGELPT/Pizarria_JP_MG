@@ -96,7 +96,7 @@ public class CONTROLLER_Empleado {
             }
             cmbSucursal.setItems(datos);
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al cargar sucursales - pantalla Agregar Empleado
             JOptionPane.showMessageDialog(null, "Error al cargar sucursales: " + e.getMessage());
         }
     }
@@ -205,7 +205,7 @@ public class CONTROLLER_Empleado {
             limpiar();
             cargarTabla();
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al guardar empleado - pantalla Agregar Empleado
             try {
                 if (con != null) con.rollback();
             } catch (Exception ignore) {}
@@ -251,7 +251,7 @@ public class CONTROLLER_Empleado {
                 }
             }
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al buscar empleado - pantalla Agregar Empleado
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
         }
     }
@@ -315,7 +315,7 @@ public class CONTROLLER_Empleado {
             idPersonaSeleccionada  = -1;
             limpiar();
             cargarTabla();
-        } catch (Exception e) {
+        } catch (Exception e) { //error al editar empleado - pantalla Agregar Empleado
             try { if (con != null) con.rollback(); } catch (Exception ignore) {}
             JOptionPane.showMessageDialog(null, "Error al editar: " + e.getMessage());
         } finally {
@@ -357,7 +357,7 @@ public class CONTROLLER_Empleado {
             idPersonaSeleccionada  = -1;
             limpiar();
             cargarTabla();
-        } catch (Exception e) {
+        } catch (Exception e) { //error al eliminar empleado - pantalla Agregar Empleado
             try { if (con != null) con.rollback(); } catch (Exception ignore) {}
             JOptionPane.showMessageDialog(null, "Error al eliminar: " + e.getMessage());
         } finally {
@@ -382,7 +382,7 @@ public class CONTROLLER_Empleado {
             ps.executeUpdate();
             JOptionPane.showMessageDialog(null, "Empleado inhabilitado correctamente.");
             idEmpleadoSeleccionado = -1;
-        } catch (Exception e) {
+        } catch (Exception e) { //error al inhabilitar empleado - pantalla Agregar Empleado
             JOptionPane.showMessageDialog(null, "Error al inhabilitar: " + e.getMessage());
         }
     }
@@ -401,7 +401,7 @@ public class CONTROLLER_Empleado {
             JOptionPane.showMessageDialog(null, "Empleado habilitado correctamente.");
             idEmpleadoSeleccionado = -1;
             cargarTabla();
-        } catch (Exception e) {
+        } catch (Exception e) { //error al habilitar empleado - pantalla Agregar Empleado
             JOptionPane.showMessageDialog(null, "Error al habilitar: " + e.getMessage());
         }
     }
@@ -429,7 +429,7 @@ public class CONTROLLER_Empleado {
             }
             tablaEmpleados.setItems(datos);
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al cargar tabla de empleados - pantalla Agregar Empleado
             JOptionPane.showMessageDialog(null, "Error al cargar empleados: " + e.getMessage());
         }
     }

@@ -118,9 +118,9 @@ public class CONTROLLER_Login {
                 }
             }
 
-        } catch (SQLException e) {
+        } catch (SQLException e) { //error SQL en autenticación - pantalla Login
             mostrarError("Error de base de datos: " + e.getMessage());
-        } catch (Exception e) {
+        } catch (Exception e) { //error inesperado en inicio de sesión - pantalla Login
             mostrarError("Error inesperado: " + e.getMessage());
         }
     }
@@ -136,7 +136,7 @@ public class CONTROLLER_Login {
         try (PreparedStatement ps = con.prepareStatement(SQL)) {
             ps.setInt(1, idUsuario);
             ps.executeUpdate();
-        } catch (SQLException ex) {
+        } catch (SQLException ex) { //error al registrar acceso exitoso (auditoría) - pantalla Login
             // No bloqueamos el login por un error de auditoría
         }
     }
@@ -150,7 +150,7 @@ public class CONTROLLER_Login {
         try (PreparedStatement ps = con.prepareStatement(SQL)) {
             ps.setString(1, codigo);
             ps.executeUpdate();
-        } catch (SQLException ex) {
+        } catch (SQLException ex) { //error al registrar intento fallido (auditoría) - pantalla Login
             // Error de auditoría no crítico
         }
     }
@@ -174,7 +174,7 @@ public class CONTROLLER_Login {
             stageActual.setResizable(true);
             stageActual.show();
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al abrir ventana principal tras login - pantalla Login
             mostrarError("Error al abrir el sistema: " + e.getMessage());
         }
     }

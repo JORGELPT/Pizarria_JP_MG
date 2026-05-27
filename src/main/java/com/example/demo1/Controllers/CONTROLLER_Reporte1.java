@@ -82,7 +82,7 @@ public class CONTROLLER_Reporte1 {
                 dataset.addValue(rs.getInt("total"), "Empleados",
                         rs.getString("nombre_departamento"));
             }
-        } catch (Exception e) {
+        } catch (Exception e) { //error al cargar datos del gráfico - pantalla Reporte 1
             JOptionPane.showMessageDialog(null, "Error al cargar datos del gráfico: " + e.getMessage());
             return;
         }
@@ -156,7 +156,7 @@ public class CONTROLLER_Reporte1 {
                 }
             }
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al cargar empleados - pantalla Reporte 1
             JOptionPane.showMessageDialog(null,
                 "Error al cargar empleados: " + e.getMessage());
         }

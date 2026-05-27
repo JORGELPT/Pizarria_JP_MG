@@ -303,7 +303,7 @@ public class CONTROLLER_hace_ub_pedido {
     }
 
     // ── Tarjeta de producto ──────────────────────────────────────────────────
-
+    // Factory metod
     private VBox crearTarjeta(Producto p) {
         VBox card = new VBox(6);
         card.setPrefSize(165, 215);
@@ -1747,7 +1747,7 @@ public class CONTROLLER_hace_ub_pedido {
         }
     }
 
-    // ── Helpers ──────────────────────────────────────────────────────────────
+    // = Helpers =
 
     private void mostrarMensaje(String msg) {
         if (lblMensaje != null) lblMensaje.setText(msg != null ? msg : "");
@@ -1791,7 +1791,7 @@ public class CONTROLLER_hace_ub_pedido {
         }
     }
 
-    // ── Clases internas ──────────────────────────────────────────────────────
+    //   Clases internas
 
     public static class Extra {
         final int        idIngrediente;
@@ -1855,7 +1855,7 @@ public class CONTROLLER_hace_ub_pedido {
         );
     }
 
-    // ── Imagen de producto ───────────────────────────────────────────────────
+    //  Imagen de producto
     private javafx.scene.image.Image buscarImagenProducto(String nombre) {
         if (nombre == null) return null;
         final String BASE = "/com/example/demo1/imagenes/productos/";

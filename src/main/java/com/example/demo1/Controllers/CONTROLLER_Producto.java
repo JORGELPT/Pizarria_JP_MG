@@ -155,10 +155,10 @@ public class CONTROLLER_Producto {
             limpiar();
             cargarTabla();
 
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException e) { //error de formato en precio al guardar producto - pantalla Agregar Producto
             try { if (con != null) con.rollback(); } catch (Exception ignore) {}
             JOptionPane.showMessageDialog(null, "El precio debe ser un número válido.");
-        } catch (Exception e) {
+        } catch (Exception e) { //error al guardar producto - pantalla Agregar Producto
             try { if (con != null) con.rollback(); } catch (Exception ignore) {}
             JOptionPane.showMessageDialog(null, "Error al guardar: " + e.getMessage());
         } finally {
@@ -205,7 +205,7 @@ public class CONTROLLER_Producto {
                 idProductoActual = -1;
             }
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al buscar producto - pantalla Agregar Producto
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
         }
     }
@@ -243,7 +243,7 @@ public class CONTROLLER_Producto {
                 JOptionPane.showMessageDialog(null, "No se encontró el registro.");
             }
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al editar producto - pantalla Agregar Producto
             JOptionPane.showMessageDialog(null, "Error al editar: " + e.getMessage());
         }
     }
@@ -277,7 +277,7 @@ public class CONTROLLER_Producto {
                 JOptionPane.showMessageDialog(null, "No se encontró el producto.");
             }
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al eliminar producto - pantalla Agregar Producto
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
         }
     }
@@ -301,7 +301,7 @@ public class CONTROLLER_Producto {
             idProductoActual = -1;
             limpiar();
             cargarTabla();
-        } catch (Exception e) {
+        } catch (Exception e) { //error al inhabilitar producto - pantalla Agregar Producto
             JOptionPane.showMessageDialog(null, "Error al inhabilitar: " + e.getMessage());
         }
     }
@@ -321,7 +321,7 @@ public class CONTROLLER_Producto {
             idProductoActual = -1;
             limpiar();
             cargarTabla();
-        } catch (Exception e) {
+        } catch (Exception e) { //error al habilitar producto - pantalla Agregar Producto
             JOptionPane.showMessageDialog(null, "Error al habilitar: " + e.getMessage());
         }
     }
@@ -383,7 +383,7 @@ public class CONTROLLER_Producto {
             }
             tablaProductos.setItems(datos);
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al cargar tabla de productos - pantalla Agregar Producto
             JOptionPane.showMessageDialog(null, "Error al cargar tabla: " + e.getMessage());
         }
     }

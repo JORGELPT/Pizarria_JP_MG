@@ -76,7 +76,7 @@ public class CONTROLLER_Sucursal {
             limpiar();
             cargarTabla();
 
-        } catch (SQLException e) {
+        } catch (SQLException e) { //error al guardar sucursal - pantalla Agregar Sucursal
             JOptionPane.showMessageDialog(null, "Error al guardar: " + e.getMessage());
         }
     }
@@ -105,7 +105,7 @@ public class CONTROLLER_Sucursal {
                 JOptionPane.showMessageDialog(null, "No se encontró la sucursal.");
             }
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al buscar sucursal - pantalla Agregar Sucursal
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
         }
     }
@@ -137,7 +137,7 @@ public class CONTROLLER_Sucursal {
                 JOptionPane.showMessageDialog(null, "No se encontró la sucursal.");
             }
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al editar sucursal - pantalla Agregar Sucursal
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
         }
     }
@@ -169,7 +169,7 @@ public class CONTROLLER_Sucursal {
                 JOptionPane.showMessageDialog(null, "No se encontró la sucursal.");
             }
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al eliminar sucursal - pantalla Agregar Sucursal
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
         }
     }
@@ -193,7 +193,7 @@ public class CONTROLLER_Sucursal {
             JOptionPane.showMessageDialog(null, "Sucursal inhabilitada correctamente.");
             limpiar();
             cargarTabla();
-        } catch (Exception e) {
+        } catch (Exception e) { //error al inhabilitar sucursal - pantalla Agregar Sucursal
             JOptionPane.showMessageDialog(null, "Error al inhabilitar: " + e.getMessage());
         }
     }
@@ -212,7 +212,7 @@ public class CONTROLLER_Sucursal {
             ps.executeUpdate();
             JOptionPane.showMessageDialog(null, "Sucursal habilitada correctamente.");
             cargarTabla();
-        } catch (Exception e) {
+        } catch (Exception e) { //error al habilitar sucursal - pantalla Agregar Sucursal
             JOptionPane.showMessageDialog(null, "Error al habilitar: " + e.getMessage());
         }
     }
@@ -235,7 +235,7 @@ public class CONTROLLER_Sucursal {
             }
             tablaSucursales.setItems(datos);
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al cargar tabla - pantalla Agregar Sucursal
             JOptionPane.showMessageDialog(null, "Error al cargar sucursales: " + e.getMessage());
         }
     }

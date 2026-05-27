@@ -74,7 +74,7 @@ public class CONTROLLER_Tecnico {
             JOptionPane.showMessageDialog(null, "Técnico guardado correctamente.");
             limpiar();
             cargarTabla();
-        } catch (Exception e) {
+        } catch (Exception e) { //error al guardar técnico - pantalla Agregar Técnico
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
         }
     }
@@ -102,7 +102,7 @@ public class CONTROLLER_Tecnico {
             } else {
                 JOptionPane.showMessageDialog(null, "No se encontró el técnico.");
             }
-        } catch (Exception e) {
+        } catch (Exception e) { //error al buscar técnico - pantalla Agregar Técnico
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
         }
     }
@@ -132,7 +132,7 @@ public class CONTROLLER_Tecnico {
             } else {
                 JOptionPane.showMessageDialog(null, "No se encontró el técnico con esa cédula.");
             }
-        } catch (Exception e) {
+        } catch (Exception e) { //error al editar técnico - pantalla Agregar Técnico
             JOptionPane.showMessageDialog(null, "Error al actualizar: " + e.getMessage());
         }
     }
@@ -159,7 +159,7 @@ public class CONTROLLER_Tecnico {
             } else {
                 JOptionPane.showMessageDialog(null, "No se encontró el técnico.");
             }
-        } catch (Exception e) {
+        } catch (Exception e) { //error al eliminar técnico - pantalla Agregar Técnico
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
         }
     }
@@ -183,7 +183,7 @@ public class CONTROLLER_Tecnico {
             JOptionPane.showMessageDialog(null, "Técnico inhabilitado correctamente.");
             limpiar();
             cargarTabla();
-        } catch (Exception e) {
+        } catch (Exception e) { //error al inhabilitar técnico - pantalla Agregar Técnico
             JOptionPane.showMessageDialog(null, "Error al inhabilitar: " + e.getMessage());
         }
     }
@@ -202,7 +202,7 @@ public class CONTROLLER_Tecnico {
             ps.executeUpdate();
             JOptionPane.showMessageDialog(null, "Técnico habilitado correctamente.");
             cargarTabla();
-        } catch (Exception e) {
+        } catch (Exception e) { //error al habilitar técnico - pantalla Agregar Técnico
             JOptionPane.showMessageDialog(null, "Error al habilitar: " + e.getMessage());
         }
     }
@@ -223,7 +223,7 @@ public class CONTROLLER_Tecnico {
                         rs.getString("estado")));
             }
             tablaTecnicos.setItems(datos);
-        } catch (Exception e) {
+        } catch (Exception e) { //error al cargar tabla - pantalla Agregar Técnico
             JOptionPane.showMessageDialog(null, "Error al cargar técnicos: " + e.getMessage());
         }
     }

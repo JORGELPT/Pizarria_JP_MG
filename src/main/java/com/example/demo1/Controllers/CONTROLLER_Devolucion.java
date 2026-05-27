@@ -79,7 +79,7 @@ public class CONTROLLER_Devolucion {
                 lblCliente.setText("Cliente: — no encontrado");
                 JOptionPane.showMessageDialog(null, "No se encontró el pedido.");
             }
-        } catch (Exception e) {
+        } catch (Exception e) { //error al buscar pedido - pantalla Devolución
             JOptionPane.showMessageDialog(null, "Error al buscar pedido: " + e.getMessage());
         }
     }
@@ -111,7 +111,7 @@ public class CONTROLLER_Devolucion {
             JOptionPane.showMessageDialog(null, "Devolución registrada correctamente.");
             limpiar();
             cargarTabla();
-        } catch (Exception e) {
+        } catch (Exception e) { //error al guardar devolución - pantalla Devolución
             JOptionPane.showMessageDialog(null, "Error al guardar: " + e.getMessage());
         }
     }
@@ -137,7 +137,7 @@ public class CONTROLLER_Devolucion {
             idDevolucionSeleccionado = -1;
             limpiar();
             cargarTabla();
-        } catch (Exception e) {
+        } catch (Exception e) { //error al eliminar devolución - pantalla Devolución
             JOptionPane.showMessageDialog(null, "Error al eliminar: " + e.getMessage());
         }
     }
@@ -160,7 +160,7 @@ public class CONTROLLER_Devolucion {
             JOptionPane.showMessageDialog(null, "Devolución inhabilitada correctamente.");
             idDevolucionSeleccionado = -1;
             cargarTabla();
-        } catch (Exception e) {
+        } catch (Exception e) { //error al inhabilitar devolución - pantalla Devolución
             JOptionPane.showMessageDialog(null, "Error al inhabilitar: " + e.getMessage());
         }
     }
@@ -179,7 +179,7 @@ public class CONTROLLER_Devolucion {
             JOptionPane.showMessageDialog(null, "Devolución habilitada correctamente.");
             idDevolucionSeleccionado = -1;
             cargarTabla();
-        } catch (Exception e) {
+        } catch (Exception e) { //error al habilitar devolución - pantalla Devolución
             JOptionPane.showMessageDialog(null, "Error al habilitar: " + e.getMessage());
         }
     }
@@ -214,7 +214,7 @@ public class CONTROLLER_Devolucion {
             idDevolucionSeleccionado = -1;
             limpiar();
             cargarTabla();
-        } catch (Exception e) {
+        } catch (Exception e) { //error al editar devolución - pantalla Devolución
             JOptionPane.showMessageDialog(null, "Error al actualizar: " + e.getMessage());
         }
     }
@@ -236,7 +236,7 @@ public class CONTROLLER_Devolucion {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) datos.add(filaDesdeRS(rs));
             tablaDevoluciones.setItems(datos);
-        } catch (Exception e) {
+        } catch (Exception e) { //error al buscar devolución - pantalla Devolución
             JOptionPane.showMessageDialog(null, "Error al buscar: " + e.getMessage());
         }
     }
@@ -253,7 +253,7 @@ public class CONTROLLER_Devolucion {
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) datos.add(filaDesdeRS(rs));
             tablaDevoluciones.setItems(datos);
-        } catch (Exception e) {
+        } catch (Exception e) { //error al cargar tabla de devoluciones - pantalla Devolución
             JOptionPane.showMessageDialog(null, "Error al cargar devoluciones: " + e.getMessage());
         }
     }

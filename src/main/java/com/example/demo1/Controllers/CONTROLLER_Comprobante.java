@@ -55,7 +55,7 @@ public class CONTROLLER_Comprobante {
             JOptionPane.showMessageDialog(null, "Registro ITBS guardado correctamente.");
             limpiarComprobante();
 
-        } catch (SQLException e) {
+        } catch (SQLException e) { //error al guardar comprobante - pantalla Comprobante
             JOptionPane.showMessageDialog(null, "Error al guardar ITBS: " + e.getMessage());
         }
     }
@@ -104,7 +104,7 @@ public class CONTROLLER_Comprobante {
             } else {
                 JOptionPane.showMessageDialog(null, "No se encontró el registro.");
             }
-        } catch (Exception e) {
+        } catch (Exception e) { //error al editar comprobante - pantalla Comprobante
             JOptionPane.showMessageDialog(null, "Error al actualizar: " + e.getMessage());
         }
     }
@@ -133,7 +133,7 @@ public class CONTROLLER_Comprobante {
             } else {
                 JOptionPane.showMessageDialog(null, "No se encontró el registro.");
             }
-        } catch (Exception e) {
+        } catch (Exception e) { //error al eliminar comprobante - pantalla Comprobante
             JOptionPane.showMessageDialog(null, "Error al eliminar: " + e.getMessage());
         }
     }
@@ -155,7 +155,7 @@ public class CONTROLLER_Comprobante {
             ps.setInt(1, Integer.parseInt(idStr));
             ps.executeUpdate();
             JOptionPane.showMessageDialog(null, "Comprobante inhabilitado correctamente.");
-        } catch (Exception e) {
+        } catch (Exception e) { //error al inhabilitar comprobante - pantalla Comprobante
             JOptionPane.showMessageDialog(null, "Error al inhabilitar: " + e.getMessage());
         }
     }
@@ -173,7 +173,7 @@ public class CONTROLLER_Comprobante {
             ps.setInt(1, Integer.parseInt(idStr));
             ps.executeUpdate();
             JOptionPane.showMessageDialog(null, "Comprobante habilitado correctamente.");
-        } catch (Exception e) {
+        } catch (Exception e) { //error al habilitar comprobante - pantalla Comprobante
             JOptionPane.showMessageDialog(null, "Error al habilitar: " + e.getMessage());
         }
     }
@@ -204,7 +204,7 @@ public class CONTROLLER_Comprobante {
                 JOptionPane.showMessageDialog(null, "No se encontró ningún registro con esa categoría.");
             }
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al buscar comprobante - pantalla Comprobante
             JOptionPane.showMessageDialog(null, "Error al buscar: " + e.getMessage());
         }
     }

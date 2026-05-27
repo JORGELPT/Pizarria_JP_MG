@@ -80,7 +80,7 @@ public class JasperUtil {
             JOptionPane.showMessageDialog(null,
                     "✅ PDF generado correctamente:\n" + destino.getAbsolutePath());
 
-        } catch (Exception ex) {
+        } catch (Exception ex) { //error al generar reporte PDF - pantalla Reportes
             ex.printStackTrace();
             JOptionPane.showMessageDialog(null,
                     "Error al generar el reporte PDF:\n" + ex.getMessage());

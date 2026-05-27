@@ -21,7 +21,7 @@ public class Conexion {
                     + "encrypt=true;"
                     + "trustServerCertificate=true";
             return DriverManager.getConnection(cadena, usuario, contrasena);
-        } catch (Exception e) {
+        } catch (Exception e) { //error al establecer conexión con SQL Server - capa Database
             System.out.println(e.toString());
             JOptionPane.showMessageDialog(null, "Error en la conexión: " + e.toString());
             return null;

@@ -50,7 +50,7 @@ public class CONTROLLER_Fallosmaquina {
                 lblIdMaquina.setText("ID máquina: — (no encontrada)");
                 JOptionPane.showMessageDialog(null, "No se encontró máquina con esa serie.");
             }
-        } catch (Exception e) {
+        } catch (Exception e) { //error al buscar máquina - pantalla Fallos de Máquina
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
         }
     }
@@ -82,7 +82,7 @@ public class CONTROLLER_Fallosmaquina {
             JOptionPane.showMessageDialog(null, "Fallo registrado correctamente.");
             limpiar();
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al guardar fallo de máquina - pantalla Fallos de Máquina
             JOptionPane.showMessageDialog(null, "Error al guardar: " + e.getMessage());
         }
     }
@@ -110,7 +110,7 @@ public class CONTROLLER_Fallosmaquina {
             } else {
                 JOptionPane.showMessageDialog(null, "No hay fallos registrados para esta máquina.");
             }
-        } catch (Exception e) {
+        } catch (Exception e) { //error al buscar fallo de máquina - pantalla Fallos de Máquina
             JOptionPane.showMessageDialog(null, "Error al buscar: " + e.getMessage());
         }
     }
@@ -146,7 +146,7 @@ public class CONTROLLER_Fallosmaquina {
             JOptionPane.showMessageDialog(null, "Fallo actualizado correctamente.");
             idFallo = -1;
             limpiar();
-        } catch (Exception e) {
+        } catch (Exception e) { //error al editar fallo de máquina - pantalla Fallos de Máquina
             JOptionPane.showMessageDialog(null, "Error al actualizar: " + e.getMessage());
         }
     }
@@ -171,7 +171,7 @@ public class CONTROLLER_Fallosmaquina {
             JOptionPane.showMessageDialog(null, "Fallo eliminado correctamente.");
             idFallo = -1;
             limpiar();
-        } catch (Exception e) {
+        } catch (Exception e) { //error al eliminar fallo de máquina - pantalla Fallos de Máquina
             JOptionPane.showMessageDialog(null, "Error al eliminar: " + e.getMessage());
         }
     }
@@ -194,7 +194,7 @@ public class CONTROLLER_Fallosmaquina {
             JOptionPane.showMessageDialog(null, "Fallo inhabilitado correctamente.");
             idFallo = -1;
             limpiar();
-        } catch (Exception e) {
+        } catch (Exception e) { //error al inhabilitar fallo de máquina - pantalla Fallos de Máquina
             JOptionPane.showMessageDialog(null, "Error al inhabilitar: " + e.getMessage());
         }
     }
@@ -213,7 +213,7 @@ public class CONTROLLER_Fallosmaquina {
             JOptionPane.showMessageDialog(null, "Fallo habilitado correctamente.");
             idFallo = -1;
             limpiar();
-        } catch (Exception e) {
+        } catch (Exception e) { //error al habilitar fallo de máquina - pantalla Fallos de Máquina
             JOptionPane.showMessageDialog(null, "Error al habilitar: " + e.getMessage());
         }
     }

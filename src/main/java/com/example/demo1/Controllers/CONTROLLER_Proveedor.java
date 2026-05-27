@@ -75,7 +75,7 @@ public class CONTROLLER_Proveedor {
             limpiar();
             cargarTabla();
 
-        } catch (SQLException e) {
+        } catch (SQLException e) { //error al guardar proveedor - pantalla Agregar Proveedor
             JOptionPane.showMessageDialog(null, "Error al guardar: " + e.getMessage());
         }
     }
@@ -106,7 +106,7 @@ public class CONTROLLER_Proveedor {
                 JOptionPane.showMessageDialog(null, "No se encontró el proveedor.");
             }
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al buscar proveedor - pantalla Agregar Proveedor
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
         }
     }
@@ -139,7 +139,7 @@ public class CONTROLLER_Proveedor {
                 JOptionPane.showMessageDialog(null, "No se encontró el proveedor.");
             }
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al editar proveedor - pantalla Agregar Proveedor
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
         }
     }
@@ -171,7 +171,7 @@ public class CONTROLLER_Proveedor {
                 JOptionPane.showMessageDialog(null, "No se encontró el proveedor.");
             }
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al eliminar proveedor - pantalla Agregar Proveedor
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
         }
     }
@@ -195,7 +195,7 @@ public class CONTROLLER_Proveedor {
             JOptionPane.showMessageDialog(null, "Proveedor inhabilitado correctamente.");
             limpiar();
             cargarTabla();
-        } catch (Exception e) {
+        } catch (Exception e) { //error al inhabilitar proveedor - pantalla Agregar Proveedor
             JOptionPane.showMessageDialog(null, "Error al inhabilitar: " + e.getMessage());
         }
     }
@@ -214,7 +214,7 @@ public class CONTROLLER_Proveedor {
             ps.executeUpdate();
             JOptionPane.showMessageDialog(null, "Proveedor habilitado correctamente.");
             cargarTabla();
-        } catch (Exception e) {
+        } catch (Exception e) { //error al habilitar proveedor - pantalla Agregar Proveedor
             JOptionPane.showMessageDialog(null, "Error al habilitar: " + e.getMessage());
         }
     }
@@ -237,7 +237,7 @@ public class CONTROLLER_Proveedor {
             }
             tablaProveedores.setItems(datos);
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al cargar tabla de proveedores - pantalla Agregar Proveedor
             JOptionPane.showMessageDialog(null, "Error al cargar proveedores: " + e.getMessage());
         }
     }

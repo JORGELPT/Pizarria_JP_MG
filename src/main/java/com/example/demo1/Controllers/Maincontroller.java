@@ -413,7 +413,7 @@ public class Maincontroller {
                     stage.setMaximized(false);
                     stage.setResizable(false);
                     stage.show();
-                } catch (IOException e) {
+                } catch (IOException e) { //error al cargar Login.fxml al cerrar sesión - pantalla Principal
                     mostrarError("No se pudo volver al login.", e.getMessage());
                 }
             }
@@ -435,7 +435,7 @@ public class Maincontroller {
             aplicarFondo(vista);
             contentArea.getChildren().setAll(vista);
             if (lblEstado != null) lblEstado.setText("Pantalla actual: " + titulo);
-        } catch (IOException e) {
+        } catch (IOException e) { //error al cargar vista FXML - pantalla Principal
             mostrarError("Error al cargar la vista: " + titulo, e.getMessage());
         }
     }
