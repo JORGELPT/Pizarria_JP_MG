@@ -1,6 +1,7 @@
 package com.example.demo1.Controllers;
 
 import com.example.demo1.Database.Conexion;
+import com.example.demo1.Utils.JasperUtil;
 import com.example.demo1.Utils.Permisos_Util;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -12,13 +13,6 @@ import javafx.scene.control.TextField;
 import javax.swing.JOptionPane;
 import java.sql.*;
 
-/**
- * Controller de Agregar Cliente.
- * Adaptado a BD real:
- *   - tbl_persona: nombre, tel, cedula, direccion, rol_bd, contrasenia
- *   - tbl_cliente: id_persona (solo guarda la relación)
- *   - El rol_bd se guarda como 'cliente' por default
- */
 public class CONTROLLER_Cliiente {
 
     Conexion conexion = new Conexion();
@@ -31,12 +25,14 @@ public class CONTROLLER_Cliiente {
     @FXML private TableColumn<ClienteRow, String> colNombre;
     @FXML private TableColumn<ClienteRow, String> colCedula;
     @FXML private TableColumn<ClienteRow, String> colTelefono;
+    @FXML private TableColumn<ClienteRow, String> colEstado;
 
     @FXML
     public void initialize() {
         colNombre.setCellValueFactory(c -> c.getValue().nombre);
         colCedula.setCellValueFactory(c -> c.getValue().cedula);
         colTelefono.setCellValueFactory(c -> c.getValue().telefono);
+        colEstado.setCellValueFactory(c -> c.getValue().estado);
 
         tablaClientes.getSelectionModel().selectedItemProperty().addListener(
                 (obs, old, sel) -> {
@@ -81,11 +77,11 @@ public class CONTROLLER_Cliiente {
                 // Contraseña por defecto = cédula (el cliente puede cambiarla después)
                 ps.setString(5, cedula.replace("-", ""));
                 ps.executeUpdate();
-                ResultSet keys = ps.getGeneratedKeys();
-                idPersona = keys.next() ? keys.getInt(1) : 0;
+                try (ResultSet keys = ps.getGeneratedKeys()) {
+                    idPersona = keys.next() ? keys.getInt(1) : 0;
+                }
             }
 
-            // 2) Insertar en tbl_cliente (solo id_persona)
             try (PreparedStatement ps = con.prepareStatement(
                     "INSERT INTO tbl_cliente (id_persona) VALUES (?)")) {
                 ps.setInt(1, idPersona);
@@ -100,7 +96,7 @@ public class CONTROLLER_Cliiente {
             limpiar();
             cargarTabla();
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al guardar cliente - pantalla Agregar Cliente
             try {
                 if (con != null) con.rollback();
             } catch (Exception ignore) {}
@@ -130,17 +126,18 @@ public class CONTROLLER_Cliiente {
              PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setString(1, cedula);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                TXTnombre.setText(rs.getString("nombre"));
-                TXTtelefono.setText(rs.getString("tel"));
-                TXTcedula.setText(rs.getString("cedula"));
-                TXTdireccion.setText(rs.getString("direccion"));
-            } else {
-                JOptionPane.showMessageDialog(null, "No se encontró el cliente.");
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    TXTnombre.setText(rs.getString("nombre"));
+                    TXTtelefono.setText(rs.getString("tel"));
+                    TXTcedula.setText(rs.getString("cedula"));
+                    TXTdireccion.setText(rs.getString("direccion"));
+                } else {
+                    JOptionPane.showMessageDialog(null, "No se encontró el cliente.");
+                }
             }
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al buscar cliente - pantalla Agregar Cliente
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
         }
     }
@@ -171,7 +168,7 @@ public class CONTROLLER_Cliiente {
                 JOptionPane.showMessageDialog(null, "No se encontró el cliente.");
             }
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al editar cliente - pantalla Agregar Cliente
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
         }
     }
@@ -200,12 +197,13 @@ public class CONTROLLER_Cliiente {
             try (PreparedStatement ps = con.prepareStatement(
                     "SELECT id_persona FROM tbl_persona WHERE cedula = ?")) {
                 ps.setString(1, cedula);
-                ResultSet rs = ps.executeQuery();
-                if (!rs.next()) {
-                    JOptionPane.showMessageDialog(null, "No se encontró el cliente.");
-                    return;
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (!rs.next()) {
+                        JOptionPane.showMessageDialog(null, "No se encontró el cliente.");
+                        return;
+                    }
+                    idPersona = rs.getInt("id_persona");
                 }
-                idPersona = rs.getInt("id_persona");
             }
 
             try (PreparedStatement ps = con.prepareStatement(
@@ -225,7 +223,7 @@ public class CONTROLLER_Cliiente {
             limpiar();
             cargarTabla();
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al eliminar cliente - pantalla Agregar Cliente
             try {
                 if (con != null) con.rollback();
             } catch (Exception ignore) {}
@@ -237,9 +235,63 @@ public class CONTROLLER_Cliiente {
         }
     }
 
+    @FXML
+    public void FnInhabilitar() {
+        String cedula = TXTcedula.getText().trim();
+        if (cedula.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Ingrese la cédula del cliente a inhabilitar.");
+            return;
+        }
+        int confirmar = JOptionPane.showConfirmDialog(null,
+                "¿Inhabilitar al cliente con cédula " + cedula + "? No se eliminará, solo quedará inactivo.",
+                "Confirmar", JOptionPane.YES_NO_OPTION);
+        if (confirmar != JOptionPane.YES_OPTION) return;
+        try (java.sql.Connection con = Conexion.establecerConexion();
+             java.sql.PreparedStatement ps = con.prepareStatement(
+                     "UPDATE tbl_cliente SET estado = 'Inactivo' WHERE id_persona = " +
+                     "(SELECT id_persona FROM tbl_persona WHERE cedula = ?)")) {
+            ps.setString(1, cedula);
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Cliente inhabilitado correctamente.");
+            limpiar();
+            cargarTabla();
+        } catch (Exception e) { //error al inhabilitar cliente - pantalla Agregar Cliente
+            JOptionPane.showMessageDialog(null, "Error al inhabilitar: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    public void FnHabilitar() {
+        String cedula = TXTcedula.getText().trim();
+        if (cedula.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Ingrese la cédula del cliente a habilitar.");
+            return;
+        }
+        try (java.sql.Connection con = Conexion.establecerConexion();
+             java.sql.PreparedStatement ps = con.prepareStatement(
+                     "UPDATE tbl_cliente SET estado = 'Activo' WHERE id_persona = " +
+                     "(SELECT id_persona FROM tbl_persona WHERE cedula = ?)")) {
+            ps.setString(1, cedula);
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Cliente habilitado correctamente.");
+            cargarTabla();
+        } catch (Exception e) { //error al habilitar cliente - pantalla Agregar Cliente
+            JOptionPane.showMessageDialog(null, "Error al habilitar: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    public void FnExportarPDF() {
+        if (!com.example.demo1.Utils.Permisos_Util.verificarReporte()) return;
+        JasperUtil.exportarPDF(
+                "/com/example/demo1/reportes/Reporte_Clientes.jrxml",
+                "Reporte_Clientes.pdf"
+        );
+    }
+
     private void cargarTabla() {
         ObservableList<ClienteRow> datos = FXCollections.observableArrayList();
-        String sql = "SELECT p.nombre, p.cedula, p.tel " +
+        String sql = "SELECT p.nombre, p.cedula, p.tel, c.estado " +
                 "FROM tbl_cliente c INNER JOIN tbl_persona p ON c.id_persona = p.id_persona " +
                 "ORDER BY p.nombre";
 
@@ -251,11 +303,12 @@ public class CONTROLLER_Cliiente {
                 datos.add(new ClienteRow(
                         rs.getString("nombre"),
                         rs.getString("cedula"),
-                        rs.getString("tel")));
+                        rs.getString("tel"),
+                        rs.getString("estado")));
             }
             tablaClientes.setItems(datos);
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al cargar tabla de clientes - pantalla Agregar Cliente
             JOptionPane.showMessageDialog(null, "Error al cargar clientes: " + e.getMessage());
         }
     }
@@ -268,16 +321,18 @@ public class CONTROLLER_Cliiente {
     }
 
     public static class ClienteRow {
-        final SimpleStringProperty nombre, cedula, telefono;
+        final SimpleStringProperty nombre, cedula, telefono, estado;
 
-        public ClienteRow(String n, String c, String t) {
+        public ClienteRow(String n, String c, String t, String est) {
             nombre   = new SimpleStringProperty(n);
             cedula   = new SimpleStringProperty(c);
             telefono = new SimpleStringProperty(t);
+            estado   = new SimpleStringProperty(est != null ? est : "Activo");
         }
 
         public String getNombre()   { return nombre.get(); }
         public String getCedula()   { return cedula.get(); }
         public String getTelefono() { return telefono.get(); }
+        public String getEstado()   { return estado.get(); }
     }
 }

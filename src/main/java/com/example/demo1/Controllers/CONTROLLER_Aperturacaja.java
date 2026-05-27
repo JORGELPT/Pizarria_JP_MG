@@ -10,9 +10,7 @@ import javafx.scene.control.*;
 import javax.swing.JOptionPane;
 import java.sql.*;
 
-/**
- * tbl_apertura_caja: id_apertura_caja, fecha_apertura, monto_inicial, id_empleado
- */
+
 public class CONTROLLER_Aperturacaja {
 
     Conexion conexion = new Conexion();
@@ -73,7 +71,7 @@ public class CONTROLLER_Aperturacaja {
             JOptionPane.showMessageDialog(null, "Apertura de caja registrada correctamente.");
             limpiar();
             cargarTabla();
-        } catch (Exception e) {
+        } catch (Exception e) { //error al registrar apertura de caja - pantalla Apertura de Caja
             JOptionPane.showMessageDialog(null, "Error al registrar apertura: " + e.getMessage());
         }
     }
@@ -111,13 +109,14 @@ public class CONTROLLER_Aperturacaja {
             idAperturaSeleccionada = -1;
             limpiar();
             cargarTabla();
-        } catch (Exception e) {
+        } catch (Exception e) { //error al actualizar apertura de caja - pantalla Apertura de Caja
             JOptionPane.showMessageDialog(null, "Error al actualizar: " + e.getMessage());
         }
     }
 
     @FXML
     public void FnEliminar() {
+        if (!com.example.demo1.Utils.Permisos_Util.verificarEliminar()) return;
         if (idAperturaSeleccionada == -1) {
             JOptionPane.showMessageDialog(null, "Seleccione una apertura de la tabla primero.");
             return;
@@ -136,7 +135,7 @@ public class CONTROLLER_Aperturacaja {
             idAperturaSeleccionada = -1;
             limpiar();
             cargarTabla();
-        } catch (Exception e) {
+        } catch (Exception e) { //error al eliminar apertura de caja - pantalla Apertura de Caja
             JOptionPane.showMessageDialog(null, "Error al eliminar: " + e.getMessage());
         }
     }
@@ -158,7 +157,7 @@ public class CONTROLLER_Aperturacaja {
                 ));
             }
             tablaAperturas.setItems(datos);
-        } catch (Exception e) {
+        } catch (Exception e) { //error al cargar tabla de aperturas - pantalla Apertura de Caja
             JOptionPane.showMessageDialog(null, "Error al cargar aperturas: " + e.getMessage());
         }
     }

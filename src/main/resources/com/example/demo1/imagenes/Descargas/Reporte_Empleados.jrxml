@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports
+              http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="Reporte_Empleados" language="java"
+              pageWidth="842" pageHeight="595" orientation="Landscape"
+              columnWidth="802" leftMargin="20" rightMargin="20"
+              topMargin="20" bottomMargin="20">
+
+    <style name="Row" isDefault="false">
+        <conditionalStyle>
+            <conditionExpression><![CDATA[$V{REPORT_COUNT} % 2 == 0]]></conditionExpression>
+            <style backcolor="#E8F0FB" mode="Opaque"/>
+        </conditionalStyle>
+    </style>
+
+    <queryString><![CDATA[
+        SELECT p.cedula, p.nombre, p.tel,
+               c.nombre     AS cargo,
+               e.horario,
+               e.salario,
+               d.nombre     AS departamento
+        FROM tbl_empleado e
+        JOIN tbl_persona p           ON p.id_persona      = e.id_persona
+        LEFT JOIN tbl_cargo c        ON c.id_cargo        = e.id_cargo
+        LEFT JOIN tbl_departamento d ON d.id_departamento = c.id_departamento
+        ORDER BY p.nombre
+    ]]></queryString>
+
+    <field name="cedula"       class="java.lang.String"/>
+    <field name="nombre"       class="java.lang.String"/>
+    <field name="tel"          class="java.lang.String"/>
+    <field name="cargo"        class="java.lang.String"/>
+    <field name="horario"      class="java.lang.String"/>
+    <field name="salario"      class="java.lang.Double"/>
+    <field name="departamento" class="java.lang.String"/>
+
+    <variable name="totalEmpleados" class="java.lang.Integer" calculation="Count">
+        <variableExpression><![CDATA[$F{cedula}]]></variableExpression>
+    </variable>
+
+    <title>
+        <band height="100" splitType="Stretch">
+            <rectangle>
+                <reportElement x="0" y="0" width="802" height="65"
+                               forecolor="#004AAD" backcolor="#004AAD" mode="Opaque"/>
+            </rectangle>
+            <staticText>
+                <reportElement x="10" y="8" width="480" height="50" forecolor="#FFFFFF"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="Arial" size="24" isBold="true"/>
+                </textElement>
+                <text><![CDATA[REPORTE DE EMPLEADOS]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="500" y="8" width="298" height="18" forecolor="#CCE0FF"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font fontName="Arial" size="9"/>
+                </textElement>
+                <text><![CDATA[DOMINO'S PIZZA | Sistema de Gestión]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="500" y="30" width="298" height="14" forecolor="#CCE0FF"/>
+                <textElement textAlignment="Right">
+                    <font fontName="Arial" size="8"/>
+                </textElement>
+                <text><![CDATA[República Dominicana]]></text>
+            </staticText>
+            <textField pattern="'Generado el' dd/MM/yyyy 'a las' HH:mm">
+                <reportElement x="0" y="74" width="802" height="14" forecolor="#666666"/>
+                <textElement textAlignment="Right">
+                    <font fontName="Arial" size="8"/>
+                </textElement>
+                <textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+            </textField>
+            <line>
+                <reportElement x="0" y="97" width="802" height="1" forecolor="#004AAD"/>
+                <graphicElement>
+                    <pen lineWidth="1.5"/>
+                </graphicElement>
+            </line>
+        </band>
+    </title>
+
+    <pageHeader><band height="5"/></pageHeader>
+
+    <columnHeader>
+        <band height="20" splitType="Stretch">
+            <rectangle>
+                <reportElement x="0" y="0" width="802" height="20"
+                               forecolor="#004AAD" backcolor="#004AAD" mode="Opaque"/>
+            </rectangle>
+            <staticText>
+                <reportElement x="4" y="3" width="100" height="14" forecolor="#FFFFFF"/>
+                <textElement>
+                    <font fontName="Arial" size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Cédula]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="106" y="3" width="180" height="14" forecolor="#FFFFFF"/>
+                <textElement>
+                    <font fontName="Arial" size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Nombre]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="288" y="3" width="100" height="14" forecolor="#FFFFFF"/>
+                <textElement>
+                    <font fontName="Arial" size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Teléfono]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="390" y="3" width="120" height="14" forecolor="#FFFFFF"/>
+                <textElement>
+                    <font fontName="Arial" size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Cargo]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="512" y="3" width="90" height="14" forecolor="#FFFFFF"/>
+                <textElement>
+                    <font fontName="Arial" size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Horario]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="604" y="3" width="90" height="14" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Right">
+                    <font fontName="Arial" size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Salario (RD$)]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="696" y="3" width="102" height="14" forecolor="#FFFFFF"/>
+                <textElement>
+                    <font fontName="Arial" size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Departamento]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+
+    <detail>
+        <band height="16" splitType="Stretch">
+            <textField isBlankWhenNull="true">
+                <reportElement x="4" y="2" width="100" height="11" style="Row"/>
+                <textElement>
+                    <font fontName="Arial" size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{cedula}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="106" y="2" width="180" height="11" style="Row"/>
+                <textElement>
+                    <font fontName="Arial" size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="288" y="2" width="100" height="11" style="Row"/>
+                <textElement>
+                    <font fontName="Arial" size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{tel}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="390" y="2" width="120" height="11" style="Row"/>
+                <textElement>
+                    <font fontName="Arial" size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{cargo}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="512" y="2" width="90" height="11" style="Row"/>
+                <textElement>
+                    <font fontName="Arial" size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{horario}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true" pattern="#,##0.00">
+                <reportElement x="604" y="2" width="90" height="11" style="Row"/>
+                <textElement textAlignment="Right">
+                    <font fontName="Arial" size="9" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{salario}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="696" y="2" width="102" height="11" style="Row"/>
+                <textElement>
+                    <font fontName="Arial" size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{departamento}]]></textFieldExpression>
+            </textField>
+            <line>
+                <reportElement x="0" y="15" width="802" height="1"
+                               forecolor="#CCCCCC" positionType="FixRelativeToBottom"/>
+                <graphicElement>
+                    <pen lineWidth="0.3"/>
+                </graphicElement>
+            </line>
+        </band>
+    </detail>
+
+    <columnFooter>
+        <band height="6" splitType="Stretch">
+            <line>
+                <reportElement x="0" y="4" width="802" height="1" forecolor="#004AAD"/>
+                <graphicElement>
+                    <pen lineWidth="1.0"/>
+                </graphicElement>
+            </line>
+        </band>
+    </columnFooter>
+
+    <pageFooter>
+        <band height="22" splitType="Stretch">
+            <rectangle>
+                <reportElement x="0" y="0" width="802" height="20"
+                               forecolor="#004AAD" backcolor="#004AAD" mode="Opaque"/>
+            </rectangle>
+            <textField pattern="dd/MM/yyyy HH:mm">
+                <reportElement x="4" y="2" width="200" height="16" forecolor="#FFFFFF"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="Arial" size="8"/>
+                </textElement>
+                <textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="206" y="2" width="390" height="16" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Arial" size="8" isBold="true"/>
+                </textElement>
+                <text><![CDATA[DOMINO'S PIZZA — Sistema de Gestión]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="598" y="2" width="100" height="16" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font fontName="Arial" size="8"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Pág. " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression>
+            </textField>
+            <textField evaluationTime="Report">
+                <reportElement x="700" y="2" width="98" height="16" forecolor="#FFFFFF"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="Arial" size="8"/>
+                </textElement>
+                <textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+            </textField>
+        </band>
+    </pageFooter>
+
+    <summary>
+        <band height="28" splitType="Stretch">
+            <rectangle>
+                <reportElement x="0" y="4" width="802" height="20"
+                               forecolor="#E8F0FB" backcolor="#E8F0FB" mode="Opaque"/>
+            </rectangle>
+            <staticText>
+                <reportElement x="4" y="8" width="130" height="12" forecolor="#004AAD"/>
+                <textElement>
+                    <font fontName="Arial" size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Total de empleados:]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="136" y="8" width="50" height="12" forecolor="#BE1E1E"/>
+                <textElement>
+                    <font fontName="Arial" size="9" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$V{totalEmpleados}]]></textFieldExpression>
+            </textField>
+        </band>
+    </summary>
+
+</jasperReport>

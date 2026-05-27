@@ -15,11 +15,8 @@
           AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0"
           AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0">
 
-        <HBox alignment="CENTER_LEFT"
-              style="-fx-background-color: #004aad; -fx-padding: 14 24 14 24;">
-            <Label text="💼  Agregar Cargo"
-                   style="-fx-text-fill: white; -fx-font-size: 17px;
-                          -fx-font-weight: bold; -fx-font-family: 'Segoe UI';"/>
+        <HBox alignment="CENTER_LEFT" styleClass="content-header">
+            <Label text="◆  Agregar Cargo" styleClass="content-header-title"/>
         </HBox>
 
         <VBox spacing="14" VBox.vgrow="ALWAYS"
@@ -27,55 +24,39 @@
             <padding><Insets top="20" right="26" bottom="20" left="26"/></padding>
 
             <VBox spacing="5">
-                <Label text="Nombre" style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #555;"/>
-                <TextField fx:id="TXTnombre" prefHeight="38"
-                           style="-fx-background-color: #f0f4ff; -fx-background-radius: 10;
-                                  -fx-border-color: #dde6f5; -fx-border-radius: 10; -fx-border-width: 1.5;
-                                  -fx-font-size: 13px; -fx-text-fill: #1a1a2e; -fx-padding: 0 12;"/>
+                <Label text="Nombre" styleClass="field-label"/>
+                <TextField fx:id="TXTnombre" prefHeight="38" styleClass="field-input"/>
             </VBox>
 
             <VBox spacing="5">
-                <Label text="Descripción" style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #555;"/>
-                <TextField fx:id="TXTDescripcion" prefHeight="38"
-                           style="-fx-background-color: #f0f4ff; -fx-background-radius: 10;
-                                  -fx-border-color: #dde6f5; -fx-border-radius: 10; -fx-border-width: 1.5;
-                                  -fx-font-size: 13px; -fx-text-fill: #1a1a2e; -fx-padding: 0 12;"/>
+                <Label text="Descripción" styleClass="field-label"/>
+                <TextField fx:id="TXTDescripcion" prefHeight="38" styleClass="field-input"/>
             </VBox>
 
             <VBox spacing="5">
-                <Label text="Departamento al que pertenece" style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #555;"/>
-                <ComboBox fx:id="cmbDepartamento" maxWidth="Infinity" prefHeight="38"
-                          style="-fx-background-color: #f0f4ff; -fx-background-radius: 10;
-                                 -fx-border-color: #dde6f5; -fx-border-radius: 10; -fx-border-width: 1.5;
-                                 -fx-font-size: 13px;"/>
+                <Label text="Departamento al que pertenece" styleClass="field-label"/>
+                <ComboBox fx:id="cmbDepartamento" maxWidth="Infinity" prefHeight="38" styleClass="field-combo"/>
             </VBox>
 
-            <!-- Botones -->
             <HBox spacing="10" alignment="CENTER_LEFT">
-                <Button text="Guardar" onAction="#FnGuardar"
-                        style="-fx-background-color: #004aad; -fx-text-fill: white; -fx-font-weight: bold;
-                               -fx-background-radius: 10; -fx-cursor: hand; -fx-padding: 8 22; -fx-font-size: 13px;"/>
-                <Button text="Eliminar" onAction="#FnEliminar"
-                        style="-fx-background-color: #be1e1e; -fx-text-fill: white; -fx-font-weight: bold;
-                               -fx-background-radius: 10; -fx-cursor: hand; -fx-padding: 8 22; -fx-font-size: 13px;"/>
+                <Button text="Guardar" onAction="#FnGuardar" styleClass="btn-primary"/>
+                <Button text="Eliminar" onAction="#FnEliminar" styleClass="btn-danger"/>
+                <Button text="Inhabilitar" onAction="#FnInhabilitar" styleClass="btn-warning"/>
+                <Button text="Habilitar" onAction="#FnHabilitar" styleClass="btn-success"/>
                 <Region HBox.hgrow="ALWAYS"/>
-                <Button text="Editar" onAction="#FnEditar"
-                        style="-fx-background-color: #6c757d; -fx-text-fill: white; -fx-font-weight: bold;
-                               -fx-background-radius: 10; -fx-cursor: hand; -fx-padding: 8 22; -fx-font-size: 13px;"/>
-                <Button text="🔍 Buscar" onAction="#FnBuscar"
-                        style="-fx-background-color: #004aad; -fx-text-fill: white; -fx-font-weight: bold;
-                               -fx-background-radius: 10; -fx-cursor: hand; -fx-padding: 8 18; -fx-font-size: 13px;"/>
+                <Button text="Editar" onAction="#FnEditar" styleClass="btn-secondary"/>
+                <Button text="🔍 Buscar" onAction="#FnBuscar" styleClass="btn-primary"/>
+                <Button text="📄 Exportar PDF" onAction="#FnExportarPDF" styleClass="btn-success"/>
             </HBox>
 
-            <!-- Tabla -->
-            <TableView fx:id="tablaCargos" VBox.vgrow="ALWAYS"
-                       style="-fx-border-color: #e8eef8; -fx-border-width: 1; -fx-border-radius: 10;">
+            <TableView fx:id="tablaCargos" VBox.vgrow="ALWAYS">
                 <columns>
                     <TableColumn fx:id="colNombre"       prefWidth="200" text="Nombre"/>
                     <TableColumn fx:id="colDescripcion"  prefWidth="280" text="Descripción"/>
                     <TableColumn fx:id="colDepartamento" prefWidth="180" text="Departamento"/>
+                    <TableColumn fx:id="colEstado"       prefWidth="100" text="Estado"/>
                 </columns>
-                <placeholder><Label text="Sin registros." style="-fx-text-fill: #aaa;"/></placeholder>
+                <placeholder><Label text="Sin registros." styleClass="info-label"/></placeholder>
             </TableView>
 
         </VBox>

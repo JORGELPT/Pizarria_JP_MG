@@ -3,6 +3,9 @@ package com.example.demo1.Controllers;
 import com.example.demo1.Utils.CONTROLLER_Seccion;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Bounds;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -11,11 +14,15 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.Separator;
 import javafx.scene.control.TitledPane;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Popup;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
@@ -43,6 +50,7 @@ public class Maincontroller {
     @FXML private Label     lblFecha;
     @FXML private Label     lblUsuario;
     @FXML private Label     lblEstado;
+    @FXML private Label     lblAvatar;
     @FXML private VBox      sideMenu;
 
     private static final String RUTA_PANTALLAS = "/com/example/demo1/Pantallas/";
@@ -67,6 +75,13 @@ public class Maincontroller {
         if (lblEstado != null)
             lblEstado.setText("Bienvenido, " + sesion.getNombre());
 
+        // Inicial del avatar
+        if (lblAvatar != null) {
+            String inicial = sesion.getNombre().isEmpty() ? "U"
+                    : String.valueOf(sesion.getNombre().charAt(0)).toUpperCase();
+            lblAvatar.setText(inicial);
+        }
+
         // Aplicar permisos de menú según el rol real de la BD
         aplicarPermisosMenu();
 
@@ -89,40 +104,40 @@ public class Maincontroller {
         if (s.esAdmin()) return;
 
         if (s.esGerente()) {
-            // Gerente: puede todo excepto "Otro" (creación de usuarios, etc.)
-            ocultarTitledPanesPorTexto(Arrays.asList("Otro"));
+            ocultarTitledPanesPorTexto(Arrays.asList("≡  Otro"));
             return;
         }
 
         if (s.esCajero()) {
-            // Cajero: Inicio + Inventario (solo ver) + Ventas (pedido/reclamación) + Cliente
             ocultarTitledPanesPorTexto(Arrays.asList(
-                    "Compras", "Equipos y Mantenimiento", "Otro", "Reportes"));
-            // Dentro de Ventas, ocultar botones que el cajero no debe ver
-            ocultarBotonesPorTexto(Arrays.asList("Envío"));
+                    "🛒  Compras", "🔧  Equipos y Mant.", "≡  Otro", "☰  Reportes"));
+            ocultarBotonesPorTexto(Arrays.asList("✿  Ingredientes", "🍕  Agregar Producto", "🚚  Envío", "⭐  Ofertas"));
             return;
         }
 
         if (s.esDelivery()) {
-            // Delivery: Inicio + solo botón Envío dentro de Ventas
             ocultarTitledPanesPorTexto(Arrays.asList(
-                    "Compras", "Equipos y Mantenimiento", "Otro", "Reportes"));
+                    "🛒  Compras", "🔧  Equipos y Mant.", "≡  Otro", "☰  Reportes"));
             ocultarBotonesPorTexto(Arrays.asList(
-                    "Inventario", "Producto", "Registrar pedido", "Reclamación"));
+                    "☰  Inventario", "✿  Ingredientes", "🍕  Agregar Producto",
+                    "✎  Hacer un Pedido", "⚠  Reclamación", "⭐  Ofertas",
+                    "●  Registro de Cliente"));
+
             return;
         }
 
         if (s.esCliente()) {
-            // Cliente: Inicio + Registrar Pedido + Reclamación
             ocultarTitledPanesPorTexto(Arrays.asList(
-                    "Compras", "Equipos y Mantenimiento", "Otro", "Reportes"));
-            ocultarBotonesPorTexto(Arrays.asList("Inventario", "Producto", "Envío"));
+                    "🛒  Compras", "🔧  Equipos y Mant.", "≡  Otro", "☰  Reportes"));
+            ocultarBotonesPorTexto(Arrays.asList(
+                    "☰  Inventario", "✿  Ingredientes", "🍕  Agregar Producto",
+                    "🚚  Envío", "⭐  Ofertas"));
             return;
         }
 
-        // Rol desconocido → ocultar todo excepto Inicio (máxima restricción)
+        // Rol desconocido → ocultar todo excepto Inicio
         ocultarTitledPanesPorTexto(Arrays.asList(
-                "Ventas", "Compras", "Equipos y Mantenimiento", "Otro", "Reportes"));
+                "🍕  Ventas", "🛒  Compras", "🔧  Equipos y Mant.", "≡  Otro", "☰  Reportes"));
     }
 
     // -----------------------------------------------------------------------
@@ -175,6 +190,10 @@ public class Maincontroller {
         cargarVista("inventario.fxml", "Inventario");
     }
 
+    @FXML private void abrirAgregarIngrediente() {
+        cargarVista("Agregar_Ingrediente.fxml", "Ingredientes");
+    }
+
     // -----------------------------------------------------------------------
     //  COMPRAS
     // -----------------------------------------------------------------------
@@ -201,12 +220,20 @@ public class Maincontroller {
         cargarVista("Hacer_Un_Pedido.fxml", "Registrar Pedido");
     }
 
+    @FXML private void abrirCuentasAbiertas() {
+        cargarVista("Cuentas_Abiertas.fxml", "Cuentas Abiertas");
+    }
+
     @FXML private void abrirEnvio() {
         cargarVista("Envio.fxml", "Envío");
     }
 
     @FXML private void abrirReclamacion() {
         cargarVista("Reclamacion.fxml", "Reclamación");
+    }
+
+    @FXML private void abrirOfertas() {
+        cargarVista("Ofertas.fxml", "Ofertas");
     }
 
     // -----------------------------------------------------------------------
@@ -250,6 +277,10 @@ public class Maincontroller {
         cargarVista("Agregar_Empleado.fxml", "Empleados");
     }
 
+    @FXML private void abrirGestionUsuarios() {
+        cargarVista("Agregar_Usuario.fxml", "Gestión de Usuarios");
+    }
+
     @FXML private void abrirAgregarSucursal() {
         cargarVista("Agregar_Sucursal.fxml", "Sucursal");
     }
@@ -276,18 +307,115 @@ public class Maincontroller {
     @FXML private void abrirReporte5() { cargarVista("Reporte5.fxml", "Reporte 5"); }
 
     // -----------------------------------------------------------------------
+    //  PERFIL DE USUARIO (popup al clic en avatar)
+    // -----------------------------------------------------------------------
+    @FXML
+    private void mostrarPerfil(MouseEvent event) {
+        CONTROLLER_Seccion s = CONTROLLER_Seccion.getInstancia();
+
+        // --- Avatar ---
+        Label avatar = new Label(lblAvatar.getText());
+        avatar.setStyle(
+                "-fx-font-size: 30px; -fx-font-weight: bold; -fx-text-fill: #004aad;" +
+                "-fx-background-color: #e8f0fe; -fx-background-radius: 40;" +
+                "-fx-min-width: 64; -fx-min-height: 64;" +
+                "-fx-max-width: 64; -fx-max-height: 64;" +
+                "-fx-alignment: center;");
+
+        // --- Nombre ---
+        Label nombre = new Label(s.getNombre().isEmpty() ? "Usuario" : s.getNombre());
+        nombre.setStyle("-fx-font-size: 15px; -fx-font-weight: bold;" +
+                        "-fx-text-fill: #1a1a2e; -fx-font-family: 'Segoe UI';");
+
+        // --- Badge de rol ---
+        Label rolLabel = new Label(capitalize(s.getRol()));
+        rolLabel.setStyle("-fx-font-size: 11px; -fx-font-weight: bold;" +
+                          "-fx-text-fill: white; -fx-background-color: #004aad;" +
+                          "-fx-background-radius: 20; -fx-padding: 3 14;");
+
+        // --- Email ---
+        String emailTxt = s.getEmail().isEmpty() ? "Sin correo registrado" : s.getEmail();
+        Label emailLabel = new Label("✉  " + emailTxt);
+        emailLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: #555;" +
+                            "-fx-font-family: 'Segoe UI';");
+
+        // --- IDs de referencia ---
+        String idInfo = "ID Persona: " + s.getIdPersona();
+        if (s.getIdEmpleado() > 0) idInfo += "   |   ID Empleado: " + s.getIdEmpleado();
+        if (s.getIdCliente()  > 0) idInfo += "   |   ID Cliente: "  + s.getIdCliente();
+        Label idLabel = new Label(idInfo);
+        idLabel.setStyle("-fx-font-size: 10px; -fx-text-fill: #aaa; -fx-font-family: 'Segoe UI';");
+
+        Separator sep = new Separator();
+        sep.setStyle("-fx-opacity: 0.25;");
+        VBox.setMargin(sep, new Insets(4, 0, 4, 0));
+
+        // --- Botón cerrar sesión ---
+        Button btnCerrar = new Button("←  Cerrar Sesión");
+        btnCerrar.setMaxWidth(Double.MAX_VALUE);
+        btnCerrar.setStyle("-fx-background-color: #004aad; -fx-text-fill: white;" +
+                           "-fx-font-weight: bold; -fx-font-size: 12px;" +
+                           "-fx-background-radius: 8; -fx-cursor: hand; -fx-padding: 8 12;");
+
+        // --- Tarjeta ---
+        VBox card = new VBox(10, avatar, nombre, rolLabel, emailLabel, idLabel, sep, btnCerrar);
+        card.setAlignment(Pos.CENTER);
+        card.setStyle("-fx-background-color: white; -fx-background-radius: 14;" +
+                      "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.22), 22, 0, 0, 6);" +
+                      "-fx-padding: 22 26 18 26; -fx-min-width: 270;");
+
+        Popup popup = new Popup();
+        popup.setAutoHide(true);
+        popup.getContent().add(card);
+
+        btnCerrar.setOnAction(e -> { popup.hide(); cerrarSesion(); });
+
+        Bounds b = lblAvatar.localToScreen(lblAvatar.getBoundsInLocal());
+        popup.show(lblAvatar.getScene().getWindow(),
+                   b.getMinX() - 220,
+                   b.getMaxY() + 8);
+    }
+
+    // -----------------------------------------------------------------------
     //  SISTEMA
     // -----------------------------------------------------------------------
     @FXML
     private void salir() {
         Alert alert = new Alert(AlertType.CONFIRMATION);
-        alert.setTitle("Cerrar Sesión");
-        alert.setHeaderText("¿Deseas cerrar sesión?");
-        alert.setContentText("Se cerrará la aplicación.");
+        alert.setTitle("Salir");
+        alert.setHeaderText("¿Deseas cerrar la aplicación?");
+        alert.setContentText("Se cerrará el programa por completo.");
         alert.showAndWait().ifPresent(r -> {
             if (r == ButtonType.OK) {
                 CONTROLLER_Seccion.getInstancia().cerrar();
                 System.exit(0);
+            }
+        });
+    }
+
+    @FXML
+    private void cerrarSesion() {
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Cerrar Sesión");
+        alert.setHeaderText("¿Deseas cerrar sesión?");
+        alert.setContentText("Volverás a la pantalla de inicio de sesión.");
+        alert.showAndWait().ifPresent(r -> {
+            if (r == ButtonType.OK) {
+                try {
+                    CONTROLLER_Seccion.getInstancia().cerrar();
+                    FXMLLoader loader = new FXMLLoader(
+                            getClass().getResource(RUTA_PANTALLAS + "Login.fxml"));
+                    javafx.scene.Parent root = loader.load();
+                    javafx.stage.Stage stage =
+                            (javafx.stage.Stage) contentArea.getScene().getWindow();
+                    stage.setScene(new javafx.scene.Scene(root));
+                    stage.setTitle("Domino's Pizza - Iniciar Sesión");
+                    stage.setMaximized(false);
+                    stage.setResizable(false);
+                    stage.show();
+                } catch (IOException e) { //error al cargar Login.fxml al cerrar sesión - pantalla Principal
+                    mostrarError("No se pudo volver al login.", e.getMessage());
+                }
             }
         });
     }
@@ -307,7 +435,7 @@ public class Maincontroller {
             aplicarFondo(vista);
             contentArea.getChildren().setAll(vista);
             if (lblEstado != null) lblEstado.setText("Pantalla actual: " + titulo);
-        } catch (IOException e) {
+        } catch (IOException e) { //error al cargar vista FXML - pantalla Principal
             mostrarError("Error al cargar la vista: " + titulo, e.getMessage());
         }
     }

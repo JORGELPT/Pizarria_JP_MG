@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="Infinity" maxWidth="Infinity" style="-fx-background-color: #f4f6fb;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo1.Controllers.CONTROLLER_Ofertas">
+
+    <VBox spacing="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+
+        <HBox alignment="CENTER_LEFT" spacing="14" styleClass="content-header">
+            <VBox spacing="2">
+                <Label styleClass="content-header-title" text="⭐  Gestión de Ofertas" />
+                <Label styleClass="content-header-subtitle" text="Crea, activa y gestiona las ofertas visibles en Hacer un Pedido" />
+            </VBox>
+            <Region HBox.hgrow="ALWAYS" />
+        </HBox>
+
+        <HBox spacing="0" VBox.vgrow="ALWAYS">
+
+            <!-- Panel izquierdo: Formulario (ScrollPane para que los botones no se corten) -->
+            <ScrollPane fitToWidth="true" minWidth="300" prefWidth="340" style="-fx-background-color: white;                                -fx-background: white;                                -fx-border-color: transparent #e8eef8 transparent transparent;                                -fx-border-width: 0 1 0 0;" VBox.vgrow="ALWAYS">
+                <VBox spacing="14">
+                    <padding><Insets bottom="20" left="24" right="20" top="22" /></padding>
+   
+                    <Label styleClass="section-label" text="Nueva / Editar Oferta" />
+                     <Label styleClass="field-label" text="Nombre de la oferta *" />
+
+                    <VBox spacing="5">
+                        <TextField fx:id="TXTnombre" prefHeight="38" promptText="Ej: 2x1 Pizzas Grandes" styleClass="field-input" />
+                    </VBox>
+
+                    <VBox spacing="5">
+                        <Label styleClass="field-label" text="Descripción" />
+                        <TextField fx:id="TXTdescripcion" prefHeight="38" promptText="Detalle visible al cliente..." styleClass="field-input" />
+                    </VBox>
+
+                    <VBox spacing="5">
+                        <Label styleClass="field-label" text="Código Promocional" />
+                        <TextField fx:id="TXTcodigo" prefHeight="38" promptText="Ej: PIZZA10, VERANO25..." styleClass="field-input" />
+                        <Label style="-fx-text-fill: #888; -fx-font-size: 10px;" text="El cajero lo digita en Hacer un Pedido para aplicar el descuento." />
+                    </VBox>
+
+                    <HBox spacing="12">
+                        <VBox spacing="5" HBox.hgrow="ALWAYS">
+                            <Label styleClass="field-label" text="Productos  (Ctrl+clic = varios)" />
+                            <ListView fx:id="lstProductos" prefHeight="36.0" prefWidth="187.0" style="-fx-background-color: white;                                              -fx-border-color: #d0daea; -fx-border-radius: 8;                                              -fx-background-radius: 8; -fx-font-size: 12px;" />
+                            <Label style="-fx-text-fill: #888; -fx-font-size: 10px;" text="Sin selección = aplica a TODOS los productos." />
+                        </VBox>
+                        <VBox prefWidth="110" spacing="5">
+                            <Label styleClass="field-label" text="Descuento % *" />
+                            <TextField fx:id="TXTdescuento" prefHeight="38" promptText="0 – 100" styleClass="field-input" />
+                        </VBox>
+                    </HBox>
+
+                    <HBox spacing="12">
+                        <VBox spacing="5" HBox.hgrow="ALWAYS">
+                            <Label styleClass="field-label" text="Fecha inicio" />
+                            <DatePicker fx:id="dpInicio" maxWidth="Infinity" prefHeight="26.0" prefWidth="168.0" styleClass="field-combo" />
+                        </VBox>
+                        <VBox spacing="5" HBox.hgrow="ALWAYS">
+                            <Label styleClass="field-label" text="Fecha fin" />
+                            <DatePicker fx:id="dpFin" maxWidth="Infinity" prefHeight="16.0" prefWidth="175.0" styleClass="field-combo" />
+                        </VBox>
+                    </HBox>
+
+                    <HBox alignment="CENTER_LEFT" prefHeight="26.0" prefWidth="293.0" spacing="10" style="-fx-background-color: #f0f4ff; -fx-background-radius: 10; -fx-padding: 10 14;">
+                        <CheckBox fx:id="chkActiva" selected="true" />
+                        <VBox prefHeight="13.0" prefWidth="217.0" spacing="1">
+                            <Label styleClass="field-label" text="Oferta activa" />
+                            <Label styleClass="info-label" text="Visible en ⭐ Ofertas del menú de pedido" />
+                        </VBox>
+                    </HBox>
+
+                    <!-- Separador visual -->
+                    <Separator />
+
+                    <!-- Botones siempre visibles debajo del formulario -->
+                    <VBox spacing="8">
+                        <Button maxWidth="Infinity" onAction="#FnGuardar" prefHeight="40" styleClass="btn-primary" text="💾  Guardar Oferta" />
+                        <HBox spacing="8">
+                            <Button maxWidth="Infinity" onAction="#FnToggleActiva" prefHeight="36" styleClass="btn-warning" text="⏸  Activar / Pausar" HBox.hgrow="ALWAYS" />
+                            <Button maxWidth="Infinity" onAction="#FnEliminar" prefHeight="36" styleClass="btn-danger" text="🗑  Eliminar" HBox.hgrow="ALWAYS" />
+                        </HBox>
+                        <Button maxWidth="Infinity" onAction="#FnLimpiar" prefHeight="34" styleClass="btn-secondary" text="✕  Limpiar" />
+                    </VBox>
+
+                </VBox>
+            </ScrollPane>
+
+            <!-- Panel derecho: Tabla -->
+            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: #f4f6fb; -fx-background: #f4f6fb;                                -fx-border-color: transparent;" vbarPolicy="AS_NEEDED" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+                <VBox spacing="12" style="-fx-background-color: #f4f6fb;">
+                    <padding><Insets bottom="20" left="20" right="24" top="22" /></padding>
+
+                    <Label styleClass="section-label" text="Ofertas registradas" />
+
+                    <TableView fx:id="tablaOfertas" style="-fx-background-color: white;" VBox.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn fx:id="colId" prefWidth="45" text="ID" />
+                            <TableColumn fx:id="colNombre" prefWidth="140" text="Nombre" />
+                            <TableColumn fx:id="colProducto" prefWidth="130" text="Producto" />
+                            <TableColumn fx:id="colDescuento" prefWidth="80" text="Descuento" />
+                            <TableColumn fx:id="colCodigo" prefWidth="110" text="Código Promo" />
+                            <TableColumn fx:id="colInicio" prefWidth="90" text="Inicio" />
+                            <TableColumn fx:id="colFin" prefWidth="90" text="Fin" />
+                            <TableColumn fx:id="colActiva" prefWidth="100" text="Estado" />
+                        </columns>
+                        <placeholder>
+                            <Label styleClass="info-label" text="No hay ofertas registradas." />
+                        </placeholder>
+                    </TableView>
+
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <Label styleClass="field-label" text="Total ofertas:" />
+                        <Label fx:id="lblTotal" style="-fx-font-size: 12px; -fx-text-fill: #004aad; -fx-font-weight: bold;" text="0" />
+                        <Region HBox.hgrow="ALWAYS" />
+                        <Label styleClass="info-label" text="💡 Haz clic en una fila para editarla" />
+                    </HBox>
+                </VBox>
+            </ScrollPane>
+
+        </HBox>
+    </VBox>
+</AnchorPane>

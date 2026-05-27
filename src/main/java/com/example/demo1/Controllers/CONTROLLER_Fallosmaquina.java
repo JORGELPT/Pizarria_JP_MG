@@ -10,10 +10,7 @@ import javafx.scene.control.TextField;
 import javax.swing.JOptionPane;
 import java.sql.*;
 
-/**
- * Controller de Registrar Fallos de Máquina.
- * tbl_fallo: id_fallo (PK), tipo, fecha_gen, descripcion, id_maquina, id_empleado
- */
+
 public class CONTROLLER_Fallosmaquina {
 
     Conexion conexion = new Conexion();
@@ -53,7 +50,7 @@ public class CONTROLLER_Fallosmaquina {
                 lblIdMaquina.setText("ID máquina: — (no encontrada)");
                 JOptionPane.showMessageDialog(null, "No se encontró máquina con esa serie.");
             }
-        } catch (Exception e) {
+        } catch (Exception e) { //error al buscar máquina - pantalla Fallos de Máquina
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
         }
     }
@@ -85,7 +82,7 @@ public class CONTROLLER_Fallosmaquina {
             JOptionPane.showMessageDialog(null, "Fallo registrado correctamente.");
             limpiar();
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al guardar fallo de máquina - pantalla Fallos de Máquina
             JOptionPane.showMessageDialog(null, "Error al guardar: " + e.getMessage());
         }
     }
@@ -113,7 +110,7 @@ public class CONTROLLER_Fallosmaquina {
             } else {
                 JOptionPane.showMessageDialog(null, "No hay fallos registrados para esta máquina.");
             }
-        } catch (Exception e) {
+        } catch (Exception e) { //error al buscar fallo de máquina - pantalla Fallos de Máquina
             JOptionPane.showMessageDialog(null, "Error al buscar: " + e.getMessage());
         }
     }
@@ -149,13 +146,14 @@ public class CONTROLLER_Fallosmaquina {
             JOptionPane.showMessageDialog(null, "Fallo actualizado correctamente.");
             idFallo = -1;
             limpiar();
-        } catch (Exception e) {
+        } catch (Exception e) { //error al editar fallo de máquina - pantalla Fallos de Máquina
             JOptionPane.showMessageDialog(null, "Error al actualizar: " + e.getMessage());
         }
     }
 
     @FXML
     public void FnEliminar() {
+        if (!com.example.demo1.Utils.Permisos_Util.verificarEliminar()) return;
         if (idFallo == -1) {
             JOptionPane.showMessageDialog(null, "Use el botón 🔍 para cargar el fallo a eliminar.");
             return;
@@ -173,8 +171,50 @@ public class CONTROLLER_Fallosmaquina {
             JOptionPane.showMessageDialog(null, "Fallo eliminado correctamente.");
             idFallo = -1;
             limpiar();
-        } catch (Exception e) {
+        } catch (Exception e) { //error al eliminar fallo de máquina - pantalla Fallos de Máquina
             JOptionPane.showMessageDialog(null, "Error al eliminar: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    public void FnInhabilitar() {
+        if (idFallo == -1) {
+            JOptionPane.showMessageDialog(null, "Use el botón 🔍 para cargar el fallo primero.");
+            return;
+        }
+        int confirmar = JOptionPane.showConfirmDialog(null,
+                "¿Inhabilitar el fallo #" + idFallo + "? No se eliminará, solo quedará inactivo.",
+                "Confirmar", JOptionPane.YES_NO_OPTION);
+        if (confirmar != JOptionPane.YES_OPTION) return;
+        try (java.sql.Connection con = Conexion.establecerConexion();
+             java.sql.PreparedStatement ps = con.prepareStatement(
+                     "UPDATE tbl_fallo SET estado = 'Inactivo' WHERE id_fallo = ?")) {
+            ps.setInt(1, idFallo);
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Fallo inhabilitado correctamente.");
+            idFallo = -1;
+            limpiar();
+        } catch (Exception e) { //error al inhabilitar fallo de máquina - pantalla Fallos de Máquina
+            JOptionPane.showMessageDialog(null, "Error al inhabilitar: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    public void FnHabilitar() {
+        if (idFallo == -1) {
+            JOptionPane.showMessageDialog(null, "Use el botón 🔍 para cargar el fallo a habilitar.");
+            return;
+        }
+        try (java.sql.Connection con = conexion.establecerConexion();
+             java.sql.PreparedStatement ps = con.prepareStatement(
+                     "UPDATE tbl_fallo SET estado = 'Activo' WHERE id_fallo = ?")) {
+            ps.setInt(1, idFallo);
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Fallo habilitado correctamente.");
+            idFallo = -1;
+            limpiar();
+        } catch (Exception e) { //error al habilitar fallo de máquina - pantalla Fallos de Máquina
+            JOptionPane.showMessageDialog(null, "Error al habilitar: " + e.getMessage());
         }
     }
 

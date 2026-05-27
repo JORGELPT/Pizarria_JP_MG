@@ -5,112 +5,82 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxWidth="Infinity" maxHeight="Infinity" prefWidth="900.0" prefHeight="580.0"
-            xmlns="http://javafx.com/javafx/17.0.12"
+<AnchorPane maxWidth="Infinity" maxHeight="Infinity"
+            xmlns="http://javafx.com/javafx/17"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.example.demo1.Controllers.CONTROLLER_Maquina">
+            fx:controller="com.example.demo1.Controllers.CONTROLLER_Maquina"
+            style="-fx-background-color: #f4f6fb;">
 
-    <Region AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0" style="-fx-background-image: url('/com/example/demo1/imagenes/fondop.png'); -fx-background-size: cover; -fx-background-position: center;"/>
+    <VBox spacing="0"
+          AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0"
+          AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0">
 
-    <VBox spacing="12.0" styleClass="form-card"
-          AnchorPane.topAnchor="30.0" AnchorPane.leftAnchor="40.0"
-          AnchorPane.rightAnchor="40.0" AnchorPane.bottomAnchor="30.0" style="-fx-background-color: rgba(0,0,0,0.48); -fx-background-radius: 14; -fx-padding: 10;">
-        <padding><Insets top="25.0" left="25.0" right="25.0" bottom="25.0"/></padding>
-
-        <Label text="AGREGAR MÁQUINA" textFill="white">
-            <font><Font name="System Bold" size="24.0"/></font>
-        </Label>
-
-        <HBox spacing="40.0" VBox.vgrow="ALWAYS">
-
-            <!-- COLUMNA IZQUIERDA -->
-            <VBox spacing="10.0" HBox.hgrow="ALWAYS">
-
-                <Label text="Nombre" textFill="white">
-                    <font><Font name="System Bold" size="14.0"/></font>
-                </Label>
-                <TextField fx:id="TXTnombre" prefHeight="32.0"
-                           style="-fx-background-color: rgba(255,255,255,0.88); -fx-background-radius: 8; -fx-text-fill: #1a1a1a; -fx-font-size: 13px;"/>
-
-                <Label text="Marca" textFill="white">
-                    <font><Font name="System Bold" size="14.0"/></font>
-                    <VBox.margin><Insets top="6.0"/></VBox.margin>
-                </Label>
-                <TextField fx:id="TXTMarca" prefHeight="32.0"
-                           style="-fx-background-color: rgba(255,255,255,0.88); -fx-background-radius: 8; -fx-text-fill: #1a1a1a; -fx-font-size: 13px;"/>
-
-                <Label text="Modelo" textFill="white">
-                    <font><Font name="System Bold" size="14.0"/></font>
-                    <VBox.margin><Insets top="6.0"/></VBox.margin>
-                </Label>
-                <TextField fx:id="TXTModelo" prefHeight="32.0"
-                           style="-fx-background-color: rgba(255,255,255,0.88); -fx-background-radius: 8; -fx-text-fill: #1a1a1a; -fx-font-size: 13px;"/>
-
-                <Label text="Fecha de adquisición" textFill="white">
-                    <font><Font name="System Bold" size="14.0"/></font>
-                    <VBox.margin><Insets top="6.0"/></VBox.margin>
-                </Label>
-                <TextField fx:id="TXTfechaAdquisicion" promptText="Ej: 2020-01-01"
-                           prefHeight="32.0"
-                           style="-fx-background-color: rgba(255,255,255,0.88); -fx-background-radius: 8; -fx-text-fill: #1a1a1a; -fx-font-size: 13px;"/>
-
-            </VBox>
-
-            <!-- COLUMNA DERECHA -->
-            <VBox spacing="10.0" prefHeight="580.0">
-
-                <Label text="Estado" textFill="white">
-                    <font><Font name="System Bold" size="14.0"/></font>
-                </Label>
-                <RadioButton fx:id="RDoperativa"       text="Operativa"         textFill="white" mnemonicParsing="false"/>
-                <RadioButton fx:id="RDfueradeservicio" text="Fuera de servicio" textFill="white" mnemonicParsing="false"/>
-                <RadioButton fx:id="RDenreparacion"    text="En reparación"     textFill="white" mnemonicParsing="false"/>
-                <RadioButton fx:id="RDaveriada"        text="Averiada"          textFill="white" mnemonicParsing="false"/>
-
-                <Label text="¿Tiene garantía?" textFill="white">
-                    <font><Font name="System Bold" size="14.0"/></font>
-                    <VBox.margin><Insets top="10.0"/></VBox.margin>
-                </Label>
-                <HBox spacing="15.0">
-                    <RadioButton fx:id="rbGarantiaSi" text="Sí" textFill="white" mnemonicParsing="false"/>
-                    <RadioButton fx:id="rbGarantiaNo" text="No" textFill="white" mnemonicParsing="false"/>
-                </HBox>
-
-                <Label text="Serie" textFill="white">
-                    <font><Font name="System Bold" size="14.0"/></font>
-                    <VBox.margin><Insets top="10.0"/></VBox.margin>
-                </Label>
-                <TextField fx:id="TXTserie" prefHeight="32.0"
-                           style="-fx-background-color: rgba(255,255,255,0.88); -fx-background-radius: 8; -fx-text-fill: #1a1a1a; -fx-font-size: 13px;"/>
-
-            </VBox>
-
+        <HBox alignment="CENTER_LEFT" styleClass="content-header">
+            <Label text="⚙  Agregar Máquina" styleClass="content-header-title"/>
         </HBox>
 
-        <!-- BOTONES -->
-        <HBox spacing="10.0" alignment="CENTER_LEFT">
-            <padding><Insets top="5.0"/></padding>
-            <Button text="Guardar" onAction="#FnGuardar"
-                    prefWidth="80.0" prefHeight="32.0" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-cursor: hand;"/>
-            <Button text="Eliminar" onAction="#FnEliminar"
-                    prefWidth="80.0" prefHeight="32.0" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-cursor: hand;"/>
-            <Region HBox.hgrow="ALWAYS"/>
-            <Button text="Editar" onAction="#FnEditar"
-                    prefWidth="80.0" prefHeight="32.0" style="-fx-background-color: #f39c12; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-cursor: hand;"/>
-            <Button text="🔍" onAction="#FnBuscar"
-                    prefWidth="40.0" prefHeight="32.0" style="-fx-background-color: #c0392b; -fx-text-fill: white; -fx-background-radius: 50; -fx-cursor: hand;"/>
-        </HBox>
+        <VBox spacing="14" VBox.vgrow="ALWAYS"
+              style="-fx-background-color: white;">
+            <padding><Insets top="20" right="26" bottom="20" left="26"/></padding>
 
-        <!-- Tabla -->
-        <TableView fx:id="tablaMaquinas" VBox.vgrow="ALWAYS">
-            <columns>
-                <TableColumn fx:id="colNombre" prefWidth="200.0" text="Nombre"/>
-                <TableColumn fx:id="colMarca"  prefWidth="150.0" text="Marca"/>
-                <TableColumn fx:id="colEstado" prefWidth="150.0" text="Estado"/>
-            </columns>
-        </TableView>
+            <HBox spacing="30" VBox.vgrow="ALWAYS">
 
+                <VBox spacing="10" HBox.hgrow="ALWAYS">
+                    <Label text="Nombre" styleClass="field-label"/>
+                    <TextField fx:id="TXTnombre" prefHeight="38" styleClass="field-input"/>
+
+                    <Label text="Marca" styleClass="field-label"/>
+                    <TextField fx:id="TXTMarca" prefHeight="38" styleClass="field-input"/>
+
+                    <Label text="Modelo" styleClass="field-label"/>
+                    <TextField fx:id="TXTModelo" prefHeight="38" styleClass="field-input"/>
+
+                    <Label text="Fecha de adquisición" styleClass="field-label"/>
+                    <TextField fx:id="TXTfechaAdquisicion" promptText="Ej: 2020-01-01" prefHeight="38" styleClass="field-input"/>
+                </VBox>
+
+                <VBox spacing="10" HBox.hgrow="ALWAYS">
+                    <Label text="Estado" styleClass="field-label"/>
+                    <RadioButton fx:id="RDoperativa"       text="Operativa"         mnemonicParsing="false" styleClass="check-item"/>
+                    <RadioButton fx:id="RDfueradeservicio" text="Fuera de servicio" mnemonicParsing="false" styleClass="check-item"/>
+                    <RadioButton fx:id="RDenreparacion"    text="En reparación"     mnemonicParsing="false" styleClass="check-item"/>
+                    <RadioButton fx:id="RDaveriada"        text="Averiada"          mnemonicParsing="false" styleClass="check-item"/>
+
+                    <Label text="¿Tiene garantía?" styleClass="field-label">
+                        <VBox.margin><Insets top="8"/></VBox.margin>
+                    </Label>
+                    <HBox spacing="20">
+                        <RadioButton fx:id="rbGarantiaSi" text="Sí" mnemonicParsing="false" styleClass="check-item"/>
+                        <RadioButton fx:id="rbGarantiaNo" text="No" mnemonicParsing="false" styleClass="check-item"/>
+                    </HBox>
+
+                    <Label text="Serie" styleClass="field-label">
+                        <VBox.margin><Insets top="8"/></VBox.margin>
+                    </Label>
+                    <TextField fx:id="TXTserie" prefHeight="38" styleClass="field-input"/>
+                </VBox>
+
+            </HBox>
+
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Button text="Guardar" onAction="#FnGuardar" styleClass="btn-primary"/>
+                <Button text="Eliminar" onAction="#FnEliminar" styleClass="btn-danger"/>
+                <Button text="Inhabilitar" onAction="#FnInhabilitar" styleClass="btn-warning"/>
+                <Button text="Habilitar" onAction="#FnHabilitar" styleClass="btn-success"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button text="Editar" onAction="#FnEditar" styleClass="btn-secondary"/>
+                <Button text="🔍 Buscar" onAction="#FnBuscar" styleClass="btn-primary"/>
+            </HBox>
+
+            <TableView fx:id="tablaMaquinas" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="colNombre" prefWidth="200" text="Nombre"/>
+                    <TableColumn fx:id="colMarca"  prefWidth="150" text="Marca"/>
+                    <TableColumn fx:id="colEstado" prefWidth="150" text="Estado"/>
+                </columns>
+                <placeholder><Label text="Sin registros." styleClass="info-label"/></placeholder>
+            </TableView>
+
+        </VBox>
     </VBox>
 </AnchorPane>
-
-

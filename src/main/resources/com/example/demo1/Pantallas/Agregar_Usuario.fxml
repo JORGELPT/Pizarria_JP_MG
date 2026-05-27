@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxWidth="Infinity" maxHeight="Infinity"
+            xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.demo1.Controllers.CONTROLLER_Usuario"
+            style="-fx-background-color: #f4f6fb;">
+
+    <VBox spacing="0"
+          AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0"
+          AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0">
+
+        <HBox alignment="CENTER_LEFT" styleClass="content-header">
+            <Label text="🔐  Gestión de Usuarios" styleClass="content-header-title"/>
+        </HBox>
+
+        <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
+                    hbarPolicy="NEVER" vbarPolicy="AS_NEEDED"
+                    style="-fx-background-color: white; -fx-background: white;
+                           -fx-border-color: transparent;">
+            <VBox spacing="14"
+                  style="-fx-background-color: white;">
+                <padding><Insets top="20" right="26" bottom="20" left="26"/></padding>
+
+                <HBox spacing="20">
+                    <VBox HBox.hgrow="ALWAYS" spacing="5">
+                        <Label text="Código de Usuario *" styleClass="field-label"/>
+                        <TextField fx:id="TXTcodigo" promptText="Ej: jperez" prefHeight="38" styleClass="field-input"/>
+                    </VBox>
+                    <VBox HBox.hgrow="ALWAYS" spacing="5">
+                        <Label text="Contraseña *" styleClass="field-label"/>
+                        <TextField fx:id="TXTcontrasena" promptText="Contraseña del usuario" prefHeight="38" styleClass="field-input"/>
+                    </VBox>
+                </HBox>
+
+                <HBox spacing="20">
+                    <VBox HBox.hgrow="ALWAYS" spacing="5">
+                        <Label text="Rol" styleClass="field-label"/>
+                        <ComboBox fx:id="cmbRol" maxWidth="Infinity" prefHeight="38" styleClass="field-combo"/>
+                    </VBox>
+                    <VBox HBox.hgrow="ALWAYS" spacing="5">
+                        <Label text="Estado" styleClass="field-label"/>
+                        <HBox spacing="20" alignment="CENTER_LEFT" prefHeight="38">
+                            <RadioButton fx:id="rbActivo" text="Activo" mnemonicParsing="false" styleClass="check-item"/>
+                            <RadioButton fx:id="rbInactivo" text="Inactivo" mnemonicParsing="false" styleClass="check-item"/>
+                        </HBox>
+                    </VBox>
+                </HBox>
+
+                <VBox spacing="5">
+                    <Label text="Empleado Asignado" styleClass="field-label"/>
+                    <ComboBox fx:id="cmbEmpleado" maxWidth="Infinity" prefHeight="38" styleClass="field-combo"/>
+                </VBox>
+
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Button text="Guardar" onAction="#FnGuardar" styleClass="btn-primary"/>
+                    <Button text="Eliminar" onAction="#FnEliminar" styleClass="btn-danger"/>
+                    <Button text="Inhabilitar" onAction="#FnInhabilitar" styleClass="btn-warning"/>
+                    <Button text="Habilitar" onAction="#FnHabilitar" styleClass="btn-success"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Button text="Editar" onAction="#FnEditar" styleClass="btn-secondary"/>
+                    <Button text="🔍 Buscar" onAction="#FnBuscar" styleClass="btn-primary"/>
+                </HBox>
+
+                <TableView fx:id="tablaUsuarios" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="colId"       prefWidth="60"  text="ID"/>
+                        <TableColumn fx:id="colCodigo"   prefWidth="160" text="Usuario"/>
+                        <TableColumn fx:id="colRol"      prefWidth="130" text="Rol"/>
+                        <TableColumn fx:id="colEmpleado" prefWidth="220" text="Empleado Asignado"/>
+                        <TableColumn fx:id="colEstado"   prefWidth="100" text="Estado"/>
+                    </columns>
+                    <placeholder><Label text="Sin registros." styleClass="info-label"/></placeholder>
+                </TableView>
+
+            </VBox>
+        </ScrollPane>
+    </VBox>
+</AnchorPane>

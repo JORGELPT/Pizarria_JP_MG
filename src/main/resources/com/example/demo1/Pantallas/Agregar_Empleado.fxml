@@ -1,124 +1,123 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxWidth="Infinity" maxHeight="Infinity" prefHeight="580.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo1.Controllers.CONTROLLER_Empleado">
+<AnchorPane maxWidth="Infinity" maxHeight="Infinity"
+            xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.demo1.Controllers.CONTROLLER_Empleado"
+            style="-fx-background-color: #f4f6fb;">
 
-    <Region AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0" style="-fx-background-image: url('/com/example/demo1/imagenes/fondop.png'); -fx-background-size: cover; -fx-background-position: center;"/>
+    <VBox spacing="0"
+          AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0"
+          AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0">
 
-    <VBox spacing="12.0" styleClass="form-card" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="30.0" style="-fx-background-color: rgba(0,0,0,0.48); -fx-background-radius: 14; -fx-padding: 10;">
-        <padding><Insets bottom="25.0" left="25.0" right="25.0" top="25.0" /></padding>
-
-        <Label text="AGREGAR EMPLEADO" textFill="#eeeeee">
-            <font><Font name="System Bold" size="24.0" /></font>
-        </Label>
-
-        <!-- Fila 1: Nombre completo | Fecha ingreso -->
-        <HBox spacing="30.0">
-            <VBox spacing="3.0" HBox.hgrow="ALWAYS">
-                <Label text="Nombre" textFill="white"><font><Font name="System Bold" size="14.0" /></font></Label>
-                <TextField fx:id="TXTnombre" prefHeight="32.0" style="-fx-background-color: rgba(255,255,255,0.88); -fx-background-radius: 8; -fx-text-fill: #1a1a1a; -fx-font-size: 13px;" />
-            </VBox>
-            <VBox spacing="3.0" HBox.hgrow="ALWAYS">
-                <Label text="Fecha de ingreso" textFill="white"><font><Font name="System Bold" size="14.0" /></font></Label>
-                <TextField fx:id="TXTfechaIngreso" prefHeight="32.0" promptText="Ej: 2020-01-01" style="-fx-background-color: rgba(255,255,255,0.88); -fx-background-radius: 8; -fx-text-fill: #1a1a1a; -fx-font-size: 13px;" />
-            </VBox>
+        <HBox alignment="CENTER_LEFT" styleClass="content-header">
+            <Label text="●  Agregar Empleado" styleClass="content-header-title"/>
         </HBox>
 
-        <!-- Fila 2: 3 columnas -->
-        <HBox spacing="20.0" VBox.vgrow="ALWAYS">
+        <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
+                    hbarPolicy="NEVER" vbarPolicy="AS_NEEDED"
+                    style="-fx-background-color: white; -fx-background: white;
+                           -fx-border-color: transparent;">
+            <VBox spacing="14"
+                  style="-fx-background-color: white;">
+                <padding><Insets top="20" right="26" bottom="20" left="26"/></padding>
 
-            <!-- COLUMNA 1: Cargo, Estado, Dirección -->
-            <VBox prefHeight="191.0" spacing="8.0">
-                <Label text="Cargo" textFill="white"><font><Font name="System Bold" size="14.0" /></font></Label>
-                <RadioButton fx:id="rbCajero" mnemonicParsing="false" text="Cajero" textFill="white"/>
-                <RadioButton fx:id="rbCocinero" mnemonicParsing="false" text="Cocinero" textFill="white"/>
-                <RadioButton fx:id="rbSupervisor" mnemonicParsing="false" text="Supervisor" textFill="white"/>
-                <RadioButton fx:id="rbGerente" mnemonicParsing="false" text="Gerente" textFill="white"/>
+            <HBox spacing="20">
+                <VBox HBox.hgrow="ALWAYS" spacing="5">
+                    <Label text="Nombre" styleClass="field-label"/>
+                    <TextField fx:id="TXTnombre" prefHeight="38" styleClass="field-input"/>
+                </VBox>
+                <VBox HBox.hgrow="ALWAYS" spacing="5">
+                    <Label text="Fecha de ingreso" styleClass="field-label"/>
+                    <TextField fx:id="TXTfechaIngreso" promptText="Ej: 2020-01-01" prefHeight="38" styleClass="field-input"/>
+                </VBox>
+            </HBox>
 
-                <Label text="Estado" textFill="white">
-                    <font><Font name="System Bold" size="14.0" /></font>
-                    <VBox.margin><Insets top="5.0" /></VBox.margin>
-                </Label>
-                <RadioButton fx:id="rbActivo" mnemonicParsing="false" text="Activo" textFill="white"/>
-                <RadioButton fx:id="rbInactivo" mnemonicParsing="false" text="Inactivo" textFill="white"/>
+            <HBox spacing="20" VBox.vgrow="ALWAYS">
 
-                <Label text="Dirección" textFill="white">
-                    <font><Font name="System Bold" size="14.0" /></font>
-                    <VBox.margin><Insets top="5.0" /></VBox.margin>
-                </Label>
-                <TextField fx:id="TXTdireccion" prefHeight="26.0" prefWidth="108.0" style="-fx-background-color: rgba(255,255,255,0.88); -fx-background-radius: 8; -fx-text-fill: #1a1a1a; -fx-font-size: 13px;" />
+                <VBox spacing="8" HBox.hgrow="ALWAYS">
+                    <Label text="Cargo" styleClass="field-label"/>
+                    <RadioButton fx:id="rbCajero"     text="Cajero"     mnemonicParsing="false" styleClass="check-item"/>
+                    <RadioButton fx:id="rbCocinero"   text="Cocinero"   mnemonicParsing="false" styleClass="check-item"/>
+                    <RadioButton fx:id="rbSupervisor" text="Supervisor" mnemonicParsing="false" styleClass="check-item"/>
+                    <RadioButton fx:id="rbGerente"    text="Gerente"    mnemonicParsing="false" styleClass="check-item"/>
+
+                    <Label text="Estado" styleClass="field-label">
+                        <VBox.margin><Insets top="6"/></VBox.margin>
+                    </Label>
+                    <RadioButton fx:id="rbActivo"   text="Activo"   mnemonicParsing="false" styleClass="check-item"/>
+                    <RadioButton fx:id="rbInactivo" text="Inactivo" mnemonicParsing="false" styleClass="check-item"/>
+
+                    <Label text="Dirección" styleClass="field-label">
+                        <VBox.margin><Insets top="6"/></VBox.margin>
+                    </Label>
+                    <TextField fx:id="TXTdireccion" prefHeight="36" styleClass="field-input"/>
+                </VBox>
+
+                <VBox spacing="8" HBox.hgrow="ALWAYS">
+                    <Label text="Teléfono" styleClass="field-label"/>
+                    <TextField fx:id="TXTtelefono" promptText="Ej: 809-333-0000" prefHeight="38" styleClass="field-input"/>
+
+                    <Label text="Cédula" styleClass="field-label">
+                        <VBox.margin><Insets top="4"/></VBox.margin>
+                    </Label>
+                    <TextField fx:id="TXTcedula" promptText="Ej: 402-0000000-4" prefHeight="38" styleClass="field-input"/>
+
+                    <Label text="Sucursal" styleClass="field-label">
+                        <VBox.margin><Insets top="4"/></VBox.margin>
+                    </Label>
+                    <ComboBox fx:id="cmbSucursal" maxWidth="Infinity" prefHeight="38" styleClass="field-combo"/>
+                </VBox>
+
+                <VBox spacing="8" HBox.hgrow="ALWAYS">
+                    <Label text="Email" styleClass="field-label"/>
+                    <TextField fx:id="TXTemail" promptText="example@gmail.com" prefHeight="38" styleClass="field-input"/>
+
+                    <Label text="Horario" styleClass="field-label">
+                        <VBox.margin><Insets top="4"/></VBox.margin>
+                    </Label>
+                    <RadioButton fx:id="rbHorarioDia"   text="11:00 am - 5:00 pm" mnemonicParsing="false" styleClass="check-item"/>
+                    <RadioButton fx:id="rbHorarioNoche" text="5:00 pm - 11:00 am" mnemonicParsing="false" styleClass="check-item"/>
+
+                    <Label text="Salario" styleClass="field-label">
+                        <VBox.margin><Insets top="4"/></VBox.margin>
+                    </Label>
+                    <TextField fx:id="TXTsalario" promptText="Ej: 18000.00" prefHeight="38" styleClass="field-input"/>
+
+                    <Label text="Contraseña" styleClass="field-label">
+                        <VBox.margin><Insets top="4"/></VBox.margin>
+                    </Label>
+                    <TextField fx:id="TXTcontrasena" promptText="Ej: mariaL" prefHeight="38" styleClass="field-input"/>
+                </VBox>
+
+            </HBox>
+
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Button text="Guardar" onAction="#fnGuardar" styleClass="btn-primary"/>
+                <Button text="Eliminar" onAction="#fnEliminar" styleClass="btn-danger"/>
+                <Button text="Inhabilitar" onAction="#FnInhabilitar" styleClass="btn-warning"/>
+                <Button text="Habilitar" onAction="#FnHabilitar" styleClass="btn-success"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button text="Editar" onAction="#fnEditar" styleClass="btn-secondary"/>
+                <Button text="🔍 Buscar" onAction="#fnBuscar" styleClass="btn-primary"/>
+            </HBox>
+
+            <TableView fx:id="tablaEmpleados" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="colNombre" prefWidth="220" text="Nombre"/>
+                    <TableColumn fx:id="colCedula" prefWidth="180" text="Cédula"/>
+                    <TableColumn fx:id="colCargo"  prefWidth="150" text="Cargo"/>
+                    <TableColumn fx:id="colEstado" prefWidth="100" text="Estado"/>
+                </columns>
+                <placeholder><Label text="Sin registros." styleClass="info-label"/></placeholder>
+            </TableView>
+
             </VBox>
-
-            <!-- COLUMNA 2: Teléfono, Cédula, Sucursal -->
-            <VBox spacing="8.0" HBox.hgrow="ALWAYS">
-                <Label text="Teléfono" textFill="white"><font><Font name="System Bold" size="14.0" /></font></Label>
-                <TextField fx:id="TXTtelefono" prefHeight="32.0" promptText="Ej: 809-333-0000" style="-fx-background-color: rgba(255,255,255,0.88); -fx-background-radius: 8; -fx-text-fill: #1a1a1a; -fx-font-size: 13px;" />
-
-                <Label text="Cédula" textFill="white">
-                    <font><Font name="System Bold" size="14.0" /></font>
-                    <VBox.margin><Insets top="5.0" /></VBox.margin>
-                </Label>
-                <TextField fx:id="TXTcedula" prefHeight="32.0" promptText="Ej: 402-0000000-4" style="-fx-background-color: rgba(255,255,255,0.88); -fx-background-radius: 8; -fx-text-fill: #1a1a1a; -fx-font-size: 13px;" />
-
-                <Label text="Sucursal" textFill="white">
-                    <font><Font name="System Bold" size="14.0" /></font>
-                    <VBox.margin><Insets top="5.0" /></VBox.margin>
-                </Label>
-                <ComboBox fx:id="cmbSucursal" maxWidth="Infinity" prefHeight="32.0" style="-fx-background-color: rgba(255,255,255,0.88); -fx-background-radius: 8; -fx-text-fill: #1a1a1a; -fx-font-size: 13px;" />
-            </VBox>
-
-            <!-- COLUMNA 3: Email, Horario, Salario, Contraseña -->
-            <VBox spacing="8.0" HBox.hgrow="ALWAYS">
-                <Label text="Email" textFill="white"><font><Font name="System Bold" size="14.0" /></font></Label>
-                <TextField fx:id="TXTemail" prefHeight="32.0" promptText="example@gmail.com" style="-fx-background-color: rgba(255,255,255,0.88); -fx-background-radius: 8; -fx-text-fill: #1a1a1a; -fx-font-size: 13px;" />
-
-                <Label text="Horario" textFill="white">
-                    <font><Font name="System Bold" size="14.0" /></font>
-                    <VBox.margin><Insets top="5.0" /></VBox.margin>
-                </Label>
-                <RadioButton fx:id="rbHorarioDia" mnemonicParsing="false" text="11:00 am - 5:00 pm" textFill="white"/>
-                <RadioButton fx:id="rbHorarioNoche" mnemonicParsing="false" text="5:00 pm - 11:00 am" textFill="white"/>
-
-                <Label text="Salario" textFill="white">
-                    <font><Font name="System Bold" size="14.0" /></font>
-                    <VBox.margin><Insets top="5.0" /></VBox.margin>
-                </Label>
-                <TextField fx:id="TXTsalario" prefHeight="32.0" promptText="Ej: 18000.00" style="-fx-background-color: rgba(255,255,255,0.88); -fx-background-radius: 8; -fx-text-fill: #1a1a1a; -fx-font-size: 13px;" />
-
-                <Label text="Contraseña" textFill="white">
-                    <font><Font name="System Bold" size="14.0" /></font>
-                    <VBox.margin><Insets top="5.0" /></VBox.margin>
-                </Label>
-                <TextField fx:id="TXTcontrasena" prefHeight="32.0" promptText="Ej: mariaL" style="-fx-background-color: rgba(255,255,255,0.88); -fx-background-radius: 8; -fx-text-fill: #1a1a1a; -fx-font-size: 13px;" />
-            </VBox>
-
-        </HBox>
-
-        <!-- Botones -->
-        <HBox alignment="CENTER_LEFT" spacing="10.0">
-            <padding><Insets top="5.0" /></padding>
-            <Button onAction="#fnGuardar" prefHeight="32.0" prefWidth="80.0" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-cursor: hand;" text="Guardar" />
-            <Button onAction="#fnEliminar" prefHeight="32.0" prefWidth="80.0" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-cursor: hand;" text="Eliminar" />
-            <Region HBox.hgrow="ALWAYS" />
-            <Button onAction="#fnEditar" prefHeight="32.0" prefWidth="80.0" style="-fx-background-color: #f39c12; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-cursor: hand;" text="Editar" />
-            <Button onAction="#fnBuscar" prefHeight="32.0" prefWidth="40.0" style="-fx-background-color: #c0392b; -fx-text-fill: white; -fx-background-radius: 50; -fx-cursor: hand;" text="🔍" />
-        </HBox>
-
-        <!-- Tabla -->
-        <TableView fx:id="tablaEmpleados" prefWidth="780.0" VBox.vgrow="ALWAYS">
-            <columns>
-                <TableColumn fx:id="colNombre" prefWidth="220.0" text="Nombre" />
-                <TableColumn fx:id="colCedula" prefWidth="180.0" text="Cédula" />
-                <TableColumn fx:id="colCargo" prefWidth="150.0" text="Cargo" />
-            </columns>
-        </TableView>
-
+        </ScrollPane>
     </VBox>
 </AnchorPane>
-
-

@@ -29,12 +29,14 @@ public class CONTROLLER_Tecnico {
     @FXML private TableColumn<TecnicoRow, String> colNombre;
     @FXML private TableColumn<TecnicoRow, String> colCedula;
     @FXML private TableColumn<TecnicoRow, String> colEspecialidad;
+    @FXML private TableColumn<TecnicoRow, String> colEstado;
 
     @FXML
     public void initialize() {
         colNombre.setCellValueFactory(c -> c.getValue().nombre);
         colCedula.setCellValueFactory(c -> c.getValue().cedula);
         colEspecialidad.setCellValueFactory(c -> c.getValue().especialidad);
+        colEstado.setCellValueFactory(c -> c.getValue().estado);
 
         tablaTecnicos.getSelectionModel().selectedItemProperty().addListener(
                 (obs, old, sel) -> {
@@ -72,7 +74,7 @@ public class CONTROLLER_Tecnico {
             JOptionPane.showMessageDialog(null, "Técnico guardado correctamente.");
             limpiar();
             cargarTabla();
-        } catch (Exception e) {
+        } catch (Exception e) { //error al guardar técnico - pantalla Agregar Técnico
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
         }
     }
@@ -100,7 +102,7 @@ public class CONTROLLER_Tecnico {
             } else {
                 JOptionPane.showMessageDialog(null, "No se encontró el técnico.");
             }
-        } catch (Exception e) {
+        } catch (Exception e) { //error al buscar técnico - pantalla Agregar Técnico
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
         }
     }
@@ -130,13 +132,14 @@ public class CONTROLLER_Tecnico {
             } else {
                 JOptionPane.showMessageDialog(null, "No se encontró el técnico con esa cédula.");
             }
-        } catch (Exception e) {
+        } catch (Exception e) { //error al editar técnico - pantalla Agregar Técnico
             JOptionPane.showMessageDialog(null, "Error al actualizar: " + e.getMessage());
         }
     }
 
     @FXML
     public void FnEliminar() {
+        if (!com.example.demo1.Utils.Permisos_Util.verificarEliminar()) return;
         String cedula = TXTcedula.getText().trim();
         if (cedula.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Ingrese la cédula a eliminar.");
@@ -156,14 +159,57 @@ public class CONTROLLER_Tecnico {
             } else {
                 JOptionPane.showMessageDialog(null, "No se encontró el técnico.");
             }
-        } catch (Exception e) {
+        } catch (Exception e) { //error al eliminar técnico - pantalla Agregar Técnico
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    public void FnInhabilitar() {
+        String cedula = TXTcedula.getText().trim();
+        if (cedula.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Ingrese la cédula del técnico a inhabilitar.");
+            return;
+        }
+        int confirmar = JOptionPane.showConfirmDialog(null,
+                "¿Inhabilitar al técnico con cédula " + cedula + "? No se eliminará, solo quedará inactivo.",
+                "Confirmar", JOptionPane.YES_NO_OPTION);
+        if (confirmar != JOptionPane.YES_OPTION) return;
+        try (java.sql.Connection con = Conexion.establecerConexion();
+             java.sql.PreparedStatement ps = con.prepareStatement(
+                     "UPDATE tbl_tecnico SET estado = 'Inactivo' WHERE cedula = ?")) {
+            ps.setString(1, cedula);
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Técnico inhabilitado correctamente.");
+            limpiar();
+            cargarTabla();
+        } catch (Exception e) { //error al inhabilitar técnico - pantalla Agregar Técnico
+            JOptionPane.showMessageDialog(null, "Error al inhabilitar: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    public void FnHabilitar() {
+        String cedula = TXTcedula.getText().trim();
+        if (cedula.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Ingrese la cédula del técnico a habilitar.");
+            return;
+        }
+        try (java.sql.Connection con = Conexion.establecerConexion();
+             java.sql.PreparedStatement ps = con.prepareStatement(
+                     "UPDATE tbl_tecnico SET estado = 'Activo' WHERE cedula = ?")) {
+            ps.setString(1, cedula);
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Técnico habilitado correctamente.");
+            cargarTabla();
+        } catch (Exception e) { //error al habilitar técnico - pantalla Agregar Técnico
+            JOptionPane.showMessageDialog(null, "Error al habilitar: " + e.getMessage());
         }
     }
 
     private void cargarTabla() {
         ObservableList<TecnicoRow> datos = FXCollections.observableArrayList();
-        String sql = "SELECT nombre_tecnico, cedula, especialidad_tecnico " +
+        String sql = "SELECT nombre_tecnico, cedula, especialidad_tecnico, estado " +
                 "FROM tbl_tecnico ORDER BY nombre_tecnico";
 
         try (Connection con = conexion.establecerConexion();
@@ -173,10 +219,11 @@ public class CONTROLLER_Tecnico {
                 datos.add(new TecnicoRow(
                         rs.getString("nombre_tecnico"),
                         rs.getString("cedula"),
-                        rs.getString("especialidad_tecnico")));
+                        rs.getString("especialidad_tecnico"),
+                        rs.getString("estado")));
             }
             tablaTecnicos.setItems(datos);
-        } catch (Exception e) {
+        } catch (Exception e) { //error al cargar tabla - pantalla Agregar Técnico
             JOptionPane.showMessageDialog(null, "Error al cargar técnicos: " + e.getMessage());
         }
     }
@@ -187,14 +234,16 @@ public class CONTROLLER_Tecnico {
     }
 
     public static class TecnicoRow {
-        final SimpleStringProperty nombre, cedula, especialidad;
-        public TecnicoRow(String n, String c, String e) {
+        final SimpleStringProperty nombre, cedula, especialidad, estado;
+        public TecnicoRow(String n, String c, String e, String est) {
             nombre       = new SimpleStringProperty(n);
             cedula       = new SimpleStringProperty(c);
             especialidad = new SimpleStringProperty(e);
+            estado       = new SimpleStringProperty(est != null ? est : "Activo");
         }
         public String getNombre()       { return nombre.get(); }
         public String getCedula()       { return cedula.get(); }
         public String getEspecialidad() { return especialidad.get(); }
+        public String getEstado()       { return estado.get(); }
     }
 }

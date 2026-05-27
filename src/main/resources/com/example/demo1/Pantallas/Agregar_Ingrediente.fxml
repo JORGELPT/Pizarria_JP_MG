@@ -1,82 +1,86 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Region?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane maxWidth="Infinity" maxHeight="Infinity" prefHeight="620.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo1.Controllers.CONTROLLER_Ingrediente">
+<AnchorPane maxWidth="Infinity" maxHeight="Infinity"
+            xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.demo1.Controllers.CONTROLLER_Ingrediente"
+            style="-fx-background-color: #f4f6fb;">
 
-    <Region AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0" style="-fx-background-image: url('/com/example/demo1/imagenes/fondop.png'); -fx-background-size: cover; -fx-background-position: center;"/>
+    <VBox spacing="0"
+          AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0"
+          AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0">
 
-    <VBox layoutX="40.0" layoutY="24.0" spacing="12.0" style="-fx-background-color: rgba(0,0,0,0.48); -fx-background-radius: 14; -fx-padding: 10;" AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="24.0">
-        <padding><Insets bottom="20.0" left="25.0" right="25.0" top="20.0" /></padding>
-
-        <!-- Título -->
-        <Label text="AGREGAR INGREDIENTE" textFill="white">
-            <font><Font name="System Bold" size="24.0" /></font>
-        </Label>
-
-        <!-- Nombre -->
-        <HBox spacing="20.0">
-            <VBox spacing="3.0" HBox.hgrow="ALWAYS">
-                <Label text="Nombre" textFill="white"><font><Font name="System Bold" size="13.0" /></font></Label>
-                <TextField fx:id="TXTnombre" prefHeight="32.0" promptText="Masa, salsa, queso..." style="-fx-background-color: rgba(255,255,255,0.88); -fx-background-radius: 8; -fx-text-fill: #1a1a1a; -fx-font-size: 13px;" />
-            </VBox>
-            <VBox spacing="3.0" HBox.hgrow="ALWAYS">
-                <Label text="Cantidad en Stock" textFill="white"><font><Font name="System Bold" size="13.0" /></font></Label>
-                <TextField fx:id="TXTcantidad" prefHeight="32.0" promptText="Ej: 3000..." style="-fx-background-color: rgba(255,255,255,0.88); -fx-background-radius: 8; -fx-text-fill: #1a1a1a; -fx-font-size: 13px;" />
-            </VBox>
-            <VBox spacing="3.0" HBox.hgrow="ALWAYS">
-                <Label text="Cant. Min. del Stock" textFill="white"><font><Font name="System Bold" size="13.0" /></font></Label>
-                <TextField fx:id="TXTcantMin" prefHeight="32.0" style="-fx-background-color: rgba(255,255,255,0.88); -fx-background-radius: 8; -fx-text-fill: #1a1a1a; -fx-font-size: 13px;" />
-            </VBox>
+        <HBox alignment="CENTER_LEFT" styleClass="content-header">
+            <Label text="✿  Agregar Ingrediente" styleClass="content-header-title"/>
         </HBox>
 
-        <!-- Fila: Fecha | Tipo | Proveedor -->
-        <HBox spacing="20.0">
-            <VBox spacing="3.0" HBox.hgrow="ALWAYS">
-                <Label text="Fecha de caducidad (yyyy-MM-dd)" textFill="white"><font><Font name="System Bold" size="13.0" /></font></Label>
-                <TextField fx:id="TXTfecha" prefHeight="32.0" promptText="2026-12-31" style="-fx-background-color: rgba(255,255,255,0.88); -fx-background-radius: 8; -fx-text-fill: #1a1a1a; -fx-font-size: 13px;" />
-            </VBox>
-            <VBox spacing="3.0" HBox.hgrow="ALWAYS">
-                <Label text="Tipo de Ingr." textFill="white"><font><Font name="System Bold" size="13.0" /></font></Label>
-                <ComboBox fx:id="cmbTipo" maxWidth="Infinity" prefHeight="32.0" style="-fx-background-color: rgba(255,255,255,0.88); -fx-background-radius: 8; -fx-font-size: 13px;" />
-            </VBox>
-            <VBox spacing="3.0" HBox.hgrow="ALWAYS">
-                <Label text="Proveedor" textFill="white"><font><Font name="System Bold" size="13.0" /></font></Label>
-                <ComboBox fx:id="cmbProveedor" maxWidth="Infinity" prefHeight="32.0" style="-fx-background-color: rgba(255,255,255,0.88); -fx-background-radius: 8; -fx-font-size: 13px;" />
-            </VBox>
-        </HBox>
+        <VBox spacing="14" VBox.vgrow="ALWAYS"
+              style="-fx-background-color: white;">
+            <padding><Insets top="20" right="26" bottom="20" left="26"/></padding>
 
-        <!-- Botones -->
-        <HBox alignment="CENTER_LEFT" spacing="10.0">
-            <Button onAction="#FnGuardar" prefHeight="32.0" prefWidth="80.0" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-cursor: hand;" text="Enviar" />
-            <Button onAction="#FnEliminar" prefHeight="32.0" prefWidth="80.0" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-cursor: hand;" text="Eliminar" />
-            <Region HBox.hgrow="ALWAYS" />
-            <Button onAction="#FnEditar" prefHeight="32.0" prefWidth="80.0" style="-fx-background-color: #f39c12; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-cursor: hand;" text="Editar" />
-            <Button onAction="#FnBuscar" prefHeight="32.0" prefWidth="40.0" style="-fx-background-color: #c0392b; -fx-text-fill: white; -fx-background-radius: 50; -fx-cursor: hand;" text="🔍" />
-        </HBox>
+            <HBox spacing="20">
+                <VBox HBox.hgrow="ALWAYS" spacing="5">
+                    <Label text="Nombre" styleClass="field-label"/>
+                    <TextField fx:id="TXTnombre" promptText="Masa, salsa, queso..." prefHeight="38" styleClass="field-input"/>
+                </VBox>
+                <VBox HBox.hgrow="ALWAYS" spacing="5">
+                    <Label text="Cantidad en Stock" styleClass="field-label"/>
+                    <TextField fx:id="TXTcantidad" promptText="Ej: 3000" prefHeight="38" styleClass="field-input"/>
+                </VBox>
+                <VBox HBox.hgrow="ALWAYS" spacing="5">
+                    <Label text="Cant. Mín. del Stock" styleClass="field-label"/>
+                    <TextField fx:id="TXTcantMin" prefHeight="38" styleClass="field-input"/>
+                </VBox>
+            </HBox>
 
-        <!-- Tabla de ingredientes -->
-        <TableView fx:id="tablaIngredientes" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent; -fx-control-inner-background: rgba(255,255,255,0.92);">
-            <columns>
-                <TableColumn fx:id="colNombre"    text="Nombre"          prefWidth="160.0" />
-                <TableColumn fx:id="colTipo"      text="Tipo"            prefWidth="100.0" />
-                <TableColumn fx:id="colStock"     text="Stock"           prefWidth="80.0"  />
-                <TableColumn fx:id="colCantMin"   text="Cant. Min."      prefWidth="90.0"  />
-                <TableColumn fx:id="colFecha"     text="F. Caducidad"    prefWidth="120.0" />
-                <TableColumn fx:id="colProveedor" text="Proveedor"       prefWidth="160.0" />
-            </columns>
-        </TableView>
+            <HBox spacing="20">
+                <VBox HBox.hgrow="ALWAYS" spacing="5">
+                    <Label text="Fecha de caducidad (yyyy-MM-dd)" styleClass="field-label"/>
+                    <TextField fx:id="TXTfecha" promptText="2026-12-31" prefHeight="38" styleClass="field-input"/>
+                </VBox>
+                <VBox HBox.hgrow="ALWAYS" spacing="5">
+                    <Label text="Tipo de Ingr." styleClass="field-label"/>
+                    <ComboBox fx:id="cmbTipo" maxWidth="Infinity" prefHeight="38" styleClass="field-combo"/>
+                </VBox>
+                <VBox HBox.hgrow="ALWAYS" spacing="5">
+                    <Label text="Unidad de Medida" styleClass="field-label"/>
+                    <ComboBox fx:id="cmbUnidad" maxWidth="Infinity" prefHeight="38" styleClass="field-combo"/>
+                </VBox>
+                <VBox HBox.hgrow="ALWAYS" spacing="5">
+                    <Label text="Proveedor" styleClass="field-label"/>
+                    <ComboBox fx:id="cmbProveedor" maxWidth="Infinity" prefHeight="38" styleClass="field-combo"/>
+                </VBox>
+            </HBox>
 
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Button text="Guardar" onAction="#FnGuardar" styleClass="btn-primary"/>
+                <Button text="Eliminar" onAction="#FnEliminar" styleClass="btn-danger"/>
+                <Button text="Inhabilitar" onAction="#FnInhabilitar" styleClass="btn-warning"/>
+                <Button text="Habilitar" onAction="#FnHabilitar" styleClass="btn-success"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button text="Editar" onAction="#FnEditar" styleClass="btn-secondary"/>
+                <Button text="🔍 Buscar" onAction="#FnBuscar" styleClass="btn-primary"/>
+            </HBox>
+
+            <TableView fx:id="tablaIngredientes" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="colNombre"    prefWidth="140" text="Nombre"/>
+                    <TableColumn fx:id="colTipo"      prefWidth="90"  text="Tipo"/>
+                    <TableColumn fx:id="colStock"     prefWidth="70"  text="Stock"/>
+                    <TableColumn fx:id="colCantMin"   prefWidth="80"  text="Cant. Min."/>
+                    <TableColumn fx:id="colUnidad"    prefWidth="90"  text="Unidad"/>
+                    <TableColumn fx:id="colFecha"     prefWidth="110" text="F. Caducidad"/>
+                    <TableColumn fx:id="colProveedor" prefWidth="140" text="Proveedor"/>
+                    <TableColumn fx:id="colEstado"    prefWidth="90"  text="Estado"/>
+                </columns>
+                <placeholder><Label text="Sin registros." styleClass="info-label"/></placeholder>
+            </TableView>
+
+        </VBox>
     </VBox>
 </AnchorPane>

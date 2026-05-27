@@ -5,66 +5,60 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxWidth="Infinity" maxHeight="Infinity" prefWidth="900.0" prefHeight="580.0" xmlns="http://javafx.com/javafx/17.0.12"
+<AnchorPane maxWidth="Infinity" maxHeight="Infinity"
+            xmlns="http://javafx.com/javafx/17"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.example.demo1.Controllers.CONTROLLER_Sucursal">
+            fx:controller="com.example.demo1.Controllers.CONTROLLER_Sucursal"
+            style="-fx-background-color: #f4f6fb;">
 
-    <Region AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0" style="-fx-background-image: url('/com/example/demo1/imagenes/fondop.png'); -fx-background-size: cover; -fx-background-position: center;"/>
+    <VBox spacing="0"
+          AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0"
+          AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0">
 
-    <VBox spacing="15.0"
-          style="-fx-background-color: rgba(0,0,0,0.48); -fx-background-radius: 14; -fx-padding: 10;"
-          AnchorPane.topAnchor="30.0" AnchorPane.leftAnchor="40.0"
-          AnchorPane.rightAnchor="40.0" AnchorPane.bottomAnchor="30.0">
-        <padding><Insets top="25.0" left="25.0" right="25.0" bottom="25.0"/></padding>
-
-        <Label text="AGREGAR SUCURSAL" textFill="white">
-            <font><Font name="System Bold" size="24.0"/></font>
-        </Label>
-
-        <!-- Fila 1: Nombre | Tipo de servicio -->
-        <HBox spacing="30.0">
-            <VBox HBox.hgrow="ALWAYS" spacing="3.0">
-                <Label text="Nombre" textFill="white"><font><Font name="System Bold" size="14.0"/></font></Label>
-                <TextField fx:id="TXTnombre" prefHeight="32.0"
-                           style="-fx-background-color: rgba(255,255,255,0.88); -fx-background-radius: 8; -fx-text-fill: #1a1a1a; -fx-font-size: 13px;"/>
-            </VBox>
-            <VBox HBox.hgrow="ALWAYS" spacing="3.0">
-                <Label text="Tipo de servicio" textFill="white"><font><Font name="System Bold" size="14.0"/></font></Label>
-                <ComboBox fx:id="cmbTipoServicio" prefHeight="32.0" maxWidth="Infinity"
-                          style="-fx-background-color: rgba(255,255,255,0.88); -fx-background-radius: 8; -fx-text-fill: #1a1a1a; -fx-font-size: 13px;"/>
-            </VBox>
+        <HBox alignment="CENTER_LEFT" styleClass="content-header">
+            <Label text="■  Agregar Sucursal" styleClass="content-header-title"/>
         </HBox>
 
-        <!-- Dirección -->
-        <VBox spacing="3.0">
-            <Label text="Dirección" textFill="white"><font><Font name="System Bold" size="14.0"/></font></Label>
-            <TextField fx:id="TXTdireccion" prefHeight="32.0"
-                       style="-fx-background-color: rgba(255,255,255,0.88); -fx-background-radius: 8; -fx-text-fill: #1a1a1a; -fx-font-size: 13px;"/>
+        <VBox spacing="14" VBox.vgrow="ALWAYS"
+              style="-fx-background-color: white;">
+            <padding><Insets top="20" right="26" bottom="20" left="26"/></padding>
+
+            <HBox spacing="20">
+                <VBox HBox.hgrow="ALWAYS" spacing="5">
+                    <Label text="Nombre" styleClass="field-label"/>
+                    <TextField fx:id="TXTnombre" prefHeight="38" styleClass="field-input"/>
+                </VBox>
+                <VBox HBox.hgrow="ALWAYS" spacing="5">
+                    <Label text="Tipo de servicio" styleClass="field-label"/>
+                    <ComboBox fx:id="cmbTipoServicio" maxWidth="Infinity" prefHeight="38" styleClass="field-combo"/>
+                </VBox>
+            </HBox>
+
+            <VBox spacing="5">
+                <Label text="Dirección" styleClass="field-label"/>
+                <TextField fx:id="TXTdireccion" prefHeight="38" styleClass="field-input"/>
+            </VBox>
+
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Button text="Guardar" onAction="#FnGuardar" styleClass="btn-primary"/>
+                <Button text="Eliminar" onAction="#FnEliminar" styleClass="btn-danger"/>
+                <Button text="Inhabilitar" onAction="#FnInhabilitar" styleClass="btn-warning"/>
+                <Button text="Habilitar" onAction="#FnHabilitar" styleClass="btn-success"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button text="Editar" onAction="#FnEditar" styleClass="btn-secondary"/>
+                <Button text="🔍 Buscar" onAction="#FnBuscar" styleClass="btn-primary"/>
+            </HBox>
+
+            <TableView fx:id="tablaSucursales" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="colNombre"    prefWidth="220" text="Nombre"/>
+                    <TableColumn fx:id="colTipo"      prefWidth="180" text="Tipo"/>
+                    <TableColumn fx:id="colDireccion" prefWidth="280" text="Dirección"/>
+                    <TableColumn fx:id="colEstado"    prefWidth="100" text="Estado"/>
+                </columns>
+                <placeholder><Label text="Sin registros." styleClass="info-label"/></placeholder>
+            </TableView>
+
         </VBox>
-
-        <!-- Botones -->
-        <HBox spacing="10.0" alignment="CENTER_LEFT">
-            <padding><Insets top="5.0"/></padding>
-            <Button text="Enviar" onAction="#FnGuardar" prefWidth="80.0" prefHeight="32.0"
-                    style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-cursor: hand;"/>
-            <Button text="Eliminar" onAction="#FnEliminar" prefWidth="80.0" prefHeight="32.0"
-                    style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-cursor: hand;"/>
-            <Region HBox.hgrow="ALWAYS"/>
-            <Button text="Editar" onAction="#FnEditar" prefWidth="80.0" prefHeight="32.0"
-                    style="-fx-background-color: #f39c12; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-cursor: hand;"/>
-            <Button text="🔍" onAction="#FnBuscar" prefWidth="40.0" prefHeight="32.0"
-                    style="-fx-background-color: #c0392b; -fx-text-fill: white; -fx-background-radius: 50; -fx-cursor: hand;"/>
-        </HBox>
-
-        <!-- Tabla -->
-        <TableView fx:id="tablaSucursales" VBox.vgrow="ALWAYS">
-            <columns>
-                <TableColumn fx:id="colNombre"    prefWidth="220.0" text="Nombre"/>
-                <TableColumn fx:id="colTipo"      prefWidth="180.0" text="Tipo"/>
-                <TableColumn fx:id="colDireccion" prefWidth="280.0" text="Dirección"/>
-            </columns>
-        </TableView>
-
     </VBox>
 </AnchorPane>
-

@@ -1,76 +1,89 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxWidth="Infinity" maxHeight="Infinity" prefWidth="900.0" prefHeight="580.0"
-            xmlns="http://javafx.com/javafx/17.0.12"
+<AnchorPane maxWidth="Infinity" maxHeight="Infinity"
+            xmlns="http://javafx.com/javafx/17"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.example.demo1.Controllers.Controller_Inventario">
+            fx:controller="com.example.demo1.Controllers.Controller_Inventario"
+            style="-fx-background-color: #f4f6fb;">
 
-    <Region AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0" style="-fx-background-image: url('/com/example/demo1/imagenes/fondop.png'); -fx-background-size: cover; -fx-background-position: center;"/>
+    <VBox spacing="0"
+          AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0"
+          AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0">
 
-    <HBox spacing="30.0"
-          AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="30.0"
-          AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="30.0">
+        <HBox alignment="CENTER_LEFT" spacing="14" styleClass="content-header">
+            <Label text="☰  Inventario" styleClass="content-header-title"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <TextField fx:id="TXTbuscar" promptText="Buscar ingrediente..."
+                       prefHeight="36" prefWidth="240"
+                       style="-fx-background-color: rgba(255,255,255,0.18);
+                              -fx-background-radius: 20; -fx-border-color: rgba(255,255,255,0.4);
+                              -fx-border-radius: 20; -fx-border-width: 1;
+                              -fx-text-fill: white; -fx-prompt-text-fill: rgba(255,255,255,0.6);
+                              -fx-padding: 0 16 0 16; -fx-font-size: 13px;"/>
+            <Button text="Buscar" onAction="#FnBuscar"
+                    style="-fx-background-color: white; -fx-text-fill: #004aad;
+                           -fx-font-weight: bold; -fx-background-radius: 20;
+                           -fx-cursor: hand; -fx-padding: 8 18; -fx-font-size: 13px;"/>
+        </HBox>
 
-        <!-- COLUMNA IZQUIERDA: TABLA -->
-        <VBox spacing="15.0" HBox.hgrow="ALWAYS" style="-fx-background-color: rgba(0,0,0,0.48); -fx-background-radius: 14; -fx-padding: 10;">
-            <padding><Insets top="20.0" left="20.0" right="20.0" bottom="20.0"/></padding>
+        <HBox spacing="20" VBox.vgrow="ALWAYS"
+              style="-fx-background-color: #f4f6fb;">
+            <padding><Insets top="20" right="24" bottom="20" left="24"/></padding>
 
-            <!-- Encabezado con título y buscador -->
-            <HBox alignment="CENTER_LEFT" spacing="20.0">
-                <Label text="INVENTARIO" textFill="white">
-                    <font><Font name="System Bold" size="28.0"/></font>
-                </Label>
-                <Region HBox.hgrow="ALWAYS"/>
-                <TextField fx:id="TXTbuscar" prefHeight="32.0" prefWidth="200.0"
-                           promptText="Buscar..."
-                           style="-fx-background-radius: 20; -fx-background-color: #E0E0E0; -fx-padding: 0 15 0 15;"/>
-                <Button onAction="#FnBuscar" prefHeight="32.0" prefWidth="40.0"
-                        style="-fx-background-color: #c0392b; -fx-text-fill: white; -fx-background-radius: 50; -fx-cursor: hand;" text="🔍"/>
-            </HBox>
+            <VBox spacing="12" HBox.hgrow="ALWAYS"
+                  style="-fx-background-color: white;
+                         -fx-background-radius: 14;
+                         -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.07), 14, 0, 0, 3);">
+                <padding><Insets top="18" right="18" bottom="18" left="18"/></padding>
 
-            <!-- Tabla de inventario -->
-            <TableView fx:id="tablaInventario"
-                       style="-fx-border-color: #004aad; -fx-border-width: 2;"
-                       VBox.vgrow="ALWAYS">
-                <columns>
-                    <TableColumn fx:id="colId"        prefWidth="60.0"  text="ID"/>
-                    <TableColumn fx:id="colNombre"    prefWidth="150.0" text="Nombre"/>
-                    <TableColumn fx:id="colCategoria" prefWidth="120.0" text="Categoría"/>
-                    <TableColumn fx:id="colFechaExp"  prefWidth="120.0" text="Fecha de EXP"/>
-                    <TableColumn fx:id="colCantStock" prefWidth="120.0" text="Cant. en Stock"/>
-                    <TableColumn fx:id="colCantMin"   prefWidth="120.0" text="Cant. Mín."/>
-                </columns>
-            </TableView>
+                <Label text="Stock actual"
+                       style="-fx-font-size: 14px; -fx-font-weight: bold;
+                              -fx-text-fill: #1a1a2e; -fx-font-family: 'Segoe UI';"/>
 
-        </VBox>
+                <TableView fx:id="tablaInventario" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="colId"        prefWidth="60"  text="ID"/>
+                        <TableColumn fx:id="colNombre"    prefWidth="160" text="Nombre"/>
+                        <TableColumn fx:id="colCategoria" prefWidth="130" text="Categoría"/>
+                        <TableColumn fx:id="colFechaExp"  prefWidth="130" text="Fecha EXP"/>
+                        <TableColumn fx:id="colCantStock" prefWidth="120" text="Cant. Stock"/>
+                        <TableColumn fx:id="colCantMin"   prefWidth="110" text="Cant. Mín."/>
+                    </columns>
+                    <placeholder>
+                        <Label text="Sin registros." styleClass="info-label"/>
+                    </placeholder>
+                </TableView>
+            </VBox>
 
-        <!-- COLUMNA DERECHA: BOTÓN AGREGAR -->
-        <VBox alignment="TOP_CENTER" prefHeight="580.0" spacing="20.0"
-              style="-fx-background-color: rgba(0,0,0,0.48); -fx-background-radius: 14; -fx-padding: 10;">
-            <padding><Insets top="50.0" left="20.0" right="20.0" bottom="20.0"/></padding>
+            <VBox spacing="16" minWidth="200" maxWidth="220" alignment="TOP_CENTER"
+                  style="-fx-background-color: white;
+                         -fx-background-radius: 14;
+                         -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.07), 14, 0, 0, 3);">
+                <padding><Insets top="28" right="18" bottom="28" left="18"/></padding>
 
-            <HBox alignment="CENTER" spacing="10.0">
-                <Label text="AGREGAR&#10;INGREDIENTE" textAlignment="LEFT" textFill="white">
-                    <font><Font name="System Bold" size="20.0"/></font>
-                </Label>
-                <Label style="-fx-font-size: 38px;" text="🍅" textFill="#ff0101"/>
-            </HBox>
+                <Label text="Agregar Ingrediente"
+                       wrapText="true" alignment="CENTER" textAlignment="CENTER"
+                       style="-fx-font-size: 14px; -fx-font-weight: bold;
+                              -fx-text-fill: #1a1a2e; -fx-font-family: 'Segoe UI';"/>
 
-            <Button onAction="#FnAgregarIngrediente" prefHeight="40.0" prefWidth="200.0"
-                    style="-fx-background-color: #b8d4ff; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-background-radius: 20; -fx-cursor: hand;" text="Aquí"/>
+                <ImageView fitWidth="100" fitHeight="100" preserveRatio="true" pickOnBounds="true">
+                    <image><Image url="@../imagenes/inventario.png"/></image>
+                </ImageView>
 
-            <Region VBox.vgrow="ALWAYS"/>
+                <Button fx:id="btnAgregar" text="Agregar" onAction="#FnAgregarIngrediente"
+                        maxWidth="Infinity" styleClass="btn-primary"/>
+                <Button text="📄 Exportar PDF" onAction="#FnExportarPDF"
+                        maxWidth="Infinity" styleClass="btn-success"/>
 
-            <Label style="-fx-font-size: 140px;" text="🚚" textFill="#9f2020"/>
-
-        </VBox>
-
-    </HBox>
+                <Region VBox.vgrow="ALWAYS"/>
+            </VBox>
+        </HBox>
+    </VBox>
 </AnchorPane>
-
-

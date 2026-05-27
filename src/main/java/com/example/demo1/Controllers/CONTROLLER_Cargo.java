@@ -1,6 +1,7 @@
 package com.example.demo1.Controllers;
 
 import com.example.demo1.Database.Conexion;
+import com.example.demo1.Utils.JasperUtil;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -26,6 +27,7 @@ public class CONTROLLER_Cargo {
     @FXML private TableColumn<CargoRow, String> colNombre;
     @FXML private TableColumn<CargoRow, String> colDescripcion;
     @FXML private TableColumn<CargoRow, String> colDepartamento;
+    @FXML private TableColumn<CargoRow, String> colEstado;
 
     // Relación Nombre de departamento -> id
     private Map<String, Integer> mapaDepartamentos = new HashMap<>();
@@ -35,6 +37,7 @@ public class CONTROLLER_Cargo {
         colNombre.setCellValueFactory(c -> c.getValue().nombre);
         colDescripcion.setCellValueFactory(c -> c.getValue().descripcion);
         colDepartamento.setCellValueFactory(c -> c.getValue().departamento);
+        colEstado.setCellValueFactory(c -> c.getValue().estado);
 
         tablaCargos.getSelectionModel().selectedItemProperty().addListener(
                 (obs, old, sel) -> {
@@ -46,10 +49,7 @@ public class CONTROLLER_Cargo {
         cargarDepartamentos();
         cargarTabla();
     }
-
-    // ============================================================
     //                  CARGA INICIAL DE COMBOS
-    // ============================================================
     private void cargarDepartamentos() {
         ObservableList<String> nombresDepto = FXCollections.observableArrayList();
         String sql = "SELECT id_departamento, nombre FROM tbl_departamento ORDER BY nombre";
@@ -67,14 +67,12 @@ public class CONTROLLER_Cargo {
             }
             cmbDepartamento.setItems(nombresDepto);
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al cargar departamentos - pantalla Agregar Cargo
             JOptionPane.showMessageDialog(null, "Error al cargar departamentos: " + e.getMessage());
         }
     }
 
-    // ============================================================
     //                        GUARDAR
-    // ============================================================
     @FXML
     public void FnGuardar() {
         String nombre            = TXTnombre.getText().trim();
@@ -100,14 +98,11 @@ public class CONTROLLER_Cargo {
             limpiar();
             cargarTabla();
 
-        } catch (SQLException e) {
+        } catch (SQLException e) { //error al guardar cargo - pantalla Agregar Cargo
             JOptionPane.showMessageDialog(null, "Error al guardar: " + e.getMessage());
         }
     }
-
-    // ============================================================
     //                         BUSCAR
-    // ============================================================
     @FXML
     public void FnBuscar() {
         String nombre = TXTnombre.getText().trim();
@@ -125,24 +120,23 @@ public class CONTROLLER_Cargo {
              PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setString(1, nombre);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                TXTnombre.setText(rs.getString("nombre"));
-                TXTDescripcion.setText(rs.getString("descripcion"));
-                cmbDepartamento.setValue(rs.getString("nombre_depto"));
-                JOptionPane.showMessageDialog(null, "Registro encontrado.");
-            } else {
-                JOptionPane.showMessageDialog(null, "No se encontró ningún cargo con ese nombre.");
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    TXTnombre.setText(rs.getString("nombre"));
+                    TXTDescripcion.setText(rs.getString("descripcion"));
+                    cmbDepartamento.setValue(rs.getString("nombre_depto"));
+                    JOptionPane.showMessageDialog(null, "Registro encontrado.");
+                } else {
+                    JOptionPane.showMessageDialog(null, "No se encontró ningún cargo con ese nombre.");
+                }
             }
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al buscar cargo - pantalla Agregar Cargo
             JOptionPane.showMessageDialog(null, "Error al buscar: " + e.getMessage());
         }
     }
 
-    // ============================================================
     //                         EDITAR
-    // ============================================================
     @FXML
     public void FnEditar() {
         String nombre      = TXTnombre.getText().trim();
@@ -174,16 +168,15 @@ public class CONTROLLER_Cargo {
                 JOptionPane.showMessageDialog(null, "No se encontró el cargo.");
             }
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al editar cargo - pantalla Agregar Cargo
             JOptionPane.showMessageDialog(null, "Error al editar: " + e.getMessage());
         }
     }
 
-    // ============================================================
     //                         ELIMINAR
-    // ============================================================
     @FXML
     public void FnEliminar() {
+        if (!com.example.demo1.Utils.Permisos_Util.verificarEliminar()) return;
         String nombre = TXTnombre.getText().trim();
         if (nombre.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Ingrese el nombre del cargo a eliminar.");
@@ -207,14 +200,54 @@ public class CONTROLLER_Cargo {
                 JOptionPane.showMessageDialog(null, "No se encontró el cargo.");
             }
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al eliminar cargo - pantalla Agregar Cargo
             JOptionPane.showMessageDialog(null, "Error al eliminar: " + e.getMessage());
         }
     }
 
-    // ============================================================
+    @FXML
+    public void FnInhabilitar() {
+        String nombre = TXTnombre.getText().trim();
+        if (nombre.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Ingrese el nombre del cargo a inhabilitar.");
+            return;
+        }
+        int confirmar = JOptionPane.showConfirmDialog(null,
+                "¿Inhabilitar '" + nombre + "'? No se eliminará, solo quedará inactivo.",
+                "Confirmar", JOptionPane.YES_NO_OPTION);
+        if (confirmar != JOptionPane.YES_OPTION) return;
+        try (java.sql.Connection con = Conexion.establecerConexion();
+             java.sql.PreparedStatement ps = con.prepareStatement(
+                     "UPDATE tbl_cargo SET estado = 'Inactivo' WHERE nombre = ?")) {
+            ps.setString(1, nombre);
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Cargo inhabilitado correctamente.");
+            cargarTabla();
+        } catch (Exception e) { //error al inhabilitar cargo - pantalla Agregar Cargo
+            JOptionPane.showMessageDialog(null, "Error al inhabilitar: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    public void FnHabilitar() {
+        String nombre = TXTnombre.getText().trim();
+        if (nombre.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Ingrese el nombre del cargo a habilitar.");
+            return;
+        }
+        try (java.sql.Connection con = Conexion.establecerConexion();
+             java.sql.PreparedStatement ps = con.prepareStatement(
+                     "UPDATE tbl_cargo SET estado = 'Activo' WHERE nombre = ?")) {
+            ps.setString(1, nombre);
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Cargo habilitado correctamente.");
+            cargarTabla();
+        } catch (Exception e) { //error al habilitar cargo - pantalla Agregar Cargo
+            JOptionPane.showMessageDialog(null, "Error al habilitar: " + e.getMessage());
+        }
+    }
+
     //                         LIMPIAR
-    // ============================================================
     @FXML
     public void FnLimpiar() {
         limpiar();
@@ -226,12 +259,20 @@ public class CONTROLLER_Cargo {
         cmbDepartamento.getSelectionModel().clearSelection();
     }
 
-    // ============================================================
+    //                      EXPORTAR PDF
+    @FXML
+    public void FnExportarPDF() {
+        if (!com.example.demo1.Utils.Permisos_Util.verificarReporte()) return;
+        JasperUtil.exportarPDF(
+                "/com/example/demo1/reportes/Reporte_Cargos.jrxml",
+                "Reporte_Cargos.pdf"
+        );
+    }
+
     //                      CARGAR TABLA
-    // ============================================================
     private void cargarTabla() {
         ObservableList<CargoRow> datos = FXCollections.observableArrayList();
-        String sql = "SELECT c.nombre, c.descripcion, d.nombre as nombre_depto " +
+        String sql = "SELECT c.nombre, c.descripcion, d.nombre as nombre_depto, c.estado " +
                 "FROM tbl_cargo c " +
                 "LEFT JOIN tbl_departamento d ON c.id_departamento = d.id_departamento " +
                 "ORDER BY c.nombre";
@@ -244,31 +285,32 @@ public class CONTROLLER_Cargo {
                 datos.add(new CargoRow(
                         rs.getString("nombre"),
                         rs.getString("descripcion"),
-                        rs.getString("nombre_depto")));
+                        rs.getString("nombre_depto"),
+                        rs.getString("estado")));
             }
             tablaCargos.setItems(datos);
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al cargar tabla de cargos - pantalla Agregar Cargo
             JOptionPane.showMessageDialog(null, "Error al cargar cargos: " + e.getMessage());
         }
     }
-
-    // ============================================================
     //                   CLASE INTERNA DE FILA
-    // ============================================================
     public static class CargoRow {
         final SimpleStringProperty nombre;
         final SimpleStringProperty descripcion;
         final SimpleStringProperty departamento;
+        final SimpleStringProperty estado;
 
-        public CargoRow(String n, String d, String dp) {
+        public CargoRow(String n, String d, String dp, String est) {
             this.nombre       = new SimpleStringProperty(n);
             this.descripcion  = new SimpleStringProperty(d);
             this.departamento = new SimpleStringProperty(dp);
+            this.estado       = new SimpleStringProperty(est != null ? est : "Activo");
         }
 
         public String getNombre()       { return nombre.get(); }
         public String getDescripcion()  { return descripcion.get(); }
         public String getDepartamento() { return departamento.get(); }
+        public String getEstado()       { return estado.get(); }
     }
 }

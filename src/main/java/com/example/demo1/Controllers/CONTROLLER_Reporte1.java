@@ -1,17 +1,12 @@
 package com.example.demo1.Controllers;
 
 import com.example.demo1.Database.Conexion;
+import com.example.demo1.Utils.JasperUtil;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
-import net.sf.jasperreports.engine.*;
-import net.sf.jasperreports.engine.export.JRPdfExporter;
-import net.sf.jasperreports.export.SimpleExporterInput;
-import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -22,14 +17,9 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
-import java.awt.Desktop;
-import java.io.File;
-import java.io.InputStream;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.Map;
 
 public class CONTROLLER_Reporte1 {
 
@@ -74,6 +64,7 @@ public class CONTROLLER_Reporte1 {
 
     @FXML
     public void FnVerGrafico() {
+        if (!com.example.demo1.Utils.Permisos_Util.verificarReporte()) return;
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         String sql = """
             SELECT d.nombre AS nombre_departamento, COUNT(e.id_empleado) AS total
@@ -91,7 +82,7 @@ public class CONTROLLER_Reporte1 {
                 dataset.addValue(rs.getInt("total"), "Empleados",
                         rs.getString("nombre_departamento"));
             }
-        } catch (Exception e) {
+        } catch (Exception e) { //error al cargar datos del gráfico - pantalla Reporte 1
             JOptionPane.showMessageDialog(null, "Error al cargar datos del gráfico: " + e.getMessage());
             return;
         }
@@ -113,65 +104,13 @@ public class CONTROLLER_Reporte1 {
         });
     }
 
-    /**
-     * Genera el PDF con JasperReports usando el .jrxml del classpath
-     * y abre el archivo automáticamente al terminar.
-     */
     @FXML
     public void FnExportarPDF() {
-        // 1. Que el usuario elija dónde guardar
-        FileChooser fc = new FileChooser();
-        fc.setTitle("Guardar Reporte PDF");
-        fc.setInitialFileName("Reporte_Empleados.pdf");
-        fc.getExtensionFilters().add(
-            new FileChooser.ExtensionFilter("PDF (*.pdf)", "*.pdf")
+        if (!com.example.demo1.Utils.Permisos_Util.verificarReporte()) return;
+        JasperUtil.exportarPDF(
+                "/com/example/demo1/reportes/Reporte_Empleados.jrxml",
+                "Reporte_Empleados.pdf"
         );
-        File destino = fc.showSaveDialog(new Stage());
-        if (destino == null) return;   // canceló
-
-        try {
-            // 2. Cargar y compilar el .jrxml
-            InputStream jrxmlStream = getClass().getResourceAsStream(
-                "/com/example/demo1/reportes/Reporte_Empleados.jrxml"
-            );
-            if (jrxmlStream == null) {
-                JOptionPane.showMessageDialog(null,
-                    "No se encontró el archivo Reporte_Empleados.jrxml en el classpath.");
-                return;
-            }
-            JasperReport jasperReport = JasperCompileManager.compileReport(jrxmlStream);
-
-            // 3. Parámetros extras (pueden usarse en el JRXML con $P{...})
-            Map<String, Object> params = new HashMap<>();
-            params.put("REPORT_LOCALE", new java.util.Locale("es", "DO"));
-
-            // 4. Llenar con datos de la BD
-            try (Connection con = conexion.establecerConexion()) {
-                JasperPrint jasperPrint = JasperFillManager.fillReport(
-                    jasperReport, params, con
-                );
-
-                // 5. Exportar a PDF
-                JRPdfExporter exporter = new JRPdfExporter();
-                exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-                exporter.setExporterOutput(
-                    new SimpleOutputStreamExporterOutput(destino)
-                );
-                exporter.exportReport();
-            }
-
-            // 6. Abrir el PDF automáticamente
-            if (Desktop.isDesktopSupported()) {
-                Desktop.getDesktop().open(destino);
-            }
-
-            JOptionPane.showMessageDialog(null,
-                "✅ PDF generado correctamente:\n" + destino.getAbsolutePath());
-
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null,
-                "Error al generar el PDF:\n" + ex.getMessage());
-        }
     }
 
     // ------------------------------------------------------------------ //
@@ -217,7 +156,7 @@ public class CONTROLLER_Reporte1 {
                 }
             }
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al cargar empleados - pantalla Reporte 1
             JOptionPane.showMessageDialog(null,
                 "Error al cargar empleados: " + e.getMessage());
         }

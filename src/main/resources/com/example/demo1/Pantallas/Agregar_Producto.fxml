@@ -1,166 +1,136 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.RadioButton?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Region?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane maxWidth="Infinity" maxHeight="Infinity" prefWidth="900.0" prefHeight="580.0"
-            xmlns="http://javafx.com/javafx/17.0.12"
+<AnchorPane maxWidth="Infinity" maxHeight="Infinity"
+            xmlns="http://javafx.com/javafx/17"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.example.demo1.Controllers.CONTROLLER_Producto">
+            fx:controller="com.example.demo1.Controllers.CONTROLLER_Producto"
+            style="-fx-background-color: #f4f6fb;">
 
+    <VBox spacing="0"
+          AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0"
+          AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0">
 
-    <Region AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0" style="-fx-background-image: url('/com/example/demo1/imagenes/fondop.png'); -fx-background-size: cover; -fx-background-position: center;"/>
+        <HBox alignment="CENTER_LEFT" styleClass="content-header">
+            <Label text="🍕  Agregar Producto" styleClass="content-header-title"/>
+        </HBox>
 
-    <VBox spacing="12.0"
-          AnchorPane.topAnchor="25.0" AnchorPane.leftAnchor="30.0"
-          AnchorPane.rightAnchor="30.0" AnchorPane.bottomAnchor="20.0"
-          style="-fx-background-color: rgba(0,0,0,0.48); -fx-background-radius: 14; -fx-padding: 10;">
-        <padding><Insets top="20.0" left="20.0" right="20.0" bottom="20.0"/></padding>
+        <VBox spacing="14" VBox.vgrow="ALWAYS"
+              style="-fx-background-color: white;">
+            <padding><Insets top="20" right="26" bottom="20" left="26"/></padding>
 
-        <Label text="AGREGAR PRODUCTO" textFill="white">
-            <font><Font name="System Bold" size="24.0"/></font>
-        </Label>
+            <HBox spacing="30" VBox.vgrow="ALWAYS">
 
-        <!-- COLUMNAS PRINCIPALES -->
-        <HBox spacing="40.0" VBox.vgrow="ALWAYS">
+                <!-- Columna izquierda -->
+                <VBox spacing="10" HBox.hgrow="ALWAYS">
 
-            <!-- COLUMNA IZQUIERDA -->
-            <VBox spacing="10.0" HBox.hgrow="ALWAYS">
+                    <Label text="Nombre" styleClass="field-label"/>
+                    <TextField fx:id="Txtnombre" prefHeight="38" styleClass="field-input"/>
 
-                <Label text="Nombre" textFill="white">
-                    <font><Font name="System Bold" size="14.0"/></font>
-                </Label>
-                <TextField fx:id="Txtnombre" prefHeight="32.0"
-                           style="-fx-background-color: rgba(255,255,255,0.88); -fx-background-radius: 8; -fx-text-fill: #1a1a1a; -fx-font-size: 13px;"/>
+                    <Label text="Precio (costo)" styleClass="field-label"/>
+                    <TextField fx:id="Txtprecio" prefHeight="38" styleClass="field-input"/>
 
-                <Label text="Precio (costo)" textFill="white">
-                    <font><Font name="System Bold" size="14.0"/></font>
-                </Label>
-                <TextField fx:id="Txtprecio" prefHeight="32.0"
-                           style="-fx-background-color: rgba(255,255,255,0.88); -fx-background-radius: 8; -fx-text-fill: #1a1a1a; -fx-font-size: 13px;"/>
+                    <HBox spacing="20">
+                        <VBox HBox.hgrow="ALWAYS" spacing="5">
+                            <Label text="Tipo" styleClass="field-label"/>
+                            <ComboBox fx:id="cmbtipo" promptText="pizza, alitas, bebida..."
+                                      maxWidth="Infinity" prefHeight="38" styleClass="field-combo"/>
+                        </VBox>
+                        <VBox spacing="5">
+                            <Label text="¿Está disponible?" styleClass="field-label"/>
+                            <HBox spacing="20">
+                                <RadioButton fx:id="rbSi" text="Sí" mnemonicParsing="false" styleClass="check-item"/>
+                                <RadioButton fx:id="rbNo" text="No" mnemonicParsing="false" styleClass="check-item"/>
+                            </HBox>
+                        </VBox>
+                    </HBox>
 
-                <!-- Tipo + Disponible -->
-                <HBox spacing="20.0">
-                    <VBox HBox.hgrow="ALWAYS" spacing="4.0">
-                        <Label text="Tipo" textFill="white">
-                            <font><Font name="System Bold" size="14.0"/></font>
-                        </Label>
-                        <ComboBox fx:id="cmbtipo" promptText="pizza, alitas, bebida, otro"
-                                  prefHeight="32.0" maxWidth="Infinity"
-                                  style="-fx-background-color: rgba(255,255,255,0.88); -fx-background-radius: 8; -fx-font-size: 13px;"/>
-                    </VBox>
-                    <VBox spacing="4.0">
-                        <Label text="¿Está disponible?" textFill="white">
-                            <font><Font name="System Bold" size="14.0"/></font>
-                        </Label>
-                        <HBox spacing="15.0">
-                            <RadioButton fx:id="rbSi" text="Sí" textFill="white" mnemonicParsing="false"/>
-                            <RadioButton fx:id="rbNo" text="No" textFill="white" mnemonicParsing="false"/>
-                        </HBox>
-                    </VBox>
-                </HBox>
+                    <HBox spacing="20">
+                        <VBox spacing="6">
+                            <Label text="Presentación" styleClass="field-label"/>
+                            <RadioButton fx:id="rbPequeno"  text="Pequeño"  mnemonicParsing="false" styleClass="check-item"/>
+                            <RadioButton fx:id="rbMediana"  text="Mediano"  mnemonicParsing="false" styleClass="check-item"/>
+                            <RadioButton fx:id="rbGrande"   text="Grande"   mnemonicParsing="false" styleClass="check-item"/>
+                            <RadioButton fx:id="rbFamiliar" text="Familiar" mnemonicParsing="false" styleClass="check-item"/>
+                        </VBox>
+                        <VBox HBox.hgrow="ALWAYS" spacing="5">
+                            <Label text="Porción(es)" styleClass="field-label"/>
+                            <TextField fx:id="txtporcion" promptText="Cantidad (ej. 2, 6...)" prefHeight="38" styleClass="field-input"/>
+                        </VBox>
+                    </HBox>
 
-                <!-- Presentación + Porción -->
-                <HBox spacing="20.0">
-                    <VBox spacing="4.0">
-                        <Label text="Presentación" textFill="white">
-                            <font><Font name="System Bold" size="14.0"/></font>
-                        </Label>
-                        <RadioButton fx:id="rbPequeno"  text="Pequeño"  textFill="white" mnemonicParsing="false"/>
-                        <RadioButton fx:id="rbMediana"  text="Mediano"  textFill="white" mnemonicParsing="false"/>
-                        <RadioButton fx:id="rbGrande"   text="Grande"   textFill="white" mnemonicParsing="false"/>
-                        <RadioButton fx:id="rbFamiliar" text="Familiar" textFill="white" mnemonicParsing="false"/>
-                    </VBox>
-                    <VBox HBox.hgrow="ALWAYS" spacing="4.0">
-                        <Label text="Porción(es)" textFill="white">
-                            <font><Font name="System Bold" size="14.0"/></font>
-                        </Label>
-                        <TextField fx:id="txtporcion" promptText="Cantidad (ej. 2, 6...)"
-                                   prefHeight="32.0"
-                                   style="-fx-background-color: rgba(255,255,255,0.88); -fx-background-radius: 8; -fx-text-fill: #1a1a1a; -fx-font-size: 13px;"/>
-                    </VBox>
-                </HBox>
-
-            </VBox>
-
-            <!-- COLUMNA DERECHA -->
-            <VBox spacing="10.0" HBox.hgrow="ALWAYS">
-
-                <Label text="Ingrediente(s)" textFill="white">
-                    <font><Font name="System Bold" size="14.0"/></font>
-                </Label>
-                <HBox spacing="30.0">
-                    <VBox spacing="5.0">
-                        <CheckBox fx:id="chkMasa"      text="Masa"      textFill="white" mnemonicParsing="false"/>
-                        <CheckBox fx:id="chkSalsa"     text="Salsa"     textFill="white" mnemonicParsing="false"/>
-                        <CheckBox fx:id="chkQueso"     text="Queso"     textFill="white" mnemonicParsing="false"/>
-                        <CheckBox fx:id="chkPepperoni" text="Pepperoni" textFill="white" mnemonicParsing="false"/>
-                        <CheckBox fx:id="chkMaiz"      text="Maíz"      textFill="white" mnemonicParsing="false"/>
-                    </VBox>
-                    <VBox spacing="5.0">
-                        <CheckBox fx:id="chkSalchicha" text="Salchicha" textFill="white" mnemonicParsing="false"/>
-                        <CheckBox fx:id="chkVegetales" text="Vegetales" textFill="white" mnemonicParsing="false"/>
-                        <CheckBox fx:id="chkPina"      text="Piña"      textFill="white" mnemonicParsing="false"/>
-                        <CheckBox fx:id="chkBebida"    text="Bebida"    textFill="white" mnemonicParsing="false"/>
-                        <CheckBox fx:id="chkOtro"      text="Otro"      textFill="white" mnemonicParsing="false"/>
-                    </VBox>
-                </HBox>
-
-                <Label text="Imagen del Producto" textFill="white">
-                    <font><Font name="System Bold" size="14.0"/></font>
-                </Label>
-                <VBox alignment="CENTER" VBox.vgrow="ALWAYS"
-                      style="-fx-background-color: rgba(255,255,255,0.15); -fx-border-color: #aaa; -fx-border-style: dashed; -fx-border-width: 1; -fx-background-radius: 8;">
-                    <Label fx:id="lblRutaImagen" text="Seleccionar Archivo" textFill="white">
-                        <font><Font size="13.0"/></font>
-                    </Label>
-                    <Button text="Examinar..." onAction="#FnSeleccionarImagen"
-                            style="-fx-background-color: white; -fx-border-color: #999; -fx-cursor: hand;">
-                        <VBox.margin><Insets top="5.0"/></VBox.margin>
-                    </Button>
                 </VBox>
 
-            </VBox>
+                <!-- Columna derecha -->
+                <VBox spacing="10" HBox.hgrow="ALWAYS">
 
-        </HBox>
+                    <Label text="Ingrediente(s)" styleClass="field-label"/>
+                    <HBox spacing="40">
+                        <VBox spacing="6">
+                            <CheckBox fx:id="chkMasa"      text="Masa"      mnemonicParsing="false" styleClass="check-item"/>
+                            <CheckBox fx:id="chkSalsa"     text="Salsa"     mnemonicParsing="false" styleClass="check-item"/>
+                            <CheckBox fx:id="chkQueso"     text="Queso"     mnemonicParsing="false" styleClass="check-item"/>
+                            <CheckBox fx:id="chkPepperoni" text="Pepperoni" mnemonicParsing="false" styleClass="check-item"/>
+                            <CheckBox fx:id="chkMaiz"      text="Maíz"      mnemonicParsing="false" styleClass="check-item"/>
+                        </VBox>
+                        <VBox spacing="6">
+                            <CheckBox fx:id="chkSalchicha" text="Salchicha" mnemonicParsing="false" styleClass="check-item"/>
+                            <CheckBox fx:id="chkVegetales" text="Vegetales" mnemonicParsing="false" styleClass="check-item"/>
+                            <CheckBox fx:id="chkPina"      text="Piña"      mnemonicParsing="false" styleClass="check-item"/>
+                            <CheckBox fx:id="chkBebida"    text="Bebida"    mnemonicParsing="false" styleClass="check-item"/>
+                            <CheckBox fx:id="chkOtro"      text="Otro"      mnemonicParsing="false" styleClass="check-item"/>
+                        </VBox>
+                    </HBox>
 
-        <!-- BOTONES -->
-        <HBox spacing="10.0" alignment="CENTER_LEFT">
-            <padding><Insets top="5.0"/></padding>
-            <Button text="Enviar" onAction="#FnGuardar"
-                    prefWidth="80.0" prefHeight="32.0"
-                    style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-cursor: hand;"/>
-            <Button text="Eliminar" onAction="#FnEliminar"
-                    prefWidth="80.0" prefHeight="32.0"
-                    style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-cursor: hand;"/>
-            <Region HBox.hgrow="ALWAYS"/>
-            <Button text="Editar" onAction="#FnEditar"
-                    prefWidth="80.0" prefHeight="32.0"
-                    style="-fx-background-color: #f39c12; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-cursor: hand;"/>
-            <Button text="🔍" onAction="#FnBuscar"
-                    prefWidth="40.0" prefHeight="32.0"
-                    style="-fx-background-color: #c0392b; -fx-text-fill: white; -fx-background-radius: 50; -fx-cursor: hand;"/>
-        </HBox>
+                    <Label text="Imagen del Producto" styleClass="field-label"/>
+                    <VBox alignment="CENTER" VBox.vgrow="ALWAYS"
+                          style="-fx-background-color: #f0f4ff; -fx-border-color: #dde6f5;
+                                 -fx-border-style: dashed; -fx-border-width: 2;
+                                 -fx-background-radius: 10; -fx-border-radius: 10;">
+                        <padding><Insets top="12" bottom="12"/></padding>
+                        <ImageView fx:id="imgProducto" fitWidth="160" fitHeight="130"
+                                   preserveRatio="true" pickOnBounds="true"/>
+                        <Label fx:id="lblRutaImagen" text="Sin imagen seleccionada"
+                               wrapText="true" maxWidth="200" styleClass="info-label"
+                               style="-fx-text-alignment: center;">
+                            <VBox.margin><Insets top="6"/></VBox.margin>
+                        </Label>
+                        <Button text="Examinar..." onAction="#FnSeleccionarImagen"
+                                style="-fx-background-color: white; -fx-border-color: #dde6f5;
+                                       -fx-border-radius: 8; -fx-background-radius: 8; -fx-cursor: hand;
+                                       -fx-font-size: 12px; -fx-padding: 6 16;">
+                            <VBox.margin><Insets top="8"/></VBox.margin>
+                        </Button>
+                    </VBox>
 
-        <!-- TABLA -->
-        <TableView fx:id="tablaProductos" VBox.vgrow="ALWAYS">
-            <columns>
-                <TableColumn fx:id="colNombre" prefWidth="250.0" text="Nombre"/>
-                <TableColumn fx:id="colTipo"   prefWidth="180.0" text="Tipo"/>
-                <TableColumn fx:id="colPrecio" prefWidth="150.0" text="Precio"/>
-            </columns>
-        </TableView>
+                </VBox>
 
+            </HBox>
+
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Button text="Guardar" onAction="#FnGuardar" styleClass="btn-primary"/>
+                <Button text="Eliminar" onAction="#FnEliminar" styleClass="btn-danger"/>
+                <Button text="Inhabilitar" onAction="#FnInhabilitar" styleClass="btn-warning"/>
+                <Button text="Habilitar" onAction="#FnHabilitar" styleClass="btn-success"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button text="Editar" onAction="#FnEditar" styleClass="btn-secondary"/>
+                <Button text="🔍 Buscar" onAction="#FnBuscar" styleClass="btn-primary"/>
+            </HBox>
+
+            <TableView fx:id="tablaProductos" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="colNombre" prefWidth="250" text="Nombre"/>
+                    <TableColumn fx:id="colTipo"   prefWidth="180" text="Tipo"/>
+                    <TableColumn fx:id="colPrecio" prefWidth="150" text="Precio"/>
+                </columns>
+                <placeholder><Label text="Sin registros." styleClass="info-label"/></placeholder>
+            </TableView>
+
+        </VBox>
     </VBox>
 </AnchorPane>

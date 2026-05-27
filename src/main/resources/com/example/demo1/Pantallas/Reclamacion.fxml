@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
@@ -15,85 +16,64 @@
           AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0"
           AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0">
 
-        <HBox alignment="CENTER_LEFT"
-              style="-fx-background-color: #004aad; -fx-padding: 14 24 14 24;">
-            <Label text="⚠️  Reclamación"
-                   style="-fx-text-fill: white; -fx-font-size: 17px;
-                          -fx-font-weight: bold; -fx-font-family: 'Segoe UI';"/>
+        <HBox alignment="CENTER_LEFT" spacing="14" styleClass="content-header">
+            <VBox spacing="2">
+                <Label text="⚠  Reclamación" styleClass="content-header-title"/>
+                <Label text="Registra y gestiona reclamaciones de pedidos" styleClass="content-header-subtitle"/>
+            </VBox>
+            <Region HBox.hgrow="ALWAYS"/>
+            <StackPane>
+                <Region prefHeight="64" prefWidth="64"
+                        style="-fx-background-color: rgba(255,255,255,0.15); -fx-background-radius: 32;"/>
+                <ImageView fitHeight="48" fitWidth="48" preserveRatio="true" pickOnBounds="true">
+                    <image><Image url="@../imagenes/reporte.png"/></image>
+                </ImageView>
+            </StackPane>
         </HBox>
 
         <VBox spacing="14" VBox.vgrow="ALWAYS"
               style="-fx-background-color: white;">
             <padding><Insets top="20" right="26" bottom="20" left="26"/></padding>
 
-            <!-- Fila 1: Quien asiste | Cliente -->
             <HBox spacing="20">
                 <VBox HBox.hgrow="ALWAYS" spacing="5">
-                    <Label text="Quien lo asiste (id)" style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #555;"/>
-                    <TextField fx:id="TXTasiste" promptText="ID del empleado" prefHeight="38"
-                               style="-fx-background-color: #f0f4ff; -fx-background-radius: 10;
-                                      -fx-border-color: #dde6f5; -fx-border-radius: 10; -fx-border-width: 1.5;
-                                      -fx-font-size: 13px; -fx-text-fill: #1a1a2e; -fx-padding: 0 12;"/>
+                    <Label text="Quien lo asiste (id)" styleClass="field-label"/>
+                    <TextField fx:id="TXTasiste" promptText="ID del empleado" prefHeight="38" styleClass="field-input"/>
                 </VBox>
                 <VBox HBox.hgrow="ALWAYS" spacing="5">
-                    <Label text="Cliente que lo hace" style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #555;"/>
+                    <Label text="Cliente que lo hace" styleClass="field-label"/>
                     <HBox spacing="8">
                         <TextField fx:id="TXTclienteNombre" promptText="Nombre del cliente..." prefHeight="38"
-                                   HBox.hgrow="ALWAYS"
-                                   style="-fx-background-color: #f0f4ff; -fx-background-radius: 10;
-                                          -fx-border-color: #dde6f5; -fx-border-radius: 10; -fx-border-width: 1.5;
-                                          -fx-font-size: 13px; -fx-text-fill: #1a1a2e; -fx-padding: 0 12;"/>
-                        <Button text="🔍" onAction="#FnBuscarCliente" prefHeight="38" prefWidth="42"
-                                style="-fx-background-color: #004aad; -fx-text-fill: white;
-                                       -fx-background-radius: 10; -fx-cursor: hand; -fx-font-size: 14px;"/>
+                                   HBox.hgrow="ALWAYS" styleClass="field-input"/>
+                        <Button text="🔍" onAction="#FnBuscarCliente" styleClass="btn-search"/>
                     </HBox>
-                    <Label fx:id="lblIdCliente" text="ID encontrado: —"
-                           style="-fx-text-fill: #888; -fx-font-size: 11px;"/>
+                    <Label fx:id="lblIdCliente" text="ID encontrado: —" styleClass="info-label"/>
                 </VBox>
             </HBox>
 
-            <!-- Fila 2: Estado | ID Pedido -->
             <HBox spacing="20">
                 <VBox HBox.hgrow="ALWAYS" spacing="5">
-                    <Label text="Estado" style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #555;"/>
-                    <ComboBox fx:id="cmbEstado" maxWidth="Infinity" prefHeight="38"
-                              style="-fx-background-color: #f0f4ff; -fx-background-radius: 10;
-                                     -fx-border-color: #dde6f5; -fx-border-radius: 10; -fx-border-width: 1.5;
-                                     -fx-font-size: 13px;"/>
+                    <Label text="Estado" styleClass="field-label"/>
+                    <ComboBox fx:id="cmbEstado" maxWidth="Infinity" prefHeight="38" styleClass="field-combo"/>
                 </VBox>
                 <VBox HBox.hgrow="ALWAYS" spacing="5">
-                    <Label text="Id de pedido" style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #555;"/>
-                    <TextField fx:id="TXTidPedido" prefHeight="38"
-                               style="-fx-background-color: #f0f4ff; -fx-background-radius: 10;
-                                      -fx-border-color: #dde6f5; -fx-border-radius: 10; -fx-border-width: 1.5;
-                                      -fx-font-size: 13px; -fx-text-fill: #1a1a2e; -fx-padding: 0 12;"/>
+                    <Label text="Id de pedido" styleClass="field-label"/>
+                    <TextField fx:id="TXTidPedido" prefHeight="38" styleClass="field-input"/>
                 </VBox>
             </HBox>
 
-            <!-- Descripción -->
             <VBox spacing="5" VBox.vgrow="ALWAYS">
-                <Label text="Descripción" style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #555;"/>
-                <TextArea fx:id="TXTdescripcion" VBox.vgrow="ALWAYS"
-                          style="-fx-background-color: #f0f4ff; -fx-background-radius: 10;
-                                 -fx-border-color: #dde6f5; -fx-border-radius: 10; -fx-border-width: 1.5;
-                                 -fx-font-size: 13px; -fx-text-fill: #1a1a2e;"/>
+                <Label text="Descripción" styleClass="field-label"/>
+                <TextArea fx:id="TXTdescripcion" VBox.vgrow="ALWAYS" styleClass="field-textarea"/>
             </VBox>
 
-            <!-- Botones -->
             <HBox spacing="10" alignment="CENTER_LEFT">
-                <Button text="Guardar" onAction="#FnGuardar"
-                        style="-fx-background-color: #004aad; -fx-text-fill: white; -fx-font-weight: bold;
-                               -fx-background-radius: 10; -fx-cursor: hand; -fx-padding: 8 22; -fx-font-size: 13px;"/>
-                <Button text="Eliminar" onAction="#FnEliminar"
-                        style="-fx-background-color: #be1e1e; -fx-text-fill: white; -fx-font-weight: bold;
-                               -fx-background-radius: 10; -fx-cursor: hand; -fx-padding: 8 22; -fx-font-size: 13px;"/>
+                <Button text="Guardar" onAction="#FnGuardar" styleClass="btn-primary"/>
+                <Button text="Eliminar" onAction="#FnEliminar" styleClass="btn-danger"/>
                 <Region HBox.hgrow="ALWAYS"/>
-                <Button text="Editar" onAction="#FnEditar"
-                        style="-fx-background-color: #6c757d; -fx-text-fill: white; -fx-font-weight: bold;
-                               -fx-background-radius: 10; -fx-cursor: hand; -fx-padding: 8 22; -fx-font-size: 13px;"/>
-                <Button text="🔍 Buscar" onAction="#FnBuscar"
-                        style="-fx-background-color: #004aad; -fx-text-fill: white; -fx-font-weight: bold;
-                               -fx-background-radius: 10; -fx-cursor: hand; -fx-padding: 8 18; -fx-font-size: 13px;"/>
+                <Button text="Editar" onAction="#FnEditar" styleClass="btn-secondary"/>
+                <Button text="🔍 Buscar" onAction="#FnBuscar" styleClass="btn-primary"/>
+                <Button text="📄 Exportar PDF" onAction="#FnExportarPDF" styleClass="btn-success"/>
             </HBox>
 
         </VBox>

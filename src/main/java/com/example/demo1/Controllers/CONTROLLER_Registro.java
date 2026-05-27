@@ -7,13 +7,7 @@ import javafx.scene.control.TextField;
 import javax.swing.JOptionPane;
 import java.sql.*;
 
-/**
- * Registro de cliente nuevo.
- *
- * Flujo:
- *   1) INSERT tbl_persona (nombre, tel, cedula, direccion, rol_bd='cliente', contrasenia)
- *   2) INSERT tbl_cliente (id_persona)
- */
+
 public class CONTROLLER_Registro {
 
     Conexion conexion = new Conexion();
@@ -76,7 +70,7 @@ public class CONTROLLER_Registro {
             JOptionPane.showMessageDialog(null, "¡Registro Exitoso de Cliente!");
             limpiarCampos();
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al registrar cliente - pantalla Registro de Cliente
             try { if (connection != null) connection.rollback(); } catch (SQLException ex) { /* rollback silencioso */ }
             JOptionPane.showMessageDialog(null, "Error en registro: " + e.getMessage());
         } finally {

@@ -1,27 +1,8 @@
 package com.example.demo1.Utils;
 
-/**
- * Singleton que mantiene la sesión del usuario logueado.
- *
- * El campo {@code rol} almacena el valor exacto de
- * {@code tbl_usuario.rol} (normalizado a minúsculas).
- * Los roles válidos según el CHECK constraint CK_tbl_usuario_rol son:
- *
- *   administrador  → acceso total al sistema
- *   gerente        → todo excepto administración de usuarios
- *   cajero         → Inicio, Inventario (solo ver), Ventas, Cliente
- *   cliente        → Inicio, Registrar Pedido, Reclamación
- *
- * Nota sobre "delivery": El Maincontroller hace referencia al rol
- * {@code delivery}, pero este valor no está permitido por el CHECK
- * de la BD. El método esDelivery() se conserva por compatibilidad
- * y siempre devolverá false mientras el rol no se agregue al CHECK.
- */
 public class CONTROLLER_Seccion {
 
-    // -----------------------------------------------------------------------
     //  Singleton
-    // -----------------------------------------------------------------------
     private static CONTROLLER_Seccion instancia;
 
     private CONTROLLER_Seccion() {}
@@ -33,9 +14,7 @@ public class CONTROLLER_Seccion {
         return instancia;
     }
 
-    // -----------------------------------------------------------------------
     //  Datos de sesión
-    // -----------------------------------------------------------------------
     private int     idPersona  = -1;
     private int     idEmpleado = -1;
     private int     idCliente  = -1;
@@ -44,9 +23,7 @@ public class CONTROLLER_Seccion {
     private String  email      = "";
     private boolean activa     = false;
 
-    // -----------------------------------------------------------------------
     //  Iniciar / Cerrar sesión
-    // -----------------------------------------------------------------------
     public void iniciar(int idPersona, int idEmpleado, int idCliente,
                         String nombre, String rol, String email) {
         this.idPersona  = idPersona;
@@ -68,9 +45,7 @@ public class CONTROLLER_Seccion {
         activa     = false;
     }
 
-    // -----------------------------------------------------------------------
     //  Getters
-    // -----------------------------------------------------------------------
     public int     getIdPersona()  { return idPersona; }
     public int     getIdEmpleado() { return idEmpleado; }
     public int     getIdCliente()  { return idCliente; }
@@ -79,12 +54,6 @@ public class CONTROLLER_Seccion {
     public String  getEmail()      { return email; }
     public boolean isActiva()      { return activa; }
 
-    // -----------------------------------------------------------------------
-    //  Comprobaciones de rol
-    //  NOTA: "admin" y "administrador" se consideran equivalentes para que
-    //        el Maincontroller siga funcionando aunque en la BD el valor
-    //        oficial sea "administrador".
-    // -----------------------------------------------------------------------
 
     /** Rol administrador → acceso total. Acepta "admin" o "administrador". */
     public boolean esAdmin() {
@@ -102,12 +71,6 @@ public class CONTROLLER_Seccion {
         return "cajero".equalsIgnoreCase(rol);
     }
 
-    /**
-     * Rol delivery → Inicio y gestión de envíos.
-     * Este rol NO existe en el CHECK constraint de tbl_usuario,
-     * por lo que este método siempre devolverá false a menos que se
-     * agregue 'delivery' al CK_tbl_usuario_rol.
-     */
     public boolean esDelivery() {
         return "delivery".equalsIgnoreCase(rol);
     }
@@ -121,9 +84,8 @@ public class CONTROLLER_Seccion {
         return esAdmin() || esGerente();
     }
 
-    // -----------------------------------------------------------------------
     //  Permisos semánticos por funcionalidad
-    // -----------------------------------------------------------------------
+
     public boolean puedeCrearReclamacion() {
         return esAdmin() || esGerente() || esCajero() || esCliente();
     }
@@ -144,9 +106,8 @@ public class CONTROLLER_Seccion {
         return esAdmin() || esGerente();
     }
 
-    // -----------------------------------------------------------------------
     //  Permisos genéricos de CRUD (usados por Permisos_Util)
-    // -----------------------------------------------------------------------
+
     public boolean puedeInsertar() {
         return esAdmin() || esGerente() || esCajero() || esCliente();
     }
@@ -156,7 +117,7 @@ public class CONTROLLER_Seccion {
     }
 
     public boolean puedeEliminar() {
-        return esAdmin() || esGerente();
+        return esAdmin();
     }
 
     public boolean puedeBuscar() {

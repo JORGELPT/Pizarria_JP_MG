@@ -109,9 +109,9 @@ public class CONTROLLER_Maquina {
             limpiar();
             cargarTabla();
 
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) { //error de formato de fecha al guardar máquina - pantalla Agregar Máquina
             JOptionPane.showMessageDialog(null, "Formato de fecha inválido. Use YYYY-MM-DD");
-        } catch (SQLException e) {
+        } catch (SQLException e) { //error al guardar máquina - pantalla Agregar Máquina
             JOptionPane.showMessageDialog(null, "Error al guardar: " + e.getMessage());
         }
     }
@@ -154,7 +154,7 @@ public class CONTROLLER_Maquina {
             } else {
                 JOptionPane.showMessageDialog(null, "No se encontró la máquina.");
             }
-        } catch (Exception e) {
+        } catch (Exception e) { //error al buscar máquina - pantalla Agregar Máquina
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
         }
     }
@@ -192,13 +192,14 @@ public class CONTROLLER_Maquina {
             } else {
                 JOptionPane.showMessageDialog(null, "No se encontró la máquina.");
             }
-        } catch (Exception e) {
+        } catch (Exception e) { //error al editar máquina - pantalla Agregar Máquina
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
         }
     }
 
     @FXML
     public void FnEliminar() {
+        if (!com.example.demo1.Utils.Permisos_Util.verificarEliminar()) return;
         String nombre = TXTnombre.getText().trim();
         if (nombre.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Ingrese el nombre a eliminar.");
@@ -218,8 +219,51 @@ public class CONTROLLER_Maquina {
             } else {
                 JOptionPane.showMessageDialog(null, "No se encontró la máquina.");
             }
-        } catch (Exception e) {
+        } catch (Exception e) { //error al eliminar máquina - pantalla Agregar Máquina
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    public void FnInhabilitar() {
+        String nombre = TXTnombre.getText().trim();
+        if (nombre.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Ingrese el nombre de la máquina a inhabilitar.");
+            return;
+        }
+        int confirmar = JOptionPane.showConfirmDialog(null,
+                "¿Inhabilitar '" + nombre + "'? No se eliminará, solo quedará inactiva.",
+                "Confirmar", JOptionPane.YES_NO_OPTION);
+        if (confirmar != JOptionPane.YES_OPTION) return;
+        try (java.sql.Connection con = Conexion.establecerConexion();
+             java.sql.PreparedStatement ps = con.prepareStatement(
+                     "UPDATE tbl_maquina SET estado = 'Inactivo' WHERE nombre_maquina = ?")) {
+            ps.setString(1, nombre);
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Máquina inhabilitada correctamente.");
+            limpiar();
+            cargarTabla();
+        } catch (Exception e) { //error al inhabilitar máquina - pantalla Agregar Máquina
+            JOptionPane.showMessageDialog(null, "Error al inhabilitar: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    public void FnHabilitar() {
+        String nombre = TXTnombre.getText().trim();
+        if (nombre.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Ingrese el nombre de la máquina a habilitar.");
+            return;
+        }
+        try (java.sql.Connection con = Conexion.establecerConexion();
+             java.sql.PreparedStatement ps = con.prepareStatement(
+                     "UPDATE tbl_maquina SET estado = 'Activo' WHERE nombre_maquina = ?")) {
+            ps.setString(1, nombre);
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Máquina habilitada correctamente.");
+            cargarTabla();
+        } catch (Exception e) { //error al habilitar máquina - pantalla Agregar Máquina
+            JOptionPane.showMessageDialog(null, "Error al habilitar: " + e.getMessage());
         }
     }
 
@@ -237,7 +281,7 @@ public class CONTROLLER_Maquina {
                         rs.getString("estado_maquina")));
             }
             tablaMaquinas.setItems(datos);
-        } catch (Exception e) {
+        } catch (Exception e) { //error al cargar tabla de máquinas - pantalla Agregar Máquina
             JOptionPane.showMessageDialog(null, "Error al cargar máquinas: " + e.getMessage());
         }
     }

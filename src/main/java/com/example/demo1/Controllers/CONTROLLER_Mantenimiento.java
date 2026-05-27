@@ -61,7 +61,7 @@ public class CONTROLLER_Mantenimiento {
                 lblIdMaquina.setText("ID máquina: — (no encontrada)");
                 JOptionPane.showMessageDialog(null, "No se encontró máquina con esa serie.");
             }
-        } catch (Exception e) {
+        } catch (Exception e) { //error al buscar máquina - pantalla Mantenimiento
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
         }
     }
@@ -88,7 +88,7 @@ public class CONTROLLER_Mantenimiento {
                 lblIdTecnico.setText("ID técnico: — (no encontrado)");
                 JOptionPane.showMessageDialog(null, "No se encontró técnico con esa cédula.");
             }
-        } catch (Exception e) {
+        } catch (Exception e) { //error al buscar técnico - pantalla Mantenimiento
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
         }
     }
@@ -144,7 +144,7 @@ public class CONTROLLER_Mantenimiento {
             JOptionPane.showMessageDialog(null, "Mantenimiento registrado correctamente.");
             limpiar();
 
-        } catch (Exception e) {
+        } catch (Exception e) { //error al guardar mantenimiento - pantalla Mantenimiento
             try { if (con != null) con.rollback(); } catch (Exception ignore) {}
             JOptionPane.showMessageDialog(null, "Error al guardar: " + e.getMessage());
         } finally {
@@ -175,7 +175,7 @@ public class CONTROLLER_Mantenimiento {
             } else {
                 JOptionPane.showMessageDialog(null, "No hay mantenimientos registrados para esta máquina.");
             }
-        } catch (Exception e) {
+        } catch (Exception e) { //error al buscar mantenimiento - pantalla Mantenimiento
             JOptionPane.showMessageDialog(null, "Error al buscar: " + e.getMessage());
         }
     }
@@ -222,7 +222,7 @@ public class CONTROLLER_Mantenimiento {
             JOptionPane.showMessageDialog(null, "Mantenimiento actualizado correctamente.");
             idMantenimiento = -1;
             limpiar();
-        } catch (Exception e) {
+        } catch (Exception e) { //error al editar mantenimiento - pantalla Mantenimiento
             try { if (con != null) con.rollback(); } catch (Exception ignore) {}
             JOptionPane.showMessageDialog(null, "Error al actualizar: " + e.getMessage());
         } finally {
@@ -232,6 +232,7 @@ public class CONTROLLER_Mantenimiento {
 
     @FXML
     public void FnEliminar() {
+        if (!com.example.demo1.Utils.Permisos_Util.verificarEliminar()) return;
         if (idMantenimiento == -1) {
             JOptionPane.showMessageDialog(null, "Use el botón 🔍 para buscar el mantenimiento a eliminar.");
             return;
@@ -259,11 +260,53 @@ public class CONTROLLER_Mantenimiento {
             JOptionPane.showMessageDialog(null, "Mantenimiento eliminado correctamente.");
             idMantenimiento = -1;
             limpiar();
-        } catch (Exception e) {
+        } catch (Exception e) { //error al eliminar mantenimiento - pantalla Mantenimiento
             try { if (con != null) con.rollback(); } catch (Exception ignore) {}
             JOptionPane.showMessageDialog(null, "Error al eliminar: " + e.getMessage());
         } finally {
             try { if (con != null) con.close(); } catch (Exception ignore) {}
+        }
+    }
+
+    @FXML
+    public void FnInhabilitar() {
+        if (idMantenimiento == -1) {
+            JOptionPane.showMessageDialog(null, "Use el botón 🔍 para buscar el mantenimiento primero.");
+            return;
+        }
+        int confirmar = JOptionPane.showConfirmDialog(null,
+                "¿Inhabilitar el mantenimiento #" + idMantenimiento + "? No se eliminará, solo quedará inactivo.",
+                "Confirmar", JOptionPane.YES_NO_OPTION);
+        if (confirmar != JOptionPane.YES_OPTION) return;
+        try (java.sql.Connection con = Conexion.establecerConexion();
+             java.sql.PreparedStatement ps = con.prepareStatement(
+                     "UPDATE tbl_mantenimiento SET estado = 'Inactivo' WHERE id_mantenimiento = ?")) {
+            ps.setInt(1, idMantenimiento);
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Mantenimiento inhabilitado correctamente.");
+            idMantenimiento = -1;
+            limpiar();
+        } catch (Exception e) { //error al inhabilitar mantenimiento - pantalla Mantenimiento
+            JOptionPane.showMessageDialog(null, "Error al inhabilitar: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    public void FnHabilitar() {
+        if (idMantenimiento == -1) {
+            JOptionPane.showMessageDialog(null, "Use el botón 🔍 para buscar el mantenimiento a habilitar.");
+            return;
+        }
+        try (java.sql.Connection con = conexion.establecerConexion();
+             java.sql.PreparedStatement ps = con.prepareStatement(
+                     "UPDATE tbl_mantenimiento SET estado = 'Activo' WHERE id_mantenimiento = ?")) {
+            ps.setInt(1, idMantenimiento);
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Mantenimiento habilitado correctamente.");
+            idMantenimiento = -1;
+            limpiar();
+        } catch (Exception e) { //error al habilitar mantenimiento - pantalla Mantenimiento
+            JOptionPane.showMessageDialog(null, "Error al habilitar: " + e.getMessage());
         }
     }
 
